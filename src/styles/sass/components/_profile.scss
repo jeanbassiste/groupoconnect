@@ -1,0 +1,56 @@
+.formContainer {
+    position: relative;
+  }
+
+label {
+    position: absolute;
+    bottom: 0px;
+    left: 15px;
+    transition: transform 200ms ease-in-out;
+}
+
+.proForm {
+    margin-bottom: 35px;
+    margin-top: 35px;
+
+    &:focus + label {
+      transform: translate(0, -35px);
+    }
+}
+
+.completed+label {
+    transform: translate(0, -35px);
+}
+
+#profilePic {
+    height: 200px;
+    width: 200px;
+    border: 2px solid red;
+    object-fit: cover;
+    border-radius: 200px;
+
+}
+
+#picContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    #picUpload {
+        position: absolute;
+        right: -2px;
+        top: 110px;
+        border: 0px;
+    }
+
+    #profilePic {
+        &:hover {
+            cursor: pointer
+        }
+    }
+}
+
+input[type='file'] {
+    color: transparent;
+  }
