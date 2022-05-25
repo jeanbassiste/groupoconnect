@@ -39,15 +39,10 @@ label {
 
     #picUpload {
         position: absolute;
-        right: -2px;
+        width:134px;    
         top: 110px;
         border: 0px;
-    }
 
-    #profilePic {
-        &:hover {
-            cursor: pointer
-        }
     }
 }
 

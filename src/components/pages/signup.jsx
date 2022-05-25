@@ -1,9 +1,12 @@
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 import displayPassword from '../functions/displayPassword';
 import isValid from '../functions/validateData';
+import setCookie from '../functions/setCookies';
+//import jwt_decode from "jwt-decode";
 
 class Signup extends React.Component {
     render() {
@@ -30,6 +33,8 @@ class Signup extends React.Component {
 
     componentDidMount(){
        
+        setCookie('coucou', 'coucou', 1);
+
         let togglePassword = document.getElementById('seePassword');
         let passwordData = document.getElementById('password');
         let toggleVerify = document.getElementById('seeVerifyPassword');
@@ -52,10 +57,7 @@ class Signup extends React.Component {
         function signingUp(ev) {
             ev.preventDefault();
 
-
             console.log('working');
-
-            window.location.href = '/profile'
             
             let emailValidation = isValid(emailData, emailError);
             let passwordValidation = isValid(passwordData, passwordError);
@@ -65,6 +67,37 @@ class Signup extends React.Component {
 
             if (emailValidation === true && passwordValidation === true && verifyValidation === true) {
                 console.log('prepare to send data with Axios');
+                
+                let headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                };
+
+                axios.post('http://localhost:8080/api/users/signup', {
+                    emailAddress: emailData.value,
+                    password: passwordData.value,
+                    role: 'newUser'
+                    },
+                    headers )
+
+                    .then(res => {
+                        console.log('données envoyées : ' + emailData + passwordData);
+                        console.log(res);
+                        console.log(res.data);
+                        let response = res.data;
+
+                        if (response) {
+                            console.log('ça marche');
+                            let token = response.token;
+                            console.log(token);
+                            setCookie('token', token, 1);
+                            //let decoded = jwt_decode(token);
+                            window.location.href = '/changeProfile'
+                        }
+                        else {
+                            console.error('Code Erreur', res.status)
+                        }
+                    })
             }
             else {
                 console.log("Le mot de passe ou l'adresse email ne respecte pas les normes attendues ou les mots de passe ne correspondent pas");
@@ -77,3 +110,7 @@ class Signup extends React.Component {
 }
 
 export default Signup;
+
+// Faire 2 pages distinctes profile et firstProfile ; mais firstProfile vérifie le role ; si newUser => s'affiche ; si non, renvoie vers "profile"
+
+// Possibilité de faire vérifier le rôle via l'id tout en back, sans forcément le passer par le token, au moment de la connection à la page firstprofile

@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import setCookie from '../functions/setCookies';
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
@@ -48,6 +50,28 @@ class Login extends React.Component {
 
             if (emailValidation === true && passwordValidation === true) {
                 console.log('Prepare to send the data with Axios');
+
+                let headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'                    
+                }
+
+                axios.post('http://localhost:8080/api/users/login', {
+                    emailAddress : emailData.value,
+                    password : passwordData.value },
+                    headers )
+                .then(res => {
+                    let response = res.data;
+
+                    if (response) {
+                        const token = response.token;
+                        setCookie('token', token, 1);
+                        window.location.href = '/posts'                      
+                    }
+                    else {
+                        console.error('Code Erreur', response.status);
+                    }
+                })
             }
             else {
                 console.log("Le mot de passe ou l'adresse email ne respecte pas les normes attendues")

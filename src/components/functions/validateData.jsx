@@ -2,10 +2,8 @@ let validEmail = new RegExp(/[A-Za-z.]+@groupomania+\.com/);
 let validPassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
 
 function isValid(data, error, verifyData) {
-
     let dataToTest = data.value;
     let inputID = data.id;
-
     if (inputID === 'email') {
         if (validEmail.test(dataToTest) === true) {
             data.setAttribute('class', 'form-control is-valid');
@@ -21,8 +19,9 @@ function isValid(data, error, verifyData) {
     
     if (inputID === 'password') {
         if (validPassword.test(dataToTest) === true) {
-            data.setAttribute('class', 'form-control');
+            data.setAttribute('class', 'form-control is-valid');
             error.style.display = 'none';
+
             return true;
         }
         else {
@@ -32,15 +31,18 @@ function isValid(data, error, verifyData) {
         }
     }
 
-    if (inputID === 'VerifyPassword') {
+    if (inputID === 'verifyPassword') {
         if (data.value === verifyData.value) {
             data.setAttribute('class', 'form-control is-valid');
             error.style.display = 'none';
+            console.log('verify ok');
+
             return true;
         }
         else {
             data.setAttribute('class', 'form-control is-invalid');
             error.style.display = 'initial';
+            console.log('verify pas ok');
             return false;
         }
     }

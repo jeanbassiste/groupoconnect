@@ -1,0 +1,48 @@
+#pagePost {
+    padding-top: 20px;
+    background-color: white;
+}
+
+#postAuthor {
+    display: flex;
+    gap: 10px;
+
+    #authorPic {
+        width: 25px;
+        height: 25px;
+        border-radius: 25px;
+        border: 1px solid black;
+    }
+
+    #author {
+        padding-top: 2px;
+        font-size: 15px;
+        margin-block-end: 5px;
+    }
+}
+
+#postTag {
+    margin-block-end: 10px;
+}
+
+#postTitle, #postTag, #postContent {
+    text-align: left;
+}
+
+#postFooter, #likes {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+
+    p {
+        padding-top: 2px;
+    }
+
+    #likeButton {
+        height: 25px;
+    }
+
+    #favButton {
+        height: 25px;
+    }
+}

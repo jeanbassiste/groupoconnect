@@ -26,7 +26,7 @@ class Header extends React.Component {
         let urlPath = getUrlPath();
         console.log(urlPath);
 
-        if (urlPath === "/login" || urlPath === "/signup" || urlPath === "/") {
+        if (urlPath === "/login" || urlPath === "/signup" || urlPath === "/changeProfile") {
             document.getElementById('home').style.display = 'none';
             document.getElementById('userPage').style.display = 'none';            
         }

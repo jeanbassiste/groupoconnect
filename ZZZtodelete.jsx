@@ -4,17 +4,13 @@ import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 import upload from "../../assets/upload.jpg";
 import areFormCompleted from '../functions/areFormCompleted';
-import axios from 'axios';
-import getCookie from '../functions/getCookie';
-import jwt_decode from 'jwt-decode';
-
 
 class FirstProfile extends React.Component {
     render() {
         return (
             <div className="main col-lg-6 mx-auto">
                 <h1>Votre Profil</h1>
-
+                
                 <form className="vous">
                     <div id="picContainer">
                         <input id="picUpload" type="file" title="" accept=".jpg, .jpeg, .png"/>
@@ -31,7 +27,7 @@ class FirstProfile extends React.Component {
                         </div>
                     </div>
                     <div className="societe">
-                        <div className="formContainer">
+                    <div className="formContainer">
                             <input type ="text" className="proForm form-control" name="fonction" id="fonction" />
                             <label for='fonction'>Votre fonction</label>
                         </div>
@@ -43,21 +39,19 @@ class FirstProfile extends React.Component {
                     <button id="createProfile" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Créer le profil</button>
                 </form>
             </div>
+
         )
     }
 
     componentDidMount(){
-        
-        let token = getCookie('token');
-        let decoded = jwt_decode(token);
-
-        let userId = decoded.Id;
-        let role = decoded.role;
 
         let fname = document.getElementById('fname');
         let sname = document.getElementById('sname');
         let fonction = document.getElementById('fonction');
         let site = document.getElementById('site');
+        let picUpload = document.getElementById('picUpload');
+        let profilePic = document.getElementById('profilePic');
+        let picContainer = document.getElementById('picContainer');
 
         fname.addEventListener('change', function () {
             console.log(this);
@@ -79,83 +73,50 @@ class FirstProfile extends React.Component {
             areFormCompleted(this);
         });
 
-        let picUpload = document.getElementById('picUpload');
-        let picContainer = document.getElementById('picContainer');
-        let pic = document.getElementById('profilePic');
+        picUpload.addEventListener('change', uploadPic);
 
-        picUpload.addEventListener('change', updatePic);
+        function uploadPic() {
+            console.log('start uploading');
+            let pic = picUpload.files;
 
-        function updatePic() {
-            let uploadedPic = picUpload.files;
-  
-            if(uploadedPic.length === 0) {
+            if(pic.length === 0) {
                 let error = document.createElement('p');
                 error.textContent = 'Aucun fichier sélectionné';
+
                 picContainer.appendChild(error);
-            } else {
-                for(var i = 0; i < uploadedPic.length; i++) {
-                    if(validFileType(uploadedPic[i])) {
-                    pic.src = window.URL.createObjectURL(uploadedPic[i]);
-                } else {
-                    let error = document.createElement('p');
-                    error.textContent = 'Le format du fichier sélectionné est incorrect ou sa taille dépasse la limite maximale (20ko)';
-                    picContainer.appendChild(error);                   
-                    }   
+            }
+            else {
+
+                for(var i = 0; i < pic.length; i++) {
+                if(validFile(pic)){
+                    console.log('la nest pas lerreur');
+                    profilePic.src = window.URL.createObjectURL(pic);
                 }
+                else{
+                    let error = document.createElement('p');
+                    error.textContent = 'Mauvais format de fichier';
+                }
+            }
             }
         }
 
-        let fileTypes = [
+        var fileTypes = [
             'image/jpeg',
             'image/pjpeg',
+            'image/jpg',
             'image/png'
         ]
 
-        function validFileType(file) {
-            for(var i = 0; i < fileTypes.length; i++) {
-                if(file.type === fileTypes[i]) {
-                return true;
+        function validFile(file){
+            for(var i = 0; i < fileTypes.length; i++){
+                if(file.type === fileTypes[i]){
+                    return true;
                 }
             }
             return false;
         }
 
-        let createProfile = document.getElementById('createProfile');
 
-        createProfile.addEventListener('click', sendProfile);
-
-        function sendProfile() {
-            console.log('prêt à Axioser');
-
-            let headers = {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            };
-
-            let url = `http://localhost:8080/api/users/${userId}`
-            
-            axios.put(url, {
-                firstName: fname,
-                lastName: sname,
-                site: site,
-                fonction: fonction,
-                imageUrl: pic.src},
-                headers )
-
-                .then(res => {
-                    console.log(res);
-                    console.log(res.data);
-                    let response = res.data;
-
-                    if (response) {
-                        console.log('ça marche');
-                        //window.location.href = '/profile'
-                    }
-                    else {
-                        console.error('Code Erreur', res.status)
-                    }
-                })
-        }
     }
 }
 
