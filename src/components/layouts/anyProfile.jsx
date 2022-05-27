@@ -27,6 +27,7 @@ class Profile extends React.Component {
 
         let name = document.getElementById('name');
         let infos = document.getElementById('infos');
+        let img = document.getElementById('profilePic');
 
         console.log(userId);
 
@@ -41,11 +42,13 @@ class Profile extends React.Component {
           let sname = user.lastName;
           let site = user.site;
           let fonction = user.fonction;
+          let imageUrl = user.imageUrl;
 
 
 
           name.innerText = `${fname} ${sname}`;
           infos.innerText = `${fonction} à ${site}`;
+          img.src = imageUrl;
 
 
 

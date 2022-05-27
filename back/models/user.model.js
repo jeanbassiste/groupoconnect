@@ -25,6 +25,9 @@ const User = sequelize.define("user", {
     },
     site: {
         type: Sequelize.STRING
+    },
+    imageUrl: {
+        type: Sequelize.STRING
     }
 
 });

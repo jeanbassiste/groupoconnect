@@ -1,5 +1,6 @@
 module.exports = app => {
     const users = require("../controllers/user.controller");
+    const multer = require('../middlewares/multer');
 
     var router = require('express').Router();
 
@@ -16,7 +17,7 @@ module.exports = app => {
     router.get('/:id', users.findOne);
 
     //mise à jour d'un utilisateur
-    router.put('/:id', users.update);
+    router.put('/:id', multer,users.update);
 
     //suppression d'un utilisateur
     router.delete('/:id', users.delete);
