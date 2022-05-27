@@ -50,9 +50,11 @@ class FirstProfile extends React.Component {
         
         let token = getCookie('token');
         let decoded = jwt_decode(token);
-
+        console.log(decoded);
         let userId = decoded.Id;
         let role = decoded.role;
+        console.log(userId);
+        console.log(role);
 
         let fname = document.getElementById('fname');
         let sname = document.getElementById('sname');
@@ -126,19 +128,22 @@ class FirstProfile extends React.Component {
 
         function sendProfile() {
             console.log('prêt à Axioser');
+            console.log(fname.value + ' ' + sname.value + ' ' + site.value + ' ' + fonction.value)
 
             let headers = {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': token
+
             };
 
             let url = `http://localhost:8080/api/users/${userId}`
-            
+            console.log(url);
             axios.put(url, {
-                firstName: fname,
-                lastName: sname,
-                site: site,
-                fonction: fonction,
+                firstName: fname.value,
+                lastName: sname.value,
+                site: site.value,
+                fonction: fonction.value,
                 imageUrl: pic.src},
                 headers )
 

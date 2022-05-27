@@ -9,6 +9,7 @@ import FirstProfile from './components/layouts/firstProfile';
 import Profile from './components/layouts/anyProfile';
 import Post from './components/layouts/post';
 import Comment from './components/layouts/comment';
+import Dashboard from './components/layouts/posts';
 
 ReactDOM.render(
 
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="/changeProfile" element={<FirstProfile />} />
       <Route path="/test" element={<Profile />} />
       <Route path="/post" element={<Post />} />
+      <Route path="/posts" element={<Dashboard />} />
       <Route path="/comment" element={<Comment />} />
     </Routes>
   </Router>,

@@ -39,7 +39,7 @@ exports.signup = (req, res, next) => {
             (error) => {
                 console.log(Object.getOwnPropertyNames(error.errors));
                 var message = [];
-                console.log(error.errors.email.properties.message);
+                //console.log(error.errors.email.properties.message);
                 Object.getOwnPropertyNames(error.errors).forEach(function (element) {
                     console.log(element);
                     var err = error.errors.email.properties.message;

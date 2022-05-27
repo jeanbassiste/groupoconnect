@@ -24,6 +24,7 @@ class Signup extends React.Component {
                 <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="verifyPassword" autocomplete="off" name="password" placeholder="Répétez votre mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seeVerifyPassword"></i></div>
                 <p id="verifyError">Les deux mots de passe ne sont pas identiques.</p>
                 <button id="SignUpButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Inscrivez-vous</button>
+                <p id="uniqueEmail">L'adresse email doit être unique.</p>
             </form>
             <p>Déjà membre ? <NavLink to="/login">Connectez-vous !</NavLink></p>
     
@@ -91,16 +92,18 @@ class Signup extends React.Component {
                             let token = response.token;
                             console.log(token);
                             setCookie('token', token, 1);
-                            //let decoded = jwt_decode(token);
                             window.location.href = '/changeProfile'
                         }
                         else {
-                            console.error('Code Erreur', res.status)
+                            console.error('Code Erreur', res.status);
+                            document.getElementById('uniqueEmail').style.display = 'initial';
+
                         }
                     })
             }
             else {
                 console.log("Le mot de passe ou l'adresse email ne respecte pas les normes attendues ou les mots de passe ne correspondent pas");
+                document.getElementById('uniqueEmail').style.display = 'initial';
             }
         }
 
