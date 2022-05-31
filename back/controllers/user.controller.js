@@ -1,8 +1,31 @@
 const { PASSWORD } = require("../config/db.config");
+const fs = require('fs');
 const db = require("../models");
 const User = db.users;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+/*const uploadFile = async (req, res) => {
+    try{
+        console.log(req.file);
+        if (req.file == undefined) {
+            return res.send('You must select a file.');
+        }
+        Image.create({
+            data: fs.readFileSync(
+                __basedire + '../images' + req.file.filename
+            ),
+        }).then((image) => {
+            fs.writeFileSync(
+                __basedir + '../images' + image.name,
+                image.data
+            );
+            return res.send('file updated');
+        });
+    } catch (error) {
+        console.log(error);
+        return res.send('Error');
+    }
+}*/
 
 //création nouvel utilisateur
 exports.signup = (req, res, next) => {
@@ -154,6 +177,9 @@ exports.findOne = (req, res) => {
 //updater un utilisateur
 exports.update = (req, res) => {
     const id = req.params.id;
+    console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
+    console.log(req.headers);
+    console.log(req.headers.authorization);
 
     User.update(req.body, {
         where: {id: id}

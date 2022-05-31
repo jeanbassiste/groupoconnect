@@ -133,9 +133,10 @@ class FirstProfile extends React.Component {
             let headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+                'Authorization': `${token}`
 
             };
+            console.log(headers.Authorization);
 
             let url = `http://localhost:8080/api/users/${userId}`
             console.log(url);
@@ -144,8 +145,11 @@ class FirstProfile extends React.Component {
                 lastName: sname.value,
                 site: site.value,
                 fonction: fonction.value,
-                imageUrl: pic.src},
-                headers )
+                role: 'user',
+                imageUrl: pic.src}, {
+                    headers
+                }
+                 )
 
                 .then(res => {
                     console.log(res);
@@ -154,7 +158,7 @@ class FirstProfile extends React.Component {
 
                     if (response) {
                         console.log('ça marche');
-                        //window.location.href = '/profile'
+                        window.location.href = `/profil?id=${userId}`;
                     }
                     else {
                         console.error('Code Erreur', res.status)

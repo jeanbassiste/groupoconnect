@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 import user from "../../assets/user.jpg";
 import axios from 'axios';
+import getCookie from '../functions/getCookie';
+
 
 class Profile extends React.Component {
     render() {
@@ -25,13 +27,22 @@ class Profile extends React.Component {
         const urlParams = new URLSearchParams(url);
         const userId = urlParams.get('id');
 
+        let token = getCookie('token');
+
         let name = document.getElementById('name');
         let infos = document.getElementById('infos');
         let img = document.getElementById('profilePic');
 
         console.log(userId);
 
-        axios.get(`http://localhost:8080/api/users/${userId}`)
+        let headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`
+
+        };
+
+        axios.get(`http://localhost:8080/api/users/${userId}`, {headers})
         .then(res => {
           const user = res.data;
           this.setState({ user });

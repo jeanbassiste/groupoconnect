@@ -6,6 +6,8 @@ import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 import displayPassword from '../functions/displayPassword';
 import isValid from '../functions/validateData';
+import jwt_decode from 'jwt-decode';
+
 
 class Login extends React.Component {
     render() {
@@ -65,8 +67,11 @@ class Login extends React.Component {
 
                     if (response) {
                         const token = response.token;
+                        let decoded = jwt_decode(token);
+                        let userId = decoded.userId;
+                        console.log(userId);
                         setCookie('token', token, 1);
-                        window.location.href = '/posts'                      
+                        window.location.href = `/profil?id=${userId}`                      
                     }
                     else {
                         console.error('Code Erreur', response.status);

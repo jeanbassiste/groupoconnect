@@ -20,7 +20,7 @@ ReactDOM.render(
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/changeProfile" element={<FirstProfile />} />
-      <Route path="/test" element={<Profile />} />
+      <Route path="/profil" element={<Profile />} />
       <Route path="/post" element={<Post />} />
       <Route path="/posts" element={<Dashboard />} />
       <Route path="/comment" element={<Comment />} />

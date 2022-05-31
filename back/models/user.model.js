@@ -1,8 +1,10 @@
 //const { sequelize, Sequelize } = require(".");
+//const { DataTypes } = require("sequelize/types");
 const db = require("../models");
 //const Post = db.posts;
 
 module.exports = (sequelize, Sequelize) => {
+
 const User = sequelize.define("user", {
     firstName: {
         type: Sequelize.STRING
@@ -27,7 +29,7 @@ const User = sequelize.define("user", {
         type: Sequelize.STRING
     },
     imageUrl: {
-        type: Sequelize.STRING
+        type: Sequelize.BLOB('long')
     }
 
 });
