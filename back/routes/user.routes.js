@@ -19,7 +19,7 @@ module.exports = app => {
     router.get('/:id', auth, users.findOne);
 
     //mise à jour d'un utilisateur
-    router.put('/:id', auth, users.update);
+    router.put('/:id', auth, multer, users.update);
 
     app.use('/api/users', router);
 }

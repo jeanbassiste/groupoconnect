@@ -17,7 +17,7 @@ class FirstProfile extends React.Component {
 
                 <form className="vous">
                     <div id="picContainer">
-                        <input id="picUpload" type="file" title="" accept=".jpg, .jpeg, .png"/>
+                        <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
                         <img id="profilePic" src={upload} alt="Votre photo" />
                     </div>
                     <div className="nomPrenom">
@@ -88,23 +88,26 @@ class FirstProfile extends React.Component {
         picUpload.addEventListener('change', updatePic);
 
         function updatePic() {
-            let uploadedPic = picUpload.files;
-  
-            if(uploadedPic.length === 0) {
+
+            let uploadedPic = picUpload.files[0];
+            console.log(uploadedPic);
+            console.log(uploadedPic.type);
+            if(uploadedPic === 0) {
                 let error = document.createElement('p');
                 error.textContent = 'Aucun fichier sélectionné';
                 picContainer.appendChild(error);
             } else {
-                for(var i = 0; i < uploadedPic.length; i++) {
-                    if(validFileType(uploadedPic[i])) {
-                    pic.src = window.URL.createObjectURL(uploadedPic[i]);
+                    if(validFileType(uploadedPic)) {
+                    pic.src = window.URL.createObjectURL(uploadedPic);
+                    return uploadedPic;
+
                 } else {
+                    console.log(validFileType(uploadedPic));
                     let error = document.createElement('p');
                     error.textContent = 'Le format du fichier sélectionné est incorrect ou sa taille dépasse la limite maximale (20ko)';
                     picContainer.appendChild(error);                   
                     }   
                 }
-            }
         }
 
         let fileTypes = [
@@ -137,6 +140,9 @@ class FirstProfile extends React.Component {
 
             };
             console.log(headers.Authorization);
+            let image = updatePic();
+            console.log(image);
+
 
             let url = `http://localhost:8080/api/users/${userId}`
             console.log(url);
@@ -146,7 +152,7 @@ class FirstProfile extends React.Component {
                 site: site.value,
                 fonction: fonction.value,
                 role: 'user',
-                imageUrl: pic.src}, {
+                imageUrl: image}, {
                     headers
                 }
                  )
