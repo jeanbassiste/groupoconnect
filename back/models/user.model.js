@@ -1,7 +1,7 @@
-//const { sequelize, Sequelize } = require(".");
-//const { DataTypes } = require("sequelize/types");
+const { sequelize, Sequelize } = require(".");
+const { DataTypes } = require("sequelize");
 const db = require("../models");
-//const Post = db.posts;
+const Post = db.posts;
 
 module.exports = (sequelize, Sequelize) => {
 
@@ -34,7 +34,6 @@ const User = sequelize.define("user", {
 
 });
 
-//User.hasOne(Post, {as: 'posts'});
 
 return User
 };

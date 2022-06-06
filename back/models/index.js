@@ -20,7 +20,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require("./user.model.js")(sequelize, Sequelize);
-//db.posts = require("./post.model.js")(sequelize, Sequelize);
+db.posts = require("./post.model.js")(sequelize, Sequelize);
 
-//db.posts.belongsTo(db.users);
+db.posts.belongsTo(db.users);
 module.exports = db;
