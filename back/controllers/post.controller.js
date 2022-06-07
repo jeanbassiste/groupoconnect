@@ -57,7 +57,9 @@ exports.newPost = (req, res, next) => {
 
 //Affichage des posts
 exports.displayAllPosts = (req, res, next) => {
-    Post.findAll()
+    Post.findAll({order: [
+      ['updatedAt', 'DESC']
+  ]})
     .then(data => {
       res.send(data);
     })

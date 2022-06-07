@@ -7,9 +7,9 @@ import Login from './components/pages/login';
 import Signup from './components/pages/signup';
 import FirstProfile from './components/layouts/firstProfile';
 import Profile from './components/layouts/anyProfile';
-import Post from './components/layouts/post';
+import Post from './components/pages/post';
 import Comment from './components/layouts/comment';
-import Dashboard from './components/layouts/posts';
+import Dashboard from './components/pages/dashboard';
 
 ReactDOM.render(
 

@@ -6,7 +6,7 @@ import user from '../../assets/user.jpg';
 import like from '../../assets/like-svgrepo-com.svg';
 import fav from '../../assets/star.png';
 
-function Post(id) {
+function post(id) {
     return (
         <section id="pagePost" className='col-12 col-lg-6 mx-auto'>
             <article id="postCard">
@@ -16,10 +16,10 @@ function Post(id) {
                         <p id="author">Nom d'utilisateur de l'auteur</p>
                     </div>
                     <p id="postTag">Tag du post</p>
-                    <h1 id="postTitle">Titre du poste</h1>
+                    <h1 id="postTitle">`${id.title}`</h1>
                 </header>
                 <div id="postBody">
-                    <p id="postContent">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent suscipit risus eget nunc rutrum, eleifend rhoncus massa ultrices. Mauris tortor felis, dignissim vitae mi vel, efficitur dapibus leo. Mauris eu purus elit. Fusce sit amet arcu nibh. In efficitur arcu non mauris rutrum elementum. Mauris vitae gravida nibh. Suspendisse ullamcorper orci in lectus dignissim, sit amet convallis nulla vehicula. Nullam mi felis, commodo sed sollicitudin ac, ullamcorper pharetra sapien. Suspendisse finibus elit est, non suscipit nisl porta eu. Nunc posuere, turpis vitae scelerisque aliquam, diam ipsum dignissim tellus, eu bibendum purus erat at augue. Curabitur placerat semper euismod. Nam vestibulum lectus nec est elementum aliquet. Pellentesque finibus turpis vel enim pulvinar, non consectetur turpis iaculis. Integer vulputate quis ligula sit amet ullamcorper. Ut sit amet metus sed dolor vulputate dictum.</p>
+                    <p id="postContent">`${id.text}`</p>
                 </div>
                 <div id="postFooter">
                     <div id="likes">
@@ -40,4 +40,4 @@ function Post(id) {
         </section>
     )
 }
-export default Post;
+export default post;
