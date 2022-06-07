@@ -1,7 +1,7 @@
 const { PASSWORD } = require("../config/db.config");
 const db = require("../models");
-const Op = db.Sequelize.Op;
 const Post = db.posts;
+const User = db.users;
 
 //Création d'un nouveau post
 exports.newPost = (req, res, next) => {
@@ -16,50 +16,26 @@ exports.newPost = (req, res, next) => {
     const post =  {
        title: req.body.title,
        text: req.body.text,
-       //userId: req.body.author 
+       userId: req.body.author 
     };
     
 
     Post.create(post)
     .then(data => {
-        res.status(201).send({
-            message: "Nouveau post créé"
-        });
-        res.send(data);
+        res.status(201).send({message: "Nouveau post créé", data});
     })
     .catch(
         (error) => {
             console.log(error);
-            console.log(Object.getOwnPropertyNames(error.errors));
-            var message = [];
-            console.log(error.errors.email.properties.message);
-            Object.getOwnPropertyNames(error.errors).forEach(function (element) {
-                console.log(element);
-                var err = error.errors.email.properties.message;
-                message += err;
-            });
-            res.status(400).json({
-                message: message
-            });            
         }
     )
-    .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Il y a eu une erreur"
-        });
-    });
-
-    /*post.save()
-    .then(() => res.status(201).json({ message: 'Post créé !'}))
-    .catch( error => res.status(400).json({error}));*/
 }
 
 //Affichage des posts
 exports.displayAllPosts = (req, res, next) => {
     Post.findAll({order: [
       ['updatedAt', 'DESC']
-  ]})
+  ], include: {model:User}})
     .then(data => {
       res.send(data);
     })
@@ -74,7 +50,7 @@ exports.displayAllPosts = (req, res, next) => {
 //Affichage d'un post
 exports.displayOnePost = (req, res, next) => {
     const id = req.params.id;
-    Post.findByPk(id)
+    Post.findByPk(id, {include: {model:User}})
       .then(data => {
         if (data) {
           res.send(data);

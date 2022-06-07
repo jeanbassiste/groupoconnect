@@ -10,6 +10,7 @@ import Profile from './components/layouts/anyProfile';
 import Post from './components/pages/post';
 import Comment from './components/layouts/comment';
 import Dashboard from './components/pages/dashboard';
+import CreatePost from './components/layouts/posts';
 
 ReactDOM.render(
 
@@ -24,6 +25,7 @@ ReactDOM.render(
       <Route path="/post" element={<Post />} />
       <Route path="/posts" element={<Dashboard />} />
       <Route path="/comment" element={<Comment />} />
+      <Route path='/test' element={<CreatePost />} />
     </Routes>
   </Router>,
   document.getElementById('root')

@@ -74,6 +74,7 @@ class Post extends React.Component {
 
           document.getElementById('postTitle').innerText = `${thisPost.title}`;
           document.getElementById('postContent').innerText = `${thisPost.text}`;
+          document.getElementById('author').innerText = `${thisPost.user.firstName} ${thisPost.user.lastName}`
 
 
         

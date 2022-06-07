@@ -6,7 +6,7 @@ import getCookie from '../functions/getCookie';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
-class Dashboard extends React.Component {
+class CreatePost extends React.Component {
     render() {
         return (
             <div>
@@ -81,4 +81,4 @@ class Dashboard extends React.Component {
         }
     }
 
-export default Dashboard
+export default CreatePost
