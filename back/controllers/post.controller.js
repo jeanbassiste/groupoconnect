@@ -1,5 +1,7 @@
 const { PASSWORD } = require("../config/db.config");
 const db = require("../models");
+const userModel = require("../models/user.model");
+const Op = db.Sequelize.Op;
 const Post = db.posts;
 const User = db.users;
 
@@ -16,8 +18,11 @@ exports.newPost = (req, res, next) => {
     const post =  {
        title: req.body.title,
        text: req.body.text,
-       userId: req.body.author 
+       userId: req.body.author,
+       tag: req.body.tag
     };
+
+    console.log(post);
     
 
     Post.create(post)
@@ -29,6 +34,11 @@ exports.newPost = (req, res, next) => {
             console.log(error);
         }
     )
+
+
+    /*post.save()
+    .then(() => res.status(201).json({ message: 'Post créé !'}))
+    .catch( error => res.status(400).json({error}));*/
 }
 
 //Affichage des posts

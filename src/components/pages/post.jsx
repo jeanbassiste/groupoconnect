@@ -8,6 +8,7 @@ import post from '../functions/post';
 import user from '../../assets/user.jpg';
 import like from '../../assets/like-svgrepo-com.svg';
 import fav from '../../assets/star.png';
+import newComment from '../functions/newComment';
 
 
 class Post extends React.Component {
@@ -42,7 +43,10 @@ class Post extends React.Component {
                     </div>
                 </article>
                 <article id="commentSection">
-    
+                    <form id="comment">
+                        <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
+                        <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="">Send</button>
+                    </form>
                 </article>
             </section>
         )
@@ -74,16 +78,20 @@ class Post extends React.Component {
 
           document.getElementById('postTitle').innerText = `${thisPost.title}`;
           document.getElementById('postContent').innerText = `${thisPost.text}`;
-          document.getElementById('author').innerText = `${thisPost.user.firstName} ${thisPost.user.lastName}`
-
-
+          document.getElementById('author').innerText = `${thisPost.user.firstName} ${thisPost.user.lastName}`;
+          document.getElementById('postTag').innerText = `${thisPost.tag}`;
         
         })
 
-        
-        
+        let sendComment = document.getElementById('sendComment');
+    
+        let comment = document.getElementById('commentText');
+
+        sendComment.addEventListener('click', () => {newComment(comment, headers)});
 
     }
+
+
 
 }
 
