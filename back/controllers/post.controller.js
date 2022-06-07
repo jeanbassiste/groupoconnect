@@ -54,3 +54,37 @@ exports.newPost = (req, res, next) => {
     .then(() => res.status(201).json({ message: 'Post créé !'}))
     .catch( error => res.status(400).json({error}));*/
 }
+
+//Affichage des posts
+exports.displayAllPosts = (req, res, next) => {
+    Post.findAll()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+}
+
+//Affichage d'un post
+exports.displayOnePost = (req, res, next) => {
+    const id = req.params.id;
+    Post.findByPk(id)
+      .then(data => {
+        if (data) {
+          res.send(data);
+        } else {
+          res.status(404).send({
+            message: `Cannot find Tutorial with id=${id}.`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error retrieving Tutorial with id=" + id
+        });
+      });
+}

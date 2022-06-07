@@ -9,6 +9,8 @@ module.exports = (req, res, next) => {
             throw 'Invalid user ID';
         }
         else {
+            console.log('WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
+            console.log('authentification réussie !')
             next();
         }
     } catch {

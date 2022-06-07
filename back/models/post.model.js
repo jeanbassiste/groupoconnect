@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
         }
     });
 
+    //Post.belongsTo('User', {as: 'author'});
+    //User.hasOne('Post')
+
 
 
     //https://sequelize.org/v3/docs/associations/
