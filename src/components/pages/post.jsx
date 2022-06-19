@@ -9,6 +9,7 @@ import user from '../../assets/user.jpg';
 import like from '../../assets/like-svgrepo-com.svg';
 import fav from '../../assets/star.png';
 import newComment from '../functions/newComment';
+import jwt_decode from 'jwt-decode';
 
 
 class Post extends React.Component {
@@ -56,8 +57,12 @@ class Post extends React.Component {
         const url = window.location.search;
         const urlParams = new URLSearchParams(url);
         const postId = urlParams.get('id');
-
+        
         let token = getCookie('token');   
+        let userId = jwt_decode(token).Id;
+
+        console.log(userId);
+        console.log(postId);
 
         let headers = {
             'Accept': 'application/json',
@@ -87,7 +92,7 @@ class Post extends React.Component {
     
         let comment = document.getElementById('commentText');
 
-        sendComment.addEventListener('click', () => {newComment(comment, headers)});
+        sendComment.addEventListener('click', () => {newComment(comment, headers, userId,postId)});
 
     }
 
