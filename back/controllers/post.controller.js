@@ -4,6 +4,7 @@ const userModel = require("../models/user.model");
 const Op = db.Sequelize.Op;
 const Post = db.posts;
 const User = db.users;
+const Comment = db.comments;
 
 //Création d'un nouveau post
 exports.newPost = (req, res, next) => {
@@ -45,7 +46,7 @@ exports.newPost = (req, res, next) => {
 exports.displayAllPosts = (req, res, next) => {
     Post.findAll({order: [
       ['updatedAt', 'DESC']
-  ], include: {model:User}})
+  ], include: [{model:User}, {model:Comment}]})
     .then(data => {
       res.send(data);
     })
@@ -60,7 +61,7 @@ exports.displayAllPosts = (req, res, next) => {
 //Affichage d'un post
 exports.displayOnePost = (req, res, next) => {
     const id = req.params.id;
-    Post.findByPk(id, {include: {model:User}})
+    Post.findByPk(id, {include: [{model:User}, {model:Comment}]})
       .then(data => {
         if (data) {
           res.send(data);

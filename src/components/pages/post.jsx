@@ -43,12 +43,21 @@ class Post extends React.Component {
                         </div>
                     </div>
                 </article>
-                <article id="commentSection">
-                    <form id="comment">
-                        <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
-                        <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="">Send</button>
-                    </form>
-                </article>
+                <section id="commentSection" className='col-12 col-lg-12 mx-auto'>
+            <form id="comment">
+                <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
+                <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="">Send</button>
+            </form>
+            <article id="comment">
+                <div id="commentAuthor">
+                    <img src={user} id="authorPic" alt="Photo de profile de l'auteur du commentaire"/>
+                </div>
+                <div id="commentContent">
+                    <p id="author">Nom d'utilisateur de l'auteur</p>
+                    <p id="commentText">Ceci est le commentaire : ce message me plait beaucoup ! Merci d'avoir partagé :)</p> 
+                </div>
+            </article>
+        </section>
             </section>
         )
     }
@@ -59,7 +68,7 @@ class Post extends React.Component {
         const postId = urlParams.get('id');
         
         let token = getCookie('token');   
-        let userId = jwt_decode(token).Id;
+        let userId = jwt_decode(token).userId;
 
         console.log(userId);
         console.log(postId);
@@ -77,6 +86,8 @@ class Post extends React.Component {
           this.setState({ post });
           console.log('ça a marché');
           console.log(thisPost);
+          console.log('Ouais cest bien ça');
+          console.log(thisPost.comments.length);
 
           console.log(thisPost.id);
           console.log(thisPost.title);
@@ -85,6 +96,7 @@ class Post extends React.Component {
           document.getElementById('postContent').innerText = `${thisPost.text}`;
           document.getElementById('author').innerText = `${thisPost.user.firstName} ${thisPost.user.lastName}`;
           document.getElementById('postTag').innerText = `${thisPost.tag}`;
+          document.getElementById('commentCount').innerText = `${thisPost.comments.length} commentaires`;
         
         })
 
@@ -92,7 +104,7 @@ class Post extends React.Component {
     
         let comment = document.getElementById('commentText');
 
-        sendComment.addEventListener('click', () => {newComment(comment, headers, userId,postId)});
+        sendComment.addEventListener('click', () => {newComment(comment, headers, userId, postId)});
 
     }
 

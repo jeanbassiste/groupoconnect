@@ -38,7 +38,7 @@ class CreatePost extends React.Component {
         let token = getCookie('token');
         let decoded = jwt_decode(token);
         console.log(decoded);
-        let userId = decoded.Id;
+        let userId = decoded.userId;
         let role = decoded.role;
         console.log(userId);
         console.log(role);
