@@ -53,7 +53,7 @@ class Post extends React.Component {
                     <img src={user} id="authorPic" alt="Photo de profile de l'auteur du commentaire"/>
                 </div>
                 <div id="commentContent">
-                    <p id="author">Nom d'utilisateur de l'auteur</p>
+                    <p id="authorC">Nom d'utilisateur de l'auteur</p>
                     <p id="commentText">Ceci est le commentaire : ce message me plait beaucoup ! Merci d'avoir partagé :)</p> 
                 </div>
             </article>
@@ -68,7 +68,7 @@ class Post extends React.Component {
         const postId = urlParams.get('id');
         
         let token = getCookie('token');   
-        let userId = jwt_decode(token).userId;
+        let userId = jwt_decode(token).id;
 
         console.log(userId);
         console.log(postId);
@@ -97,6 +97,16 @@ class Post extends React.Component {
           document.getElementById('author').innerText = `${thisPost.user.firstName} ${thisPost.user.lastName}`;
           document.getElementById('postTag').innerText = `${thisPost.tag}`;
           document.getElementById('commentCount').innerText = `${thisPost.comments.length} commentaires`;
+
+          console.log(thisPost.comments);
+          console.log(thisPost.comments[0]);
+          console.log(thisPost.comments[0].text);
+          console.log(thisPost.comments[0].id);
+          let commentId = thisPost.comments[0].id;
+          let commentText = thisPost.comments[0].text;
+          
+          document.getElementById('authorC').innerText = `${commentId}`;
+          document.getElementById('commentText').innerText = `${commentText}`
         
         })
 

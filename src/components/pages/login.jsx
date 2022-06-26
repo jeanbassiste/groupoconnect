@@ -17,9 +17,9 @@ class Login extends React.Component {
                 <h2>Le réseau social des employés de Groupomania</h2>
                 <p>Connectez-vous en utilisant votre adresse @groupomania.com</p>
                 <form id="loginForm" className="loginForm" noValidate>
-                    <input type="email" className="form-control" id="email" autocomplete="off" name="email" placeholder="jane.doe@groupomania.com" />
+                    <input type="email" className="form-control" id="email" autoComplete="off" name="email" placeholder="jane.doe@groupomania.com" />
                     <p id="emailError">Utilisez une adresse @groupomania.com valide.</p>
-                    <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="password" autocomplete="off" name="password" placeholder="Mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i></div>
+                    <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="password" autoComplete="off" name="password" placeholder="Mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i></div>
                     <p id="passwordError">Le mot de passe doit contenir : au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
                     <button id="logInButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Connectez-vous</button>
                 </form>
@@ -68,7 +68,7 @@ class Login extends React.Component {
                     if (response) {
                         const token = response.token;
                         let decoded = jwt_decode(token);
-                        let userId = decoded.userId;
+                        let userId = decoded.id;
                         console.log(userId);
                         setCookie('token', token, 1);
                         window.location.href = `/profil?id=${userId}`                      

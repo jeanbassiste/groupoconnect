@@ -47,7 +47,7 @@ exports.displayAllComments = (req, res, next) => {
 
     Post.findAll({ where: { postId: id } }, {order: [
       ['updatedAt', 'DESC']
-  ], include: {model:User, model:Post}})
+  ], include: [{model:User}, {model:Post}]})
     .then(data => {
       res.send(data);
     })

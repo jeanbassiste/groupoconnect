@@ -46,7 +46,7 @@ exports.newPost = (req, res, next) => {
 exports.displayAllPosts = (req, res, next) => {
     Post.findAll({order: [
       ['updatedAt', 'DESC']
-  ], include: [{model:User}, {model:Comment}]})
+  ], include: [{model:User}, {model:Comment, include: [User]}]})
     .then(data => {
       res.send(data);
     })
@@ -61,7 +61,7 @@ exports.displayAllPosts = (req, res, next) => {
 //Affichage d'un post
 exports.displayOnePost = (req, res, next) => {
     const id = req.params.id;
-    Post.findByPk(id, {include: [{model:User}, {model:Comment}]})
+    Post.findByPk(id, {include: [{model:User}, {model:Comment, include: [User]}]})
       .then(data => {
         if (data) {
           res.send(data);

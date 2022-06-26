@@ -23,21 +23,21 @@ class FirstProfile extends React.Component {
                     <div className="nomPrenom">
                         <div className="formContainer">
                             <input type ="text" className="proForm form-control" name="fname" id="fname" />
-                            <label for='fname'>Votre prénom</label>
+                            <label htmlFor='fname'>Votre prénom</label>
                         </div>
                         <div className="formContainer">
                             <input type ="text" className="proForm form-control" name="sname" id="sname" />
-                            <label for='sname'>Votre nom</label>
+                            <label htmlFor='sname'>Votre nom</label>
                         </div>
                     </div>
                     <div className="societe">
                         <div className="formContainer">
                             <input type ="text" className="proForm form-control" name="fonction" id="fonction" />
-                            <label for='fonction'>Votre fonction</label>
+                            <label htmlFor='fonction'>Votre fonction</label>
                         </div>
                         <div className="formContainer">
                             <input type ="text" className="proForm form-control" name="site" id="site" />
-                            <label for='site'>Votre site</label>
+                            <label htmlFor='site'>Votre site</label>
                         </div>
                     </div>
                     <button id="createProfile" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Créer le profil</button>
@@ -51,7 +51,7 @@ class FirstProfile extends React.Component {
         let token = getCookie('token');
         let decoded = jwt_decode(token);
         console.log(decoded);
-        let userId = decoded.Id;
+        let userId = decoded.id;
         let role = decoded.role;
         console.log(userId);
         console.log(role);

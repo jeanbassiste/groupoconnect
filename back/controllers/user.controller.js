@@ -51,7 +51,7 @@ exports.signup = (req, res, next) => {
                 message: "Utilisateur créé",
                 userId: data.id,
                 token: jwt.sign(
-                    { Id: data.id, role: data.role },
+                    { id: data.id, role: data.role },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h'}
                 )
@@ -119,7 +119,7 @@ exports.login = (req, res, next) => {
             res.status(200).send({
                 userId: user.id,
                 token: jwt.sign(
-                    { userId: user.id, role: user.role },
+                    { id: user.id, role: user.role },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h'}
                 )

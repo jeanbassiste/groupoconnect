@@ -17,11 +17,11 @@ class Signup extends React.Component {
             <p>Créez votre compte et rencontrez vos collaborateurs !</p>
     
             <form id="signUpForm" className="signupForm" noValidate>
-                <input type="email" className="form-control" id="email" autocomplete="off" name="email" placeholder="jane.doe@groupomania.com" />
+                <input type="email" className="form-control" id="email" autoComplete="off" name="email" placeholder="jane.doe@groupomania.com" />
                 <p id="emailError">Utilisez une adresse @groupomania.com valide.</p>
-                <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="password" autocomplete="off" name="password" placeholder="Mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i></div>
+                <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="password" autoComplete="off" name="password" placeholder="Mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i></div>
                 <p id="passwordError">Le mot de passe doit contenir : au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
-                <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="verifyPassword" autocomplete="off" name="password" placeholder="Répétez votre mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seeVerifyPassword"></i></div>
+                <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="verifyPassword" autoComplete="off" name="password" placeholder="Répétez votre mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seeVerifyPassword"></i></div>
                 <p id="verifyError">Les deux mots de passe ne sont pas identiques.</p>
                 <button id="SignUpButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Inscrivez-vous</button>
                 <p id="uniqueEmail">L'adresse email doit être unique.</p>
