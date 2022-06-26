@@ -58,3 +58,28 @@ exports.displayAllComments = (req, res, next) => {
       });
     });
 }
+
+exports.deleteComment = (req, res, next) => {
+  const id = req.params.id;
+  console.log("deleting comment numero " + id);
+
+  Comment.destroy({
+      where: {id: id}
+  })
+  .then(num => {
+      if(num == 1) {
+          res.send({
+              message: "Le commentaire a été supprimé"
+          });
+      } else {
+          res.send({
+              message: "impossible de supprimer le commentaire"
+          });
+      }
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: "il y a eu un pb"
+      });
+  });  
+}

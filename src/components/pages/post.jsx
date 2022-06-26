@@ -10,6 +10,7 @@ import like from '../../assets/like-svgrepo-com.svg';
 import fav from '../../assets/star.png';
 import newComment from '../functions/newComment';
 import jwt_decode from 'jwt-decode';
+import displayComment from '../functions/displayComment';
 
 
 class Post extends React.Component {
@@ -44,20 +45,11 @@ class Post extends React.Component {
                     </div>
                 </article>
                 <section id="commentSection" className='col-12 col-lg-12 mx-auto'>
-            <form id="comment">
-                <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
-                <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="">Send</button>
-            </form>
-            <article id="comment">
-                <div id="commentAuthor">
-                    <img src={user} id="authorPic" alt="Photo de profile de l'auteur du commentaire"/>
-                </div>
-                <div id="commentContent">
-                    <p id="authorC">Nom d'utilisateur de l'auteur</p>
-                    <p id="commentText">Ceci est le commentaire : ce message me plait beaucoup ! Merci d'avoir partagé :)</p> 
-                </div>
-            </article>
-        </section>
+                    <form id="comment">
+                        <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
+                        <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="">Send</button>
+                    </form>
+                </section>
             </section>
         )
     }
@@ -98,15 +90,23 @@ class Post extends React.Component {
           document.getElementById('postTag').innerText = `${thisPost.tag}`;
           document.getElementById('commentCount').innerText = `${thisPost.comments.length} commentaires`;
 
+
           console.log(thisPost.comments);
           console.log(thisPost.comments[0]);
           console.log(thisPost.comments[0].text);
-          console.log(thisPost.comments[0].id);
-          let commentId = thisPost.comments[0].id;
+          console.log(thisPost.comments[0].user.firstName);
+          let commentfn = thisPost.comments[0].user.firstName;
+          let commentln = thisPost.comments[0].user.lastName;
           let commentText = thisPost.comments[0].text;
+          console.log(commentText);
+
+          let comments = thisPost.comments;
+
+          comments.forEach(item => {
+            displayComment(item, userId);
+          })
+
           
-          document.getElementById('authorC').innerText = `${commentId}`;
-          document.getElementById('commentText').innerText = `${commentText}`
         
         })
 

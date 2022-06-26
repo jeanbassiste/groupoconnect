@@ -1,6 +1,13 @@
 #commentSection {
     background-color: white;
 
+    .modifier {
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
     #comment {
         display: flex;
         padding-top: 20px;

@@ -7,6 +7,7 @@ module.exports = app => {
 
     router.post('/newComment', auth, comments.newComment);
     router.get('/:id', comments.displayAllComments);
+    router.delete('/:id', comments.deleteComment);
 
     app.use('/api/comments', router);
 }
