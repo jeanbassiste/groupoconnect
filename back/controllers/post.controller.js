@@ -77,3 +77,63 @@ exports.displayOnePost = (req, res, next) => {
         });
       });
 }
+
+//Liker un post
+exports.likePost = (req, res, next) => {
+
+}
+
+//supprimer un post
+exports.deletePost = (req, res, next) => {
+  const id = req.params.id;
+  console.log("deleting post numero " + id);
+
+  Post.destroy({
+      where: {id: id}
+  })
+  .then(num => {
+      if(num == 1) {
+          res.send({
+              message: "Le post a été supprimé"
+          });
+      } else {
+          res.send({
+              message: "impossible de supprimer le post"
+          });
+      }
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: "il y a eu un pb"
+      });
+  });    
+}
+
+//modifier un post
+exports.updatePost = (req, res, next) => {
+  const id = req.params.id;
+
+  console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
+  console.log(req.headers);
+  console.log(req.headers.authorization);
+
+  Post.update(req.body, {
+      where: {id: id}
+  })
+  .then(num => {
+      if (num == 1) {
+          res.send({
+              message: "Post mis à jour"
+          });
+      } else {
+          res.send({
+              message: 'Impossible de mettre à jour ce post'
+          });
+      }
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: "Une erreur s'est produite dans la mise à jour du post " + id
+      });
+  });      
+}

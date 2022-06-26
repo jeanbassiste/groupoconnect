@@ -11,6 +11,8 @@ import fav from '../../assets/star.png';
 import newComment from '../functions/newComment';
 import jwt_decode from 'jwt-decode';
 import displayComment from '../functions/displayComment';
+import editingPost from '../functions/editingPost';
+import deletingPost from '../functions/deletePost';
 
 
 class Post extends React.Component {
@@ -20,7 +22,7 @@ class Post extends React.Component {
         return(
             <section id="pagePost" className='col-12 col-lg-6 mx-auto'>
                 <article id="postCard">
-                    <header>
+                    <header id='titleSection'>
                         <div id="postAuthor">
                             <img src={user} id="authorPic" alt="Photo de profile de l'auteur du post"/>
                             <p id="author">Nom d'utilisateur de l'auteur</p>
@@ -90,6 +92,23 @@ class Post extends React.Component {
           document.getElementById('postTag').innerText = `${thisPost.tag}`;
           document.getElementById('commentCount').innerText = `${thisPost.comments.length} commentaires`;
 
+          if(userId === thisPost.user.id){
+            let deletePost = document.createElement('p');
+            deletePost.setAttribute('class', 'modifier');
+            deletePost.innerText = 'Supprimer';
+            let editPost = document.createElement('p');
+            editPost.setAttribute('class', 'modifier');
+            editPost.innerText = 'Modifier';
+            document.getElementById('postFooter').appendChild(deletePost);
+            document.getElementById('postFooter').appendChild(editPost);
+
+            console.log(thisPost.title);
+            console.log(thisPost.text);
+            
+    
+            deletePost.addEventListener('click', () => deletingPost(thisPost.id));
+            editPost.addEventListener('click', () => editingPost(thisPost.id, document.getElementById('titleSection'), document.getElementById('postBody'), document.getElementById('postTitle'), document.getElementById('postContent'), thisPost.title, thisPost.text));
+          }
 
           console.log(thisPost.comments);
           console.log(thisPost.comments[0]);

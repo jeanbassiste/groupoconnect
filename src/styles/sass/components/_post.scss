@@ -3,6 +3,13 @@
     background-color: white;
 }
 
+.modifier {
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 #postAuthor {
     display: flex;
     gap: 10px;

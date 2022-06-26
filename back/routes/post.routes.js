@@ -8,6 +8,8 @@ module.exports = app => {
     router.post('/newPost', auth, posts.newPost);
     router.get('/', posts.displayAllPosts);
     router.get('/:id', posts.displayOnePost);
+    router.delete('/:id', posts.deletePost);
+    router.put('/:id', posts.updatePost);
 
     app.use('/api/posts', router);
 }

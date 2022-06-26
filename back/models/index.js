@@ -31,5 +31,8 @@ db.comments.belongsTo(db.posts);
 db.users.hasMany(db.comments);
 db.posts.hasMany(db.comments);
 
+db.users.belongsToMany(db.posts, {through: 'likes', as: 'userslikes'});
+db.posts.belongsToMany(db.users, {through: 'likes', as: 'postslikes'});
+
 
 module.exports = db;
