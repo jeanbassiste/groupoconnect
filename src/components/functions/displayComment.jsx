@@ -42,7 +42,7 @@ function displayComment(comment, userId) {
         article.appendChild(editComment);
 
         deleteComment.addEventListener('click', () => deletingComment(comment.id));
-        editComment.addEventListener('click', () => editingComment(comment.id));
+        editComment.addEventListener('click', () => editingComment(comment.id, comment.text, commentText, commentContent));
     }
 
     document.getElementById('commentSection').appendChild(article);

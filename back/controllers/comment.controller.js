@@ -83,3 +83,31 @@ exports.deleteComment = (req, res, next) => {
       });
   });  
 }
+
+exports.updateComment = (req, res, next) => {
+    const id = req.params.id;
+
+    console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
+    console.log(req.headers);
+    console.log(req.headers.authorization);
+
+    Comment.update(req.body, {
+        where: {id: id}
+    })
+    .then(num => {
+        if (num == 1) {
+            res.send({
+                message: "Commentaire mis à jour"
+            });
+        } else {
+            res.send({
+                message: 'Impossible de mettre à jour ce commentaire'
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Une erreur s'est produite dans la mise à jour du commentaire " + id
+        });
+    });    
+}
