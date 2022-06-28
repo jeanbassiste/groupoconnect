@@ -78,11 +78,6 @@ exports.displayOnePost = (req, res, next) => {
       });
 }
 
-//Liker un post
-exports.likePost = (req, res, next) => {
-
-}
-
 //supprimer un post
 exports.deletePost = (req, res, next) => {
   const id = req.params.id;
@@ -136,4 +131,39 @@ exports.updatePost = (req, res, next) => {
           message: "Une erreur s'est produite dans la mise à jour du post " + id
       });
   });      
+}
+
+exports.likePost = (req, res, next) => {
+  console.log("début du liking");
+  const id = req.params.id;
+  const userId = req.body.userId;
+  console.log('id post = ' + id + ' et id user = ' + userId);
+
+  Post.update(req.body.userId, {
+    where: {id: id}
+  })
+  .then(num => {
+    console.log('on est entré dans le then');
+    if (num == 1) {
+      console.log('ça a marché !!!!');
+        res.send({
+            message: "Post mis à jour"
+        });
+    } else {
+      console.log('nope');
+        res.send({
+            message: 'Impossible de mettre à jour ce post'
+        });
+    }
+})
+.catch(err => {
+  console.log('nope, mais avec un 500');
+    res.status(500).send({
+        message: "Une erreur s'est produite dans la mise à jour du post " + id
+    });
+});  
+
+ /* Post.removeLike(userId, {
+    where: {id: id}
+  });*/
 }

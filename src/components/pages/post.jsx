@@ -92,6 +92,20 @@ class Post extends React.Component {
           document.getElementById('postTag').innerText = `${thisPost.tag}`;
           document.getElementById('commentCount').innerText = `${thisPost.comments.length} commentaires`;
 
+          let likeButton = document.getElementById('likeButton');
+
+          likeButton.addEventListener('click', () => {
+            console.log('prout 2');
+
+            axios.put(`http://localhost:8080/api/posts/like/${postId}`, {
+                userId: userId
+            })
+            .then(res => {
+                console.log('proutprout');
+            })
+
+          })
+
           if(userId === thisPost.user.id){
             let deletePost = document.createElement('p');
             deletePost.setAttribute('class', 'modifier');
