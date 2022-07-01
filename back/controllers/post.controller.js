@@ -4,6 +4,7 @@ const userModel = require("../models/user.model");
 const Op = db.Sequelize.Op;
 const Post = db.posts;
 const User = db.users;
+const Like = db.likes;
 const Comment = db.comments;
 
 //Création d'un nouveau post
@@ -138,23 +139,19 @@ exports.likePost = (req, res, next) => {
   const id = req.params.id;
   const userId = req.body.userId;
   console.log('id post = ' + id + ' et id user = ' + userId);
+  
+  let like = {
+    userId: req.body.userId,
+    postId: id
+  }
 
-  Post.update(req.body.userId, {
-    where: {id: id}
-  })
+  Like.create(like)
   .then(num => {
     console.log('on est entré dans le then');
-    if (num == 1) {
-      console.log('ça a marché !!!!');
-        res.send({
-            message: "Post mis à jour"
-        });
-    } else {
-      console.log('nope');
-        res.send({
-            message: 'Impossible de mettre à jour ce post'
-        });
-    }
+    console.log(num);
+    res.status(201).send({
+      message: "Post mis à jour"
+    });
 })
 .catch(err => {
   console.log('nope, mais avec un 500');

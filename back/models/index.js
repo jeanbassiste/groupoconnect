@@ -22,6 +22,7 @@ db.sequelize = sequelize;
 db.users = require("./user.model.js")(sequelize, Sequelize);
 db.posts = require("./post.model.js")(sequelize, Sequelize);
 db.comments = require('./comment.model.js')(sequelize, Sequelize);
+db.likes = require('./like.model.js')(sequelize, Sequelize);
 
 db.posts.belongsTo(db.users);
 db.users.hasMany(db.posts);
@@ -31,8 +32,11 @@ db.comments.belongsTo(db.posts);
 db.users.hasMany(db.comments);
 db.posts.hasMany(db.comments);
 
-db.users.belongsToMany(db.posts, {through: 'likes', as: 'like'});
-db.posts.belongsToMany(db.users, {through: 'likes', as: 'liked'});
+db.likes.belongsTo(db.posts);
+db.posts.hasMany(db.likes);
+db.likes.belongsTo(db.users);
+db.users.hasMany(db.likes);
+
 
 
 module.exports = db;
