@@ -2,6 +2,7 @@ const { PASSWORD } = require("../config/db.config");
 const fs = require('fs');
 const db = require("../models");
 const User = db.users;
+const Post = db.posts;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 /*const uploadFile = async (req, res) => {
@@ -156,7 +157,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    User.findByPk(id)
+    User.findByPk(id, {include: [{model:Post, order: ['updatedAt', 'DESC']}]})
     .then(data => {
         if (data) {
             res.send(data);

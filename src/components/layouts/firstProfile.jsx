@@ -164,7 +164,7 @@ class FirstProfile extends React.Component {
 
                     if (response) {
                         console.log('ça marche');
-                        window.location.href = `/profil?id=${userId}`;
+                        window.location.href = `/home`;
                     }
                     else {
                         console.error('Code Erreur', res.status)

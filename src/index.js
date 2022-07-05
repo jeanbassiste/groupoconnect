@@ -25,7 +25,7 @@ ReactDOM.render(
       <Route path="/post" element={<Post />} />
       <Route path="/posts" element={<Dashboard />} />
       <Route path="/comment" element={<Comment />} />
-      <Route path='/test' element={<CreatePost />} />
+      <Route path='/home' element={<div><CreatePost /><Dashboard /></div>} />
     </Routes>
   </Router>,
   document.getElementById('root')

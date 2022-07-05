@@ -5,12 +5,18 @@ import '../../styles/style.css';
 import user from "../../assets/user.jpg";
 import axios from 'axios';
 import getCookie from '../functions/getCookie';
+import jwt_decode from 'jwt-decode';
+import deconnexion from '../functions/deconnexion';
+
 
 
 class Profile extends React.Component {
     render() {
         return (
             <div className="main col-lg-6 mx-auto">
+                <div id="auto">
+                    <p id="logOut">Se déconnecter</p>
+                </div> 
                 <div className="upper">
                     <h1 id='name'>Prénom Nom</h1>
                     <h2 id='infos'>Fonction à site</h2>
@@ -28,6 +34,21 @@ class Profile extends React.Component {
         const userId = urlParams.get('id');
 
         let token = getCookie('token');
+        let decoded = jwt_decode(token);
+        let id = decoded.id;
+        console.log('lutilisateur qui se connecte est : ' + id);
+        console.log('lutilisateur du profil est : ' + userId);
+
+        if (decoded.id === urlParams.get('id')) {
+            console.log('accès au profil de lutilisateur connecté');
+            document.getElementById('auto').style.display('initial');
+
+        }
+        else {
+            console.log(decoded.id + ' est different de ' + urlParams.get('id'));
+        }
+
+        document.getElementById('logOut').addEventListener('click', () => {deconnexion(token)});
 
         let name = document.getElementById('name');
         let infos = document.getElementById('infos');

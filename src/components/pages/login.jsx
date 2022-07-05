@@ -71,7 +71,7 @@ class Login extends React.Component {
                         let userId = decoded.id;
                         console.log(userId);
                         setCookie('token', token, 1);
-                        window.location.href = `/profil?id=${userId}`                      
+                        window.location.href = `/home`                      
                     }
                     else {
                         console.error('Code Erreur', response.status);
