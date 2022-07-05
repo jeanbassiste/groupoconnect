@@ -39,16 +39,16 @@ class Profile extends React.Component {
         console.log('lutilisateur qui se connecte est : ' + id);
         console.log('lutilisateur du profil est : ' + userId);
 
-        if (decoded.id === urlParams.get('id')) {
+        if (parseInt(decoded.id) === parseInt(urlParams.get('id'))) {
             console.log('accès au profil de lutilisateur connecté');
-            document.getElementById('auto').style.display('initial');
+            document.getElementById('auto').style.display = 'initial';
 
         }
         else {
             console.log(decoded.id + ' est different de ' + urlParams.get('id'));
         }
 
-        document.getElementById('logOut').addEventListener('click', () => {deconnexion(token)});
+        document.getElementById('logOut').addEventListener('click', () => {deconnexion('token')});
 
         let name = document.getElementById('name');
         let infos = document.getElementById('infos');

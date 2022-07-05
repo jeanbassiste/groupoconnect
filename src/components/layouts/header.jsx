@@ -28,14 +28,11 @@ class Header extends React.Component {
         let urlPath = getUrlPath();
         console.log(urlPath);
 
-        let token = getCookie('token');
-        let decoded = jwt_decode(token);
-        let userId = decoded.id;
 
 
-        document.getElementById('userPage').setAttribute('href', `/profil?id=${userId}`)
 
-        if (urlPath === "/login" || urlPath === "/signup" || urlPath === "/changeProfile") {
+
+        if (urlPath === "/login" || urlPath === "/signup" || urlPath === "/changeProfile" || urlPath === "/") {
             document.getElementById('home').style.display = 'none';
             document.getElementById('userPage').style.display = 'none';            
         }
@@ -44,6 +41,13 @@ class Header extends React.Component {
         }
         else if (urlPath === '/profile') {
             document.getElementById('userPage').style.display = 'none';
+        }
+        else{
+            let token = getCookie('token');
+            let decoded = jwt_decode(token);
+            let userId = decoded.id;
+            document.getElementById('userPage').setAttribute('href', `/profil?id=${userId}`)
+
         }
     }
 
