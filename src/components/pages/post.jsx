@@ -97,42 +97,45 @@ class Post extends React.Component {
           let likes = thisPost.likes;
 
           let likeButton = document.getElementById('likeButton');
+          let isLiked = false;
+          let likeId;
 
           likes.forEach(el => {
             console.log(el.userId);
             console.log(userId);
             if(el.userId === userId) {
-                console.log('lutilisateur qui a liké est celui qui est connecté')
-                likeButton.addEventListener('click', () => {
-                    console.log('prout 2');
-        
-                    axios.put(`http://localhost:8080/api/posts/like/${postId}`, {
-                        userId: userId
-                    })
-                    .then(res => {
-                        console.log('proutprout');
-                    })
-        
-                  })
+                console.log('lutilisateur qui a liké est celui qui est connecté');
+                isLiked = true;
+                likeId = el.id;
+                
             }
             else {
-                let likeId = el.id;
-                console.log(likeId)
                 console.log('lutilisateur qui a liké nest pas celui qui est connecté');
-                likeButton.addEventListener('click', () => {
-                    console.log('prout 3');
-        
-                    /*axios.delete(`http://localhost:8080/api/posts/like/${likeId}`)
-                    .then(res => {
-                        console.log('proutOUT');
-                    })*/
-        
-                  })
+
             }
           })
+          console.log(isLiked);
+          console.log(likeId);
 
-
-          
+          likeButton.addEventListener('click', () => {
+            console.log('prout 2');
+            if (isLiked === true) {
+                console.log('unlike');
+                axios.delete(`http://localhost:8080/api/posts/like/${likeId}`)
+                .then(res => {
+                    console.log('proutOUT');
+                })
+            }
+            else {
+                console.log('like');
+                axios.put(`http://localhost:8080/api/posts/like/${postId}`, {
+                userId: userId
+                    })
+                .then(res => {
+                    console.log('proutprout');
+                })
+            }
+          })          
 
           if(userId === thisPost.user.id){
             let deletePost = document.createElement('p');
