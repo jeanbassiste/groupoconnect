@@ -91,20 +91,48 @@ class Post extends React.Component {
           document.getElementById('author').innerText = `${thisPost.user.firstName} ${thisPost.user.lastName}`;
           document.getElementById('postTag').innerText = `${thisPost.tag}`;
           document.getElementById('commentCount').innerText = `${thisPost.comments.length} commentaires`;
+          document.getElementById('likeCount').innerText = `${thisPost.likes.length} likes`;
+
+
+          let likes = thisPost.likes;
 
           let likeButton = document.getElementById('likeButton');
 
-          likeButton.addEventListener('click', () => {
-            console.log('prout 2');
-
-            axios.put(`http://localhost:8080/api/posts/like/${postId}`, {
-                userId: userId
-            })
-            .then(res => {
-                console.log('proutprout');
-            })
-
+          likes.forEach(el => {
+            console.log(el.userId);
+            console.log(userId);
+            if(el.userId === userId) {
+                console.log('lutilisateur qui a liké est celui qui est connecté')
+                likeButton.addEventListener('click', () => {
+                    console.log('prout 2');
+        
+                    axios.put(`http://localhost:8080/api/posts/like/${postId}`, {
+                        userId: userId
+                    })
+                    .then(res => {
+                        console.log('proutprout');
+                    })
+        
+                  })
+            }
+            else {
+                let likeId = el.id;
+                console.log(likeId)
+                console.log('lutilisateur qui a liké nest pas celui qui est connecté');
+                likeButton.addEventListener('click', () => {
+                    console.log('prout 3');
+        
+                    /*axios.delete(`http://localhost:8080/api/posts/like/${likeId}`)
+                    .then(res => {
+                        console.log('proutOUT');
+                    })*/
+        
+                  })
+            }
           })
+
+
+          
 
           if(userId === thisPost.user.id){
             let deletePost = document.createElement('p');

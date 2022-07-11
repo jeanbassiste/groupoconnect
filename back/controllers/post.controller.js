@@ -47,7 +47,7 @@ exports.newPost = (req, res, next) => {
 exports.displayAllPosts = (req, res, next) => {
     Post.findAll({order: [
       ['updatedAt', 'DESC']
-  ], include: [{model:User}, {model:Comment, include: [User]}]})
+  ], include: [{model:User}, {model:Comment, include: [User]}, {model:Like}]})
     .then(data => {
       res.send(data);
     })
@@ -62,7 +62,7 @@ exports.displayAllPosts = (req, res, next) => {
 //Affichage d'un post
 exports.displayOnePost = (req, res, next) => {
     const id = req.params.id;
-    Post.findByPk(id, {include: [{model:User}, {model:Comment, include: [User]}]})
+    Post.findByPk(id, {include: [{model:User}, {model:Comment, include: [User]}, {model:Like}]})
       .then(data => {
         if (data) {
           res.send(data);
@@ -160,7 +160,29 @@ exports.likePost = (req, res, next) => {
     });
 });  
 
- /* Post.removeLike(userId, {
-    where: {id: id}
-  });*/
+}
+
+exports.unlikePost = (req, res, next) => {
+  const id = req.params.id;
+  console.log("deleting like numero " + id);
+
+  Like.destroy({
+      where: {id: id}
+  })
+  .then(num => {
+      if(num == 1) {
+          res.send({
+              message: "Le like a été supprimé"
+          });
+      } else {
+          res.send({
+              message: "impossible de supprimer le like"
+          });
+      }
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: "il y a eu un pb"
+      });
+  });  
 }

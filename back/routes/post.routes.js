@@ -11,6 +11,7 @@ module.exports = app => {
     router.delete('/:id', posts.deletePost);
     router.put('/:id', posts.updatePost);
     router.put('/like/:id', posts.likePost);
+    router.delete('/like/:id', posts.unlikePost);
 
     app.use('/api/posts', router);
 }
