@@ -4,48 +4,33 @@ import '../../styles/style.css';
 import getCookie from '../functions/getCookie';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import user from '../../assets/user.jpg';
+import like from '../../assets/like-svgrepo-com.svg';
+import fav from '../../assets/star.png';
 
-class DisplayPost extends React.Component {
-    constructor(post) {
-        super(post);
-        this.state = {
-            id: "",
-            tag: "",
-            text: "",
-            title: "",
-            user: {
-                firstName: "",
-                lastName: "",
-                imgUrl: ""
-            },
-            comments: []
+function DisplayPost(post) {
 
-
-        }
-    }
-
-    render(){
         return (
             <section id="pagePost" className='col-12 col-lg-6 mx-auto'>
                 <article id="postCard">
                     <header>
                         <div id="postAuthor">
                             <img src={user} id="authorPic" alt="Photo de profile de l'auteur du post"/>
-                            <p id="author">`${this.state.user.firstName} ${this.state.user.lastName}`</p>
+                            <p id="author">`${post.user.firstName} ${post.user.lastName}`</p>
                         </div>
-                        <p id="postTag">`${this.state.tag}`</p>
-                        <h1 id="postTitle">`${this.state.title}`</h1>
+                        <p id="postTag">`${post.tag}`</p>
+                        <h1 id="postTitle">`${post.title}`</h1>
                     </header>
                     <div id="postBody">
-                        <p id="postContent">`${this.state.text}`</p>
+                        <p id="postContent">`${post.text}`</p>
                     </div>
                     <div id="postFooter">
                         <div id="likes">
                             <img src={like} id="likeButton" />
-                            <p id="likeCount">3 likes</p>
+                            <p id="likeCount">${post.likes.length} likes</p>
                         </div>
                         <div id="commentCountContainer">
-                            <p id="commentCount">1 commentaire</p>
+                            <p id="commentCount">${post.comments.length} commentaire</p>
                         </div>
                         <div id="favorite">
                             <img src={fav} id="favButton" />
@@ -58,6 +43,5 @@ class DisplayPost extends React.Component {
             </section>
         )
     }
-}
 
 export default DisplayPost
