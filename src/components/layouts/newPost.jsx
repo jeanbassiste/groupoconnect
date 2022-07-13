@@ -8,7 +8,7 @@ import user from '../../assets/user.jpg';
 import like from '../../assets/like-svgrepo-com.svg';
 import fav from '../../assets/star.png';
 
-function DisplayPost(post) {
+function DisplayPost(el) {
     console.log('je suis dans la fonction REACT DisplayPost');
 
         return (
@@ -17,21 +17,21 @@ function DisplayPost(post) {
                     <header>
                         <div id="postAuthor">
                             <img src={user} id="authorPic" alt="Photo de profile de l'auteur du post"/>
-                            <p id="author">`${post.user.firstName} ${post.user.lastName}`</p>
+                            <p id="author">{el.user.firstName} {el.user.lastName}</p>
                         </div>
-                        <p id="postTag">`${post.tag}`</p>
-                        <h1 id="postTitle">`${post.title}`</h1>
+                        <p id="postTag">{el.tag}</p>
+                        <h1 id="postTitle">{el.title}</h1>
                     </header>
                     <div id="postBody">
-                        <p id="postContent">`${post.text}`</p>
+                        <p id="postContent">{el.text}</p>
                     </div>
                     <div id="postFooter">
                         <div id="likes">
                             <img src={like} id="likeButton" />
-                            <p id="likeCount">${post.likes.length} likes</p>
+                            <p id="likeCount">{el.likes.length} likes</p>
                         </div>
                         <div id="commentCountContainer">
-                            <p id="commentCount">${post.comments.length} commentaire</p>
+                            <p id="commentCount">{el.comments.length} commentaire</p>
                         </div>
                         <div id="favorite">
                             <img src={fav} id="favButton" />
