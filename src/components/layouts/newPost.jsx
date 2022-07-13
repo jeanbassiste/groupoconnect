@@ -9,6 +9,7 @@ import like from '../../assets/like-svgrepo-com.svg';
 import fav from '../../assets/star.png';
 
 function DisplayPost(post) {
+    console.log('je suis dans la fonction REACT DisplayPost');
 
         return (
             <section id="pagePost" className='col-12 col-lg-6 mx-auto'>

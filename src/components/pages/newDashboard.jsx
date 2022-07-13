@@ -5,11 +5,14 @@ import React from 'react';
 import '../../styles/style.css';
 import DisplayPost from '../layouts/newPost';
 import Post from './post';
+import Header from '../layouts/header';
 
 class NewDashboard extends React.Component {
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            posts: []
+        }
     } 
 
     componentDidMount() {
@@ -20,32 +23,43 @@ class NewDashboard extends React.Component {
             'Authorization': `${token}`
         };
 
-        axios.get(`http://localhost:8080/api/posts/`, {headers})
+        let getAllPosts = axios.get(`http://localhost:8080/api/posts/`, {headers})
         .then(res => {
           const posts = res.data;
           this.setState({ posts });
           console.log('ça a marché');
           console.log(this.state);
-          let postArray = this.state.posts.map(el => {
-            console.log(el);
-            DisplayPost(el)
+          return (this.state.posts)
         })
-        })
+
+        //console.log(this.state);
+
+        //console.log(getAllPosts);
+
+        async function postArray(){
+            let posts = await getAllPosts;
+            posts.map(el => {
+                console.log(el);
+                return(DisplayPost(el))
+            })     
+        }
+
+        postArray();
+
+        /*postArray.map(el => {
+            console.log(el)
+        });*/
     
 
     }
     render() {
-
-        return(
-            <div>
-            {
-                this.state.posts.map(el => {
-                console.log(el);
-                DisplayPost(el)
-            })} 
-            </div>       
-)
-    }
+        if(this.state.posts){
+                return (this.state.posts.map(el => {
+                    console.log(el);
+                    return(<div>{el.title}</div>)
+                })   )  
+            }
+        }
 
 }
 
