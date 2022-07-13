@@ -13,6 +13,7 @@ import jwt_decode from 'jwt-decode';
 import test from '../functions/test';
 import newComment from '../functions/newComment';
 import likePost from '../functions/likePost';
+import displayComments from '../functions/newDisplayComment';
 
 
 class NewDashboard extends React.Component {
@@ -88,7 +89,8 @@ class NewDashboard extends React.Component {
                             <form id="comment">
                                 <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
                                 <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="" onClick={() => newComment(document.getElementById('commentText'), {'Accept': 'application/json','Content-Type': 'application/json','Authorization': `${getCookie('token')}`}, jwt_decode(getCookie('token')).id, el.id)} >Send</button>
-                            </form>           
+                            </form>
+                            <p id='displayComment' onClick={() => {displayComments(el.comments, jwt_decode(getCookie('token')).id)}}>Afficher les commentaires</p>           
                         </article>
                     </section>
                         )
