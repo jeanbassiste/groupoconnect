@@ -145,17 +145,17 @@ class FirstProfile extends React.Component {
 
 
             let url = `http://localhost:8080/api/users/${userId}`
+
+            const formData = new FormData();
+            formData.append('image', image);
+            formData.append('fname', fname.value);
+            formData.append('sname', sname.value);
+            formData.append('fonction', fonction.value);
+            formData.append('site', site.value);
+            formData.append('role', 'user');
+
             console.log(url);
-            axios.put(url, {
-                firstName: fname.value,
-                lastName: sname.value,
-                site: site.value,
-                fonction: fonction.value,
-                role: 'user',
-                imageUrl: image}, {
-                    headers
-                }
-                 )
+            axios.put(url, formData, { headers })
 
                 .then(res => {
                     console.log(res);

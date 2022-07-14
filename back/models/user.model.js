@@ -29,7 +29,7 @@ const User = sequelize.define("user", {
         type: Sequelize.STRING
     },
     imageUrl: {
-        type: Sequelize.BLOB('long')
+        type: Sequelize.STRING
     }
 
 });

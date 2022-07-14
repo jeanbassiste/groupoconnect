@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     console.log('LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
 
-    callback(null, '../images');
+    callback(null, 'back/images');
   },
   //Paramètre le nom du fichier
   filename: (req, file, callback) => {

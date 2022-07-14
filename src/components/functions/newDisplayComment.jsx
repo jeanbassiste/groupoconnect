@@ -6,8 +6,8 @@ function displayComments(commentsArray, userId) {
 
     commentsArray.map((el) => {
         console.log('sploute ' + el.id)
-        return(
-            <article id='comment' key={el.id}>
+    
+      /*let html += <article id='comment' key={el.id}>
                 <div id="commentAuthor">
                     <img  id='authorPic' alt=' ' />
                     <p id='authorC'>{el.user.firstName} {el.user.lastName}</p>
@@ -16,8 +16,8 @@ function displayComments(commentsArray, userId) {
                     <p id='commentText'>{el.text}</p>
                 </div>
                 {userId===el.user.id && <div><p class='modifier' onClick={() => {deletingComment(el.id)}}>Supprimer</p><p class='modifier' onClick={() => {editingComment(el.id)}}>Modifier</p></div>}
-            </article>
-        )
+            </article>*/
+
     })
 
 

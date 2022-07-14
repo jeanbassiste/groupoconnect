@@ -90,7 +90,7 @@ class NewDashboard extends React.Component {
                                 <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
                                 <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="" onClick={() => newComment(document.getElementById('commentText'), {'Accept': 'application/json','Content-Type': 'application/json','Authorization': `${getCookie('token')}`}, jwt_decode(getCookie('token')).id, el.id)} >Send</button>
                             </form>
-                            <p id='displayComment' onClick={() => {displayComments(el.comments, jwt_decode(getCookie('token')).id)}}>Afficher les commentaires</p>           
+                            <p id='displayComment' onClick={() => {console.log(displayComments(el.comments, jwt_decode(getCookie('token')).id))}}>Afficher les commentaires</p>           
                         </article>
                     </section>
                         )
