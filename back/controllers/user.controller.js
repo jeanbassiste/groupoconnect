@@ -181,11 +181,15 @@ exports.update = (req, res) => {
     console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
     console.log(req.headers);
     console.log(req.headers.authorization);
+    const profilePic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
+
+    User.update(profilePic, {where: {id:id}});
 
     User.update(req.body, {
         where: {id: id}
     })
     .then(num => {
+        User.update(profilePic, {where: {id:id}});
         if (num == 1) {
             res.send({
                 message: "Utilisateur mis à jour"

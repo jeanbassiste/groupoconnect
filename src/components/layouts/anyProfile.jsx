@@ -74,7 +74,7 @@ class Profile extends React.Component {
           let sname = user.lastName;
           let site = user.site;
           let fonction = user.fonction;
-          let imageUrl = user.imageUrl;
+          let imageUrl = user.image;
 
 
 

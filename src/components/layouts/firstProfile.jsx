@@ -63,21 +63,25 @@ class FirstProfile extends React.Component {
 
         fname.addEventListener('change', function () {
             console.log(this);
+            console.log(this.value)
             areFormCompleted(this);
         });
 
         sname.addEventListener('change', function () {
             console.log(this);
+            console.log(this.value)
             areFormCompleted(this);
         });
 
         fonction.addEventListener('change', function () {
             console.log(this);
+            console.log(this.value)
             areFormCompleted(this);
         });
 
         site.addEventListener('change', function () {
             console.log(this);
+            console.log(this.value)
             areFormCompleted(this);
         });
 
@@ -147,14 +151,15 @@ class FirstProfile extends React.Component {
             let url = `http://localhost:8080/api/users/${userId}`
 
             const formData = new FormData();
-            formData.append('image', image);
-            formData.append('fname', fname.value);
-            formData.append('sname', sname.value);
             formData.append('fonction', fonction.value);
             formData.append('site', site.value);
             formData.append('role', 'user');
+            formData.append('image', image);
+            formData.append('firstName', fname.value);
+            formData.append('lastName', sname.value);
 
             console.log(url);
+            console.log(formData);
             axios.put(url, formData, { headers })
 
                 .then(res => {
@@ -164,7 +169,7 @@ class FirstProfile extends React.Component {
 
                     if (response) {
                         console.log('ça marche');
-                        window.location.href = `/home`;
+                        //window.location.href = `/home`;
                     }
                     else {
                         console.error('Code Erreur', res.status)
