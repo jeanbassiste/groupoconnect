@@ -16,7 +16,7 @@ import likePost from '../functions/likePost';
 import displayComment from '../functions/displayComment';
 
 
-class NewDashboard extends React.Component {
+class DashTest extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -50,9 +50,14 @@ class NewDashboard extends React.Component {
 
     render() {
 
+
         if(this.state.posts){
+            return( this.state.posts.map(el => {
+                <Header />
+            })
+            )
             
-                return (this.state.posts.map(el => {
+                /*return (this.state.posts.map(el => {
                     console.log(jwt_decode(getCookie('token')).id)
                     console.log(el);
                     return(
@@ -92,7 +97,7 @@ class NewDashboard extends React.Component {
                     </section>
                         )
                 })   )
-
+*/
             }
 
 
@@ -104,4 +109,4 @@ class NewDashboard extends React.Component {
 
 }
 
-export default NewDashboard
+export default DashTest;

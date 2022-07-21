@@ -12,6 +12,7 @@ import Comment from './components/layouts/comment';
 import Dashboard from './components/pages/dashboard';
 import CreatePost from './components/layouts/posts';
 import NewDashboard from './components/pages/newDashboard';
+import DashTest from './components/pages/dashtest';
 
 ReactDOM.render(
 
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Route path="/comment" element={<Comment />} />
       <Route path='/home' element={<div><CreatePost /><Dashboard /></div>} />
       <Route path='/newDashboard' element={<NewDashboard />} />
+      <Route path='/test' element={<DashTest />} />
     </Routes>
   </Router>,
   document.getElementById('root')

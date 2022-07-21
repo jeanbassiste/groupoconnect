@@ -3,14 +3,15 @@ import editingComment from "./editComment";
 
 function displayComment(comment, userId) {
 
-    let article = document.createElement('article');
+    comment.map(el => {
+        let article = document.createElement('article');
     article.setAttribute('id', 'comment');
 
     let commentAuthor = document.createElement('div');
     commentAuthor.setAttribute('id', 'commentAuthor');
 
     let photo = document.createElement('img');
-    photo.setAttribute('src', `{user}`);
+    photo.setAttribute('src', `${el.user.imageUrl}`);
     photo.setAttribute('id', 'authorPic');
     photo.setAttribute('alt', " ");
     commentAuthor.appendChild(photo);
@@ -21,17 +22,17 @@ function displayComment(comment, userId) {
 
     let authorC = document.createElement('p');
     authorC.setAttribute('id', 'authorC');
-    authorC.innerText = `${comment.user.firstName} ${comment.user.lastName}`;
+    authorC.innerText = `${el.user.firstName} ${el.user.lastName}`;
     commentContent.appendChild(authorC);
     
     let commentText = document.createElement('p');
     commentText.setAttribute('id', 'commentText');
-    commentText.innerText = `${comment.text}`;
+    commentText.innerText = `${el.text}`;
     commentContent.appendChild(commentText);
     
     article.appendChild(commentContent);
 
-    if(userId === comment.user.id) {
+    if(userId === el.user.id) {
         let deleteComment = document.createElement('p');
         deleteComment.setAttribute('class', 'modifier');
         deleteComment.innerText = 'Supprimer';
@@ -41,11 +42,15 @@ function displayComment(comment, userId) {
         article.appendChild(deleteComment);
         article.appendChild(editComment);
 
-        deleteComment.addEventListener('click', () => deletingComment(comment.id));
-        editComment.addEventListener('click', () => editingComment(comment.id, comment.text, commentText, commentContent));
+        deleteComment.addEventListener('click', () => deletingComment(el.id));
+        editComment.addEventListener('click', () => editingComment(el.id, el.text, commentText, commentContent));
     }
 
     document.getElementById('commentSection').appendChild(article);
+
+    })
+
+    
 
 }
 
