@@ -8,6 +8,11 @@ import axios from 'axios';
 import like from '../../assets/like-svgrepo-com.svg';
 import user from '../../assets/user.jpg';
 import likePost from './likePost';
+import editingPost from '../functions/editingPost';
+import deletingPost from '../functions/deletePost';
+import newComment from '../functions/newComment';
+import DisplayComments from '../functions/displayComments';
+import Header from '../layouts/header';
 
 class DisplayOnePost extends Component {
     constructor(props) {
@@ -16,7 +21,8 @@ class DisplayOnePost extends Component {
             postData: {},
             authorData: {},
             comments: [],
-            likes: []
+            likes: [],
+            isAuthor: false
         }
     }
 
@@ -38,7 +44,11 @@ class DisplayOnePost extends Component {
         .then((response) => {
             this.setState({postData: response.data});
             this.setState({authorData: response.data.user});
-            this.setState({comments: response.data.comments})
+            this.setState({comments: response.data.comments});
+            this.setState({likes: response.data.likes});
+            if(userId === response.data.userId){
+                this.setState({isAuthor: true})
+            };
             console.log(this.state);
         })
 
@@ -49,12 +59,15 @@ class DisplayOnePost extends Component {
         const authorData = this.state.authorData;
         const comments = this.state.comments;
         const likes = this.state.likes;
+        const isAuthor = this.state.isAuthor;
+        console.log(isAuthor);
 
         const {
             id,
             tag,
             text,
-            title
+            title,
+            userId
         } = postData;
 
         const {
@@ -73,11 +86,6 @@ class DisplayOnePost extends Component {
 
         let verifyLikes = isUnique(likes);
         let verifyComments = isUnique(comments);
-
-        console.log(verifyLikes);
-        console.log(verifyComments);
-
-        console.log(comments.length);
 
         return(
             <section id="pagePost" className='col-12 col-lg-6 mx-auto'>
@@ -98,7 +106,7 @@ class DisplayOnePost extends Component {
                             <img src={like} id="likeButton" onClick={
                                 () => {
                                     likePost(
-                                        {postData}, 
+                                        postData, 
                                         jwt_decode(getCookie('token')).id, 
                                         {
                                             'Accept': 'application/json',
@@ -120,13 +128,61 @@ class DisplayOnePost extends Component {
                                 : <p id="commentCount">{comments.length} commentaires</p>
                             }
                         </div>
+                        {isAuthor &&
+                            <div id="modifierContainer" className="d-inline"> 
+                                <p className='modifier' onClick={
+                                    () => {
+                                        deletingPost(id,
+                                        {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `${getCookie('token')}`
+                                        }
+                                    )}
+                                }>Supprimer</p>
+                                <p className='modifier' onClick={
+                                    () => {
+                                        editingPost(
+                                            id, 
+                                            document.getElementById('titleSection'), 
+                                            document.getElementById('postBody'), 
+                                            document.getElementById('postTitle'), 
+                                            document.getElementById('postContent'), 
+                                            title, 
+                                            text,
+                                            {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Authorization': `${getCookie('token')}`
+                                            }
+                                        )}
+                                    }>Editer</p>
+                            </div>
+                        }
                     </div>
                 </article>
                 <section id="commentSection" className='col-12 col-lg-12 mx-auto'>
                     <form id="comment">
                         <input type ='text' name="commentText" id="commentText" placeholder='Commentez'/>
-                        <button id="sendComment" type="button" data-bs-toggle="" data-bs-target="">Send</button>
+                        <button id="sendComment" type="button" onClick={
+                            () => {
+                                newComment(
+                                    document.getElementById('commentText'),
+                                    {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `${getCookie('token')}`
+                                    },
+                                    userId,
+                                    id
+                                )}
+                            }>Send</button>
                     </form>
+                    {
+                        comments.length===0
+                        ? <p>Soyez le premier à commenter</p>
+                        : comments.map((comment) => <DisplayComments comment={comment} userId={jwt_decode(getCookie('token')).id} container={document.getElementById('comment')} />)
+                    }
                 </section>       
             </section>
         )

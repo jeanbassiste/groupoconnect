@@ -1,6 +1,9 @@
 import axios from "axios";
 
-function editingPost(post, header, body, title, content, titleText, contentText) {
+function editingPost(post, header, body, title, content, titleText, contentText, headers) {
+    console.log(titleText);
+    console.log(contentText);
+    
     title.style.display = 'none';
     content.style.display = 'none';
 

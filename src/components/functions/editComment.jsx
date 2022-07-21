@@ -3,8 +3,14 @@ import axios from "axios";
 function editingComment(comment, texte, bloc, container) {
     console.log('modification du commentaire numéro ' + comment);
     console.log(texte);
+    console.log(bloc);
 
-    bloc.style.display = 'none';
+    let toHide = Array.from(bloc.getElementsByClassName('hide'));
+    console.log(toHide);
+    toHide.forEach((element) => {
+        element.style.display = 'none';
+    })
+
     let form = document.createElement('form');
     let newComment = document.createElement('input');
     newComment.setAttribute('type', 'text');

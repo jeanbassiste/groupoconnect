@@ -169,7 +169,7 @@ class FirstProfile extends React.Component {
 
                     if (response) {
                         console.log('ça marche');
-                        //window.location.href = `/home`;
+                        window.location.href = `/home`;
                     }
                     else {
                         console.error('Code Erreur', res.status)

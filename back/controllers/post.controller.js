@@ -45,6 +45,7 @@ exports.newPost = (req, res, next) => {
 
 //Affichage des posts
 exports.displayAllPosts = (req, res, next) => {
+  console.log('START');
     Post.findAll({order: [
       ['updatedAt', 'DESC']
   ], include: [{model:User}, {model:Comment, include: [User]}, {model:Like}]})
@@ -52,6 +53,7 @@ exports.displayAllPosts = (req, res, next) => {
       res.send(data);
     })
     .catch(err => {
+      console.log('CATTTTAAAAAAAASTROPHEEEE')
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving tutorials."
