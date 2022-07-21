@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function likePost(post, userId) {
+function likePost(post, userId, headers) {
     console.log('entrer');
     let isLiked = false;
     let likeId = null;
@@ -22,7 +22,7 @@ function likePost(post, userId) {
 
     if(isLiked === true){
         console.log('unlike');
-        axios.delete(`http://localhost:8080/api/posts/like/${likeId}`)
+        axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, {headers})
         .then(res => {
             console.log('proutOUT');
         })        
@@ -34,7 +34,8 @@ function likePost(post, userId) {
             })
         .then(res => {
             console.log('proutprout');
-        })        
+        },
+        {headers})        
     }
 
 }
