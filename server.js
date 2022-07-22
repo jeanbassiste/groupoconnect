@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const path = require('path');                    
 
 var corsOptions = {
   origin: "http://localhost:3000"
@@ -28,14 +29,17 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Lancement du back !!" });
 });
 
+app.use('./back/images', express.static(path.join(__dirname, 'images')));
 require('./back/routes/user.routes')(app);
 require('./back/routes/post.routes')(app);
 require('./back/routes/comment.routes')(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

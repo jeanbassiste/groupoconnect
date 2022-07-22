@@ -13,6 +13,7 @@ import deletingPost from '../functions/deletePost';
 import newComment from '../functions/newComment';
 import DisplayComments from '../functions/displayComments';
 import Header from '../layouts/header';
+import PostDisplayer from './postDisplayer';
 
 class DisplayAllPosts extends Component {
     constructor(props) {
@@ -54,9 +55,13 @@ class DisplayAllPosts extends Component {
 
     render(){
         if(this.state.hasLoaded){
-            console.log(this.state.posts.comments);
+            console.log(this.state.posts);
             return(this.state.posts.map(post => {
-                const {
+                console.log(post);
+                return <PostDisplayer post={post} />
+                //<postDisplayer post={post} />
+
+                /*const {
                     id,
                     tag,
                     text,
@@ -73,9 +78,18 @@ class DisplayAllPosts extends Component {
                 console.log(likes);
                 console.log(author);
 
-                /*if(jwt_decode(getCookie('token').id) === userId){
+                let token = getCookie('token');
+                console.log(token);
+
+                let userTokenId = jwt_decode(token).id;
+                console.log(userTokenId);
+
+                console.log(userId);
+
+                if(userTokenId === userId){
                     isAuthor = true;
-                }*/
+                }
+
 
                 function isUnique(value) {
                     if (value.length === 0 || value.length === 1) {
@@ -190,7 +204,7 @@ class DisplayAllPosts extends Component {
                             : comments.map((comment) => <DisplayComments comment={comment} userId={jwt_decode(getCookie('token')).id} container={document.getElementById('comment')} />)
                         }
                     </section>       
-                </section>                )
+                </section>                )*/
             })
             )
         }else {
