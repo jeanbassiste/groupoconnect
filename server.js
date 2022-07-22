@@ -35,10 +35,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Lancement du back !!" });
 });
 
-app.use('./back/images', express.static(path.join(__dirname, 'images')));
 require('./back/routes/user.routes')(app);
 require('./back/routes/post.routes')(app);
 require('./back/routes/comment.routes')(app);
+app.use('/images', express.static(path.join(__dirname, './back/images')));
 
 
 // set port, listen for requests
