@@ -21,7 +21,6 @@ function isValid(data, error, verifyData) {
         if (validPassword.test(dataToTest) === true) {
             data.setAttribute('class', 'form-control is-valid');
             error.style.display = 'none';
-
             return true;
         }
         else {
@@ -35,14 +34,11 @@ function isValid(data, error, verifyData) {
         if (data.value === verifyData.value) {
             data.setAttribute('class', 'form-control is-valid');
             error.style.display = 'none';
-            console.log('verify ok');
-
             return true;
         }
         else {
             data.setAttribute('class', 'form-control is-invalid');
             error.style.display = 'initial';
-            console.log('verify pas ok');
             return false;
         }
     }

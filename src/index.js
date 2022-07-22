@@ -15,6 +15,7 @@ import NewDashboard from './components/pages/newDashboard';
 import DashTest from './components/pages/dashtest';
 import DisplayOnePost from './components/functions/oneMorePost';
 import DisplayAllPosts from './components/functions/displayAllPosts';
+import ProfilePage from './components/pages/profile';
 
 ReactDOM.render(
 
@@ -33,6 +34,7 @@ ReactDOM.render(
       <Route path='/newDashboard' element={<NewDashboard />} />
       <Route path='/test' element={<DisplayOnePost />} />
       <Route path='/newTest' element={<DisplayAllPosts />} />
+      <Route path='/profilePage' element={<ProfilePage />} />
 
     </Routes>
   </Router>,

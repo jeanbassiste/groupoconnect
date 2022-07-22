@@ -75,17 +75,11 @@ class Profile extends React.Component {
           let site = user.site;
           let fonction = user.fonction;
           let imageUrl = user.image;
-        console.log(imageUrl);
-
-
+          console.log(imageUrl);
 
           name.innerText = `${fname} ${sname}`;
           infos.innerText = `${fonction} à ${site}`;
           img.src = imageUrl;
-
-
-
-          
         })
 
         
