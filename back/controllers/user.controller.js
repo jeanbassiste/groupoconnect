@@ -3,6 +3,8 @@ const fs = require('fs');
 const db = require("../models");
 const User = db.users;
 const Post = db.posts;
+const Like = db.likes;
+const Comment = db.comments;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 /*const uploadFile = async (req, res) => {
@@ -157,7 +159,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    User.findByPk(id, {include: [{model:Post, order: ['updatedAt', 'DESC']}]})
+    User.findByPk(id, {include: [{model:Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}], order: ['updatedAt', 'DESC']}]})
     .then(data => {
         if (data) {
             res.send(data);

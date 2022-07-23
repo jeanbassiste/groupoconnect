@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 import upload from "../../assets/upload.jpg";
 import areFormCompleted from '../functions/areFormCompleted';
@@ -17,6 +16,7 @@ class FirstProfile extends React.Component {
 
                 <form className="vous">
                     <div id="picContainer">
+                        <label htmlFor='picUpload' class='d-none'>Votre photo</label>
                         <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
                         <img id="profilePic" src={upload} alt="Votre photo" />
                     </div>
@@ -50,11 +50,7 @@ class FirstProfile extends React.Component {
         
         let token = getCookie('token');
         let decoded = jwt_decode(token);
-        console.log(decoded);
         let userId = decoded.id;
-        let role = decoded.role;
-        console.log(userId);
-        console.log(role);
 
         let fname = document.getElementById('fname');
         let sname = document.getElementById('sname');
@@ -62,26 +58,18 @@ class FirstProfile extends React.Component {
         let site = document.getElementById('site');
 
         fname.addEventListener('change', function () {
-            console.log(this);
-            console.log(this.value)
             areFormCompleted(this);
         });
 
         sname.addEventListener('change', function () {
-            console.log(this);
-            console.log(this.value)
             areFormCompleted(this);
         });
 
         fonction.addEventListener('change', function () {
-            console.log(this);
-            console.log(this.value)
             areFormCompleted(this);
         });
 
         site.addEventListener('change', function () {
-            console.log(this);
-            console.log(this.value)
             areFormCompleted(this);
         });
 
@@ -94,8 +82,6 @@ class FirstProfile extends React.Component {
         function updatePic() {
 
             let uploadedPic = picUpload.files[0];
-            console.log(uploadedPic);
-            console.log(uploadedPic.type);
             if(uploadedPic === 0) {
                 let error = document.createElement('p');
                 error.textContent = 'Aucun fichier sélectionné';
@@ -134,8 +120,6 @@ class FirstProfile extends React.Component {
         createProfile.addEventListener('click', sendProfile);
 
         function sendProfile() {
-            console.log('prêt à Axioser');
-            console.log(fname.value + ' ' + sname.value + ' ' + site.value + ' ' + fonction.value)
 
             let headers = {
                 'Accept': 'application/json',
@@ -143,10 +127,7 @@ class FirstProfile extends React.Component {
                 'Authorization': `${token}`
 
             };
-            console.log(headers.Authorization);
             let image = updatePic();
-            console.log(image);
-
 
             let url = `http://localhost:8080/api/users/${userId}`
 
@@ -158,13 +139,9 @@ class FirstProfile extends React.Component {
             formData.append('firstName', fname.value);
             formData.append('lastName', sname.value);
 
-            console.log(url);
-            console.log(formData);
             axios.put(url, formData, { headers })
 
                 .then(res => {
-                    console.log(res);
-                    console.log(res.data);
                     let response = res.data;
 
                     if (response) {
