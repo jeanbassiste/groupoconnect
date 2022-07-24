@@ -5,7 +5,7 @@ function deletingPost(post, headers) {
 
     axios.delete(`http://localhost:8080/api/posts/${post}`);
 
-    window.location.href = '/posts'
+    window.location.href = '/home'
 
 }
 

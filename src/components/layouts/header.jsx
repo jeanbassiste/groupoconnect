@@ -27,19 +27,18 @@ class Header extends React.Component {
     }
 
     componentDidMount(){
-        let token = getCookie('token');
-        let decoded = jwt_decode(token);
-        let userId = decoded.id;
-        document.getElementById('userPage').setAttribute('href', `/profile?id=${userId}`)
 
         let urlPath = getUrlPath();
-        console.log(urlPath);
 
         if (urlPath === "/login" || urlPath === "/signup" || urlPath === "/changeProfile" || urlPath === "/") {
             document.getElementById('home').style.display = 'none';
             document.getElementById('userPage').style.display = 'none';            
         }
         else if (urlPath === '/home') {
+            let token = getCookie('token');
+            let decoded = jwt_decode(token);
+            let userId = decoded.id;
+            document.getElementById('userPage').setAttribute('href', `/profile?id=${userId}`)
             document.getElementById('home').style.display = 'none';
         }
         else if (urlPath === '/profile') {

@@ -134,7 +134,7 @@ function PostDisplayer({post}) {
                 <button id="sendComment" type="button" onClick={
                     () => {
                         newComment(
-                            document.getElementById('commentText'),
+                            document.getElementById({label}.label).value,
                             {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',

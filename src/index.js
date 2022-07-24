@@ -17,6 +17,7 @@ import DisplayOnePost from './components/functions/oneMorePost';
 import DisplayAllPosts from './components/layouts/displayAllPosts';
 import ProfilePage from './components/pages/profile';
 import Feed from './components/pages/feed';
+import PostPage from './components/pages/onePost';
 
 ReactDOM.render(
 
@@ -28,7 +29,7 @@ ReactDOM.render(
       <Route path="/signup" element={<Signup />} />
       <Route path="/changeProfile" element={<FirstProfile />} />
       <Route path="/profil" element={<Profile />} />
-      <Route path="/post" element={<Post />} />
+      <Route path="/post" element={<PostPage />} />
       <Route path="/posts" element={<Dashboard />} />
       <Route path="/comment" element={<Comment />} />
       <Route path='/home' element={<Feed />} />
