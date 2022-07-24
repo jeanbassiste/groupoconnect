@@ -81,7 +81,7 @@ class Signup extends React.Component {
                     .then(res => {
                         let token = res.data.token;
                         setCookie('token', token, 1);
-                        window.location.href = '/changeProfile'
+                        window.location.href = '/profile'
                     })
             }
         }

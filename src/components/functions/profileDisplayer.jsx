@@ -1,4 +1,6 @@
 import deconnexion from '../functions/deconnexion';
+//import DeleteProfile from '../functions/deleteProfile';
+
 
 function ProfileDisplayer({user, userId, pageId, admin}){
     const {
@@ -16,7 +18,7 @@ function ProfileDisplayer({user, userId, pageId, admin}){
                 <p id="logOut" onClick={()=> deconnexion('token')}>Se déconnecter</p>
             }
             {(admin) &&
-                <p id='deleteUser' class='d-none'>Supprimer l'utilisateur</p>
+                <p id='deleteUser' class='d-none' >Supprimer l'utilisateur</p>
             }
         </div>
         <div className="upper">

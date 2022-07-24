@@ -2,20 +2,24 @@ import { render } from "@testing-library/react";
 import deletingComment from "./deleteComment";
 import editingComment from "./editComment";
 import getCookie from "./getCookie";
+import { NavLink } from "react-router-dom";
 
 function DisplayComments({comment, userId, container}) {
     console.log(comment);
     console.log(userId);
+    let authorUrl = `/profile?id=${comment.user.id}`;
 
     return(
         <div>
-            <article key={comment.id} id={comment.id}>
+            <article key={comment.id} id={comment.id} className='comment'>
                 <div id='commentAuthor'>
-                    <img id='authorPic' src={comment.user.imageUrl} alt='' /> 
+                    <img id='authorPic' src={comment.user.image} alt={comment.user.firstName} /> 
                 </div>
                 <div id="commentContent" className={comment.id}>
-                    <p id='authorC'>{comment.user.firstName} {comment.user.lastName}</p>
-                    <p id='commentText' className='hide'>{comment.text}</p>
+                    <NavLink to={authorUrl} className='noLink'>
+                        <p id='authorC'>{comment.user.firstName} {comment.user.lastName}</p>
+                    </NavLink>
+                    <p id='commentContentText' className='hide'>{comment.text}</p>
                 </div>
                 {
                     userId === comment.user.id &&

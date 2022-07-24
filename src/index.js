@@ -10,12 +10,13 @@ import Profile from './components/layouts/anyProfile';
 import Post from './components/pages/post';
 import Comment from './components/layouts/comment';
 import Dashboard from './components/pages/dashboard';
-import CreatePost from './components/layouts/posts';
+import CreatePost from './components/layouts/createPost';
 import NewDashboard from './components/pages/newDashboard';
 import DashTest from './components/pages/dashtest';
 import DisplayOnePost from './components/functions/oneMorePost';
-import DisplayAllPosts from './components/functions/displayAllPosts';
+import DisplayAllPosts from './components/layouts/displayAllPosts';
 import ProfilePage from './components/pages/profile';
+import Feed from './components/pages/feed';
 
 ReactDOM.render(
 
@@ -30,11 +31,11 @@ ReactDOM.render(
       <Route path="/post" element={<Post />} />
       <Route path="/posts" element={<Dashboard />} />
       <Route path="/comment" element={<Comment />} />
-      <Route path='/home' element={<div><CreatePost /><Dashboard /></div>} />
+      <Route path='/home' element={<Feed />} />
       <Route path='/newDashboard' element={<NewDashboard />} />
-      <Route path='/test' element={<DisplayOnePost />} />
+      <Route path='/test' element={<Post />} />
       <Route path='/newTest' element={<DisplayAllPosts />} />
-      <Route path='/profilePage' element={<ProfilePage />} />
+      <Route path='/profile' element={<ProfilePage />} />
 
     </Routes>
   </Router>,

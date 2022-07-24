@@ -48,10 +48,11 @@ class Profile extends React.Component {
             return (
                 <div>
                     <ProfileDisplayer user={this.state.user} userId={jwt_decode(getCookie("token")).id} pageId={new URLSearchParams(window.location.search).get("id")}  admin={this.state.isAdmin} />
-                    {this.state.posts.map(post => {
-                        console.log({post})
-                        return <PostDisplayer post={post} />
-                    })}
+                    { this.state.posts.length !=0 
+                        ? this.state.posts.map(post => {
+                            return <PostDisplayer post={post} />
+                        })
+                        : <p>Cet utilisateur n'a encore aucun post à afficher</p>}
                 </div>
             )
         }else {

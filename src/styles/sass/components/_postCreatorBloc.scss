@@ -1,0 +1,22 @@
+#postCreatorBloc{
+    background-color: white;
+
+    #postContainer{
+        border-radius: 8px;
+        border: 1px solid grey;
+        padding: 15px;
+
+        #postTitle, #postBody{
+            border-radius: 8px;
+            border: 1px solid grey;
+        }
+
+        #postBody{
+            margin-bottom: 0px;
+        }
+        
+        #postTitle{
+            margin-bottom: 10px;
+        }
+    }
+}
