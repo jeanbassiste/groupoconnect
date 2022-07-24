@@ -1,6 +1,4 @@
 import deconnexion from '../functions/deconnexion';
-//import DeleteProfile from '../functions/deleteProfile';
-
 
 function ProfileDisplayer({user, userId, pageId, admin}){
     const {

@@ -1,9 +1,6 @@
 import axios from "axios";
 
-function editingPost(post, header, body, title, content, titleText, contentText, headers) {
-    console.log(titleText);
-    console.log(contentText);
-    
+function editingPost(post, header, body, title, content, titleText, contentText, headers) {    
     title.style.display = 'none';
     content.style.display = 'none';
 
@@ -27,7 +24,6 @@ function editingPost(post, header, body, title, content, titleText, contentText,
     button.innerText = 'Modifier le post';
     body.appendChild(button);
 
-
     button.addEventListener('click', () => {
         let editedTitle = document.getElementById('editedTitle').value;
         let editedContent = document.getElementById('editedContent').value;
@@ -37,16 +33,8 @@ function editingPost(post, header, body, title, content, titleText, contentText,
             text: editedContent
         })
         .then(res => {
-
-            console.log('ça marche');
-
         })
     })
-
-
-    
-
-
 }
 
 export default editingPost;

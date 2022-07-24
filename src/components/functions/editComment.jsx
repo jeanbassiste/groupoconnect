@@ -1,12 +1,8 @@
 import axios from "axios";
 
 function editingComment(comment, texte, bloc, container) {
-    console.log('modification du commentaire numéro ' + comment);
-    console.log(texte);
-    console.log(bloc);
 
     let toHide = Array.from(bloc.getElementsByClassName('hide'));
-    console.log(toHide);
     toHide.forEach((element) => {
         element.style.display = 'none';
     })
@@ -26,18 +22,12 @@ function editingComment(comment, texte, bloc, container) {
     container.appendChild(form);
 
     let test = document.getElementById('test');
-    console.log(test);
-    let editedText = test.value;
 
     button.addEventListener('click', () => {
-        console.log(test.value);
         axios.put(`http://localhost:8080/api/comments/${comment}`, {             
             text: test.value,
         })
         .then(res => {
-
-            console.log('ça marche');
-
         })
 
     })

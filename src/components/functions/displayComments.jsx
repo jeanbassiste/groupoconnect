@@ -1,12 +1,9 @@
-import { render } from "@testing-library/react";
 import deletingComment from "./deleteComment";
 import editingComment from "./editComment";
 import getCookie from "./getCookie";
 import { NavLink } from "react-router-dom";
 
 function DisplayComments({comment, userId, container}) {
-    console.log(comment);
-    console.log(userId);
     let authorUrl = `/profile?id=${comment.user.id}`;
 
     return(

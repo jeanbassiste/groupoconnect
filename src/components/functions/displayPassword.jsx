@@ -1,7 +1,5 @@
 function displayPassword(togglePassword, passwordData) {
-    
-    //ev.preventDefault();
-    
+        
     let hideOrDisplay = togglePassword.getAttribute('class');
 
     if(hideOrDisplay === "bi bi-eye position-absolute end-0 top-0 me-2 mt-1") {
