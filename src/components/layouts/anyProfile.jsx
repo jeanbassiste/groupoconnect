@@ -14,7 +14,6 @@ class Profile extends React.Component {
             user:{},
             posts:{},
             hasLoaded: false,
-            isAdmin: false
         }
     }
 
@@ -37,9 +36,6 @@ class Profile extends React.Component {
           this.setState({ user: user });
           this.setState({posts: user.posts});
           this.setState({hasLoaded: true});
-          if(user.role === 'admin'){
-            this.setState({isAdmin: true});
-          }
         })  
     }
 
@@ -47,7 +43,7 @@ class Profile extends React.Component {
         if(this.state.hasLoaded){
             return (
                 <div>
-                    <ProfileDisplayer user={this.state.user} userId={jwt_decode(getCookie("token")).id} pageId={new URLSearchParams(window.location.search).get("id")}  admin={this.state.isAdmin} />
+                    <ProfileDisplayer user={this.state.user} userId={jwt_decode(getCookie("token")).id} pageId={new URLSearchParams(window.location.search).get("id")}  admin={jwt_decode(getCookie("token")).role} />
                     { this.state.posts.length !=0 
                         ? this.state.posts.map(post => {
                             return <PostDisplayer post={post} />

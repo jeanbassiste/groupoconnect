@@ -1,29 +1,18 @@
-import { confirmAlert } from 'react-confirm-alert'; 
-//import 'react-confirm-alert/src/react-confirm-alert.css';
-
-function DeleteProfile(id, headers){
-    confirmAlert({
-        title: 'Confirmation de suppression',
-        message: "Êtes-vous sûr de vouloir supprimer l'utilisateur ?",
-        buttons: [
-          {
-            label: 'Oui',
-            onClick: () => {
-                alert('Click Yes');
-                console.log('oui')
-            }
-          },
-          {
-            label: 'Non',
-            onClick: () => {
-                alert('Click No');
-                console.log('non')
-            }
-          }
-        ]
-      })
-
-
+function DeleteProfile(id, headers, isShown = false){
+  if (isShown = false){
+    return(
+    <div id='confirmation'>
+      <p>ATTENTION vous êtes sur le point de supprimer un utilisateur.</p><br />
+      <p>Êtes-vous sûr de vouloir continuer ?</p>
+    <div className="d-flex justify-content-around">
+      <p className='confirm'>Oui</p>
+      <p className='confirm'>Non</p>
+    </div>
+    </div>
+    )}
+    else {
+      return false
+    }
 }
 
 export default DeleteProfile;

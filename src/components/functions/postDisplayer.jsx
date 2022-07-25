@@ -31,6 +31,7 @@ function PostDisplayer({post}) {
 
     let token = getCookie('token');
     let userTokenId = jwt_decode(token).id;
+    let userTokenRole = jwt_decode(token).role;
 
     likes.forEach(el => {
         if(el.userId === userTokenId){
@@ -94,7 +95,7 @@ function PostDisplayer({post}) {
                         : <p id="commentCount">{comments.length} commentaires</p>
                     }
                 </div>
-                {isAuthor && getUrlPath() === "/post" &&
+                {(userTokenRole === 'admin' || isAuthor) && getUrlPath() === "/post" &&
                     <div id="modifierContainer" className="d-inline"> 
                         <p className='modifier' onClick={
                             () => {

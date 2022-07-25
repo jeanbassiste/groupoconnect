@@ -2,9 +2,12 @@ import deletingComment from "./deleteComment";
 import editingComment from "./editComment";
 import getCookie from "./getCookie";
 import { NavLink } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 
-function DisplayComments({comment, userId, container}) {
+function DisplayComments({comment, userId}) {
     let authorUrl = `/profile?id=${comment.user.id}`;
+    let token = getCookie('token');
+    let userTokenRole = jwt_decode(token).role;
 
     return(
         <div>
@@ -19,7 +22,7 @@ function DisplayComments({comment, userId, container}) {
                     <p id='commentContentText' className='hide'>{comment.text}</p>
                 </div>
                 {
-                    userId === comment.user.id &&
+                    (userId === comment.user.id || userTokenRole === 'admin') &&
                         <div className="editing">
                             <p className="modifier hide" onClick={
                                 () => 
