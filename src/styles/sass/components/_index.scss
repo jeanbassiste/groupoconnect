@@ -13,7 +13,7 @@
     }
   }
 
-  #openForm, #sendComment, #newPost {
+  #openForm, #sendComment, #newPost, #editPost {
     background: #ffd7d7;
     color: black;
     border-radius: 50px;
@@ -23,3 +23,8 @@
   #sendComment {
     margin-left: 0px;
   }
+
+#deleted {
+  color: red;
+  display: none;
+}

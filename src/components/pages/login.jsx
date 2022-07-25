@@ -24,6 +24,7 @@ class Login extends React.Component {
                     <button id="logInButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Connectez-vous</button>
                 </form>
                 <p>Première connexion ? <NavLink to="/signup">Créez votre compte !</NavLink></p>
+                <p id="deleted">Connexion impossible : l'utilisateur n'existe plus</p>
             </div>            
         );
     }
@@ -69,9 +70,16 @@ class Login extends React.Component {
                         const token = response.token;
                         let decoded = jwt_decode(token);
                         let userId = decoded.id;
-                        console.log(userId);
-                        setCookie('token', token, 1);
-                        window.location.href = `/home`                      
+                        let userRole = decoded.role;
+                        if(userRole != 'deleted'){
+                            setCookie('token', token, 1);
+                            window.location.href = `/home`
+                        }
+                        else {
+                            document.getElementById('deleted').style.display = 'initial';
+
+                        }
+                      
                     }
                     else {
                         console.error('Code Erreur', response.status);

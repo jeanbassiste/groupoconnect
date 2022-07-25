@@ -1,18 +1,9 @@
-function DeleteProfile(id, headers, isShown = false){
-  if (isShown = false){
-    return(
-    <div id='confirmation'>
-      <p>ATTENTION vous êtes sur le point de supprimer un utilisateur.</p><br />
-      <p>Êtes-vous sûr de vouloir continuer ?</p>
-    <div className="d-flex justify-content-around">
-      <p className='confirm'>Oui</p>
-      <p className='confirm'>Non</p>
-    </div>
-    </div>
-    )}
-    else {
-      return false
-    }
+import axios from 'axios';
+
+function DeleteProfile(headers, id){
+  axios.put(`http://localhost:8080/api/users/delete/${id}`, {firstName: 'utilisateur', lastName:'supprimé', role: 'deleted'}, {headers});
+  window.location.href = '/home'
+
 }
 
 export default DeleteProfile;

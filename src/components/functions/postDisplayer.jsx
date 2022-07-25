@@ -80,7 +80,7 @@ function PostDisplayer({post}) {
                                     'Content-Type': 'application/json',
                                     'Authorization': `${getCookie('token')}`
                                 }
-                        )}
+                            )}
                     } />
                     {
                         verifyLikes 
@@ -141,7 +141,7 @@ function PostDisplayer({post}) {
                                 'Content-Type': 'application/json',
                                 'Authorization': `${getCookie('token')}`
                             },
-                            userId,
+                            userTokenId,
                             id
                         )}
                     }>Send</button>

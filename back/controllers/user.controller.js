@@ -7,28 +7,6 @@ const Like = db.likes;
 const Comment = db.comments;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-/*const uploadFile = async (req, res) => {
-    try{
-        console.log(req.file);
-        if (req.file == undefined) {
-            return res.send('You must select a file.');
-        }
-        Image.create({
-            data: fs.readFileSync(
-                __basedire + '../images' + req.file.filename
-            ),
-        }).then((image) => {
-            fs.writeFileSync(
-                __basedir + '../images' + image.name,
-                image.data
-            );
-            return res.send('file updated');
-        });
-    } catch (error) {
-        console.log(error);
-        return res.send('Error');
-    }
-}*/
 
 //création nouvel utilisateur
 exports.signup = (req, res, next) => {
@@ -83,12 +61,6 @@ exports.signup = (req, res, next) => {
             err.message || "Il y a eu une erreur"
         });
     });
-
-
-    //enregistrement de l'utilisateur créé
-    /*user.save()
-    .then(() => res.status(201).json({ message: 'Utilisateur créé !'}))
-    .catch( error => res.status(400).json({error}));*/
     
 };
 
@@ -183,9 +155,11 @@ exports.update = (req, res) => {
     console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
     console.log(req.headers);
     console.log(req.headers.authorization);
-    const profilePic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
 
-    User.update(profilePic, {where: {id:id}});
+        const profilePic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
+
+        User.update(profilePic, {where: {id:id}});
+
 
     User.update(req.body, {
         where: {id: id}
@@ -213,40 +187,23 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    User.destroy({
+    User.update(req.body, {
         where: {id: id}
     })
     .then(num => {
-        if(num == 1) {
+        if (num == 1) {
             res.send({
-                message: "L'utilisateur a été supprimé"
+                message: "Utilisateur mis à jour"
             });
         } else {
             res.send({
-                message: "impossible de supprimer l'utilisateur"
+                message: 'Impossible de mettre à jour cet utilisateur'
             });
         }
     })
     .catch(err => {
         res.status(500).send({
-            message: "il y a eu un pb"
-        });
-    });
-};
-
-//supprimer tous les utilisateurs
-exports.deleteAll = (req, res) => {
-    User.destroy({
-        where: {},
-        tuncate: false
-    })
-    .then(nums => {
-        res.send({ message: `${nums} utilisateurs ont été supprimés`})
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "il y a eu une erreur"
+            message: "Une erreur s'est produite dans la mise à jour de l'utilisateur " + id
         });
     });
 };

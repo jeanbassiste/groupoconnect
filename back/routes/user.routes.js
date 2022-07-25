@@ -21,5 +21,8 @@ module.exports = app => {
     //mise à jour d'un utilisateur
     router.put('/:id', auth, multer, users.update);
 
+    //suppression de l'utilisateur (pas une vraie suppression)
+    router.put('/delete/:id', auth, users.delete);
+
     app.use('/api/users', router);
 }
