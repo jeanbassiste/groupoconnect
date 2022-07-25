@@ -34,7 +34,7 @@ CREATE TABLE `comments` (
   KEY `postId` (`postId`),
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,'Super nouvelle ! Merci GROUPOMANIA ! ','2022-07-25 11:09:50','2022-07-25 11:09:50',2,1),(3,'Oui trop ahah','2022-07-25 11:12:45','2022-07-25 11:12:57',3,2),(4,'Trop bien !','2022-07-25 11:13:18','2022-07-25 11:13:18',3,1);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +74,7 @@ CREATE TABLE `likes` (
 
 LOCK TABLES `likes` WRITE;
 /*!40000 ALTER TABLE `likes` DISABLE KEYS */;
-INSERT INTO `likes` VALUES (1,'2022-07-01 12:07:04','2022-07-01 12:07:04',1,1),(2,'2022-07-01 12:08:41','2022-07-01 12:08:41',1,1);
+INSERT INTO `likes` VALUES (1,'2022-07-25 11:09:42','2022-07-25 11:09:42',1,2),(2,'2022-07-25 11:13:10','2022-07-25 11:13:10',1,3);
 /*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +96,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +105,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (1,'sqdqsd','dsqdsq','Annonce','2022-07-01 12:06:55','2022-07-01 12:06:55',1);
+INSERT INTO `posts` VALUES (1,'Groupoconnect est ouvert !','Nouv avons le plaisir de vous annoncer que Groupoconnect, la nouvelle plateforme digitale réservée aux employés de Groupomania, est désormais ouverte ! ','Annonce','2022-07-25 11:07:48','2022-07-25 11:08:27',1),(2,'Vous avez vu ?','C\'était bien','Divertissement','2022-07-25 11:10:22','2022-07-25 11:10:22',2),(3,'Je quitte la boite ','Juste à temps pour Groupoconnect :( je n\'en aurais pas profité bien longtemps...','Annonce','2022-07-25 11:13:40','2022-07-25 11:13:40',3);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,12 +176,12 @@ CREATE TABLE `users` (
   `role` varchar(255) DEFAULT NULL,
   `fonction` varchar(255) DEFAULT NULL,
   `site` varchar(255) DEFAULT NULL,
-  `imageUrl` longblob,
+  `image` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `emailAddress` (`emailAddress`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +190,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'dsq','dsq','test0.groupoconnect@groupomania.com','$2b$10$fnwOAhiSQNZv65rkuht2ludyECfU0owo6Pu/V8ynJswL4YRfFH2QO','user','dsq','dsq',_binary '[object Object]','2022-07-01 12:06:37','2022-07-01 12:06:46');
+INSERT INTO `users` VALUES (1,'Admin','Groupoconnect','admin.groupoconnect@groupomania.com','$2b$10$vyAlfBsPl2iPHPyVXrekHujw3bLWPJgq3LtngAHpztomqt7AW8O9O','admin','Administrateur','Paris','http://localhost:8080/images/Admin.png1658747084596.png','2022-07-25 11:04:03','2022-07-25 11:04:44'),(2,'John','Doe','utilisateur.test@groupomania.com','$2b$10$bgILVaE5WfRaZhhTqbMzB.q41BnoDI5ZGfb2KF5BWifE7Z3ZunbdC','user','Testeur','Paris','http://localhost:8080/images/la_methode_cd_photo.jpeg1658747381089.jpg','2022-07-25 11:09:13','2022-07-25 11:09:41'),(3,'utilisateur','supprimé','test.suppresion@groupomania.com','$2b$10$RDH4Sal4h..SFZMyIS97hO38otTW1gd6E/O3xnmNW6a0CqTQi4fTS','deleted','Testeur des suppressions','Paris','http://localhost:8080/images/téléchargement.jpg1658747554532.jpg','2022-07-25 11:12:09','2022-07-25 11:14:19');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -202,4 +203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-04 11:34:52
+-- Dump completed on 2022-07-25 13:17:53
