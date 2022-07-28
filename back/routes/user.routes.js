@@ -12,17 +12,14 @@ module.exports = app => {
     //connexion d'un utilisateur
     router.post('/login', users.login);
 
-    //récupération de tous les utilisteurs
-    router.get('/', auth, users.findAll);
-
     //récupération d'un utilisateur avec son id
-    router.get('/:id', auth, users.findOne);
+    router.get('/:id', users.findOne);
 
     //mise à jour d'un utilisateur
     router.put('/:id', auth, multer, users.update);
 
     //suppression de l'utilisateur (pas une vraie suppression)
-    router.put('/delete/:id', auth, users.delete);
+    router.put('/delete/:id', users.delete);
 
     app.use('/api/users', router);
 }

@@ -1,6 +1,10 @@
 import axios from "axios";
+import getCookie from "./getCookie";
+import jwt_decode from "jwt-decode";
 
 function editingPost(post, header, body, title, content, titleText, contentText, headers) {    
+    let userId = jwt_decode(getCookie('token')).id;
+
     title.style.display = 'none';
     content.style.display = 'none';
 
@@ -27,11 +31,23 @@ function editingPost(post, header, body, title, content, titleText, contentText,
     button.addEventListener('click', () => {
         let editedTitle = document.getElementById('editedTitle').value;
         let editedContent = document.getElementById('editedContent').value;
+        console.log(post);
 
-        axios.put(`http://localhost:8080/api/posts/${post}`, {  
+        let token = getCookie('token');
+
+        let headersdata = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        };
+
+        let body =         { 
+            id: userId, 
             title : editedTitle,          
             text: editedContent
-        })
+        }
+
+        axios.put(`http://localhost:8080/api/posts/${post}`, {body}, {headers: headersdata})
         .then(res => {
         })
     })

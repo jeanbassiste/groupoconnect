@@ -5,6 +5,7 @@ import React from 'react';
 import '../../styles/style.css';
 import PostDisplayer from '../functions/postDisplayer';
 
+
 class PostPage extends React.Component {
     constructor(props) {
         super(props)
@@ -18,7 +19,7 @@ class PostPage extends React.Component {
         let headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `${token}`
+            'Authorization': `Bearer ${token}`
         };
 
         const url = window.location.search;
@@ -29,6 +30,7 @@ class PostPage extends React.Component {
         .then(res => {
             this.setState({post: res.data});
             this.setState({hasLoaded: true});
+            console.log(this.state.post)
         })
     }
 

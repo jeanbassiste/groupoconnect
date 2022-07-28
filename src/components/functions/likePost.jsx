@@ -1,5 +1,4 @@
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
 
 function likePost(post, userId, headers) {
     let isLiked = false;
@@ -14,18 +13,13 @@ function likePost(post, userId, headers) {
 
     if(isLiked === true){
             axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, {headers})
-            .then(res => {
-            }) 
         
        
     }
     else {
             axios.put(`http://localhost:8080/api/posts/like/${post.id}`, {
             userId: userId
-            })
-            .then(res => {
-            },
-            {headers})  
+            }) 
     }
 
 }

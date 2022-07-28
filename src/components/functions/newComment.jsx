@@ -12,6 +12,7 @@ function newComment(comment, headers, author, post) {
                         headers
                     })
                 .then(res => {        
+                    window.location.reload();
                 })
 
 }

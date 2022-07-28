@@ -1,10 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import editPost from '../functions/editPost';
+
 import getCookie from './getCookie';
 import jwt_decode from 'jwt-decode';
 import isUnique from './isUnique';
 import like from '../../assets/like-svgrepo-com.svg';
 import liked from'../../assets/likeFull-svgrepo-com.svg';
 import likePost from './likePost';
-import editingPost from '../functions/editingPost';
 import deletingPost from '../functions/deletePost';
 import newComment from '../functions/newComment';
 import DisplayComments from '../functions/displayComments';
@@ -12,13 +15,21 @@ import getUrlPath from '../functions/getURLPath';
 import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 
-function PostDisplayer({post}) {
+function Test({ post }){
+    const [editPostVisible, seteditPostVisible] = useState(false);
+    const [postEdited, setpostEdited] = useState(false);
+    const [editCommentVisible, seteditCommentVisible] = useState(false);
+    const [reload, setReload] = useState({
+        load:{}
+    })
+
     const {
         id,
         tag,
         text,
         title,
-        userId
+        userId,
+        image
     } = post;
 
     const comments = post.comments;
@@ -47,8 +58,48 @@ function PostDisplayer({post}) {
     let verifyComments = isUnique(comments);
     let label = `commentTextBox${id}`
 
+   /* let picUpload = document.getElementById('picUpload');
+    let picContainer = document.getElementById('picContainer');
+    let pic = document.getElementById('postPic');
+
+    function updatePic(picAdded) {
+
+        let uploadedPic = picAdded;
+        if(uploadedPic === 0) {
+            let error = document.createElement('p');
+            error.textContent = 'Aucun fichier sélectionné';
+            picContainer.appendChild(error);
+        } else {
+                if(validFileType(uploadedPic)) {
+                pic.src = window.URL.createObjectURL(uploadedPic);
+                return uploadedPic;
+
+            } else {
+                console.log(validFileType(uploadedPic));
+                let error = document.createElement('p');
+                error.textContent = 'Le format du fichier sélectionné est incorrect ou sa taille dépasse la limite maximale (20ko)';
+                picContainer.appendChild(error);                   
+                }   
+            }
+    }
+
+    let fileTypes = [
+        'image/jpeg',
+        'image/pjpeg',
+        'image/png'
+    ]
+
+    function validFileType(file) {
+        for(var i = 0; i < fileTypes.length; i++) {
+            if(file.type === fileTypes[i]) {
+            return true;
+            }
+        }
+        return false;
+    }*/
+
     return(
-        <section id="pagePost" className='col-12 col-lg-6 mx-auto'>
+        <section key={id} id="pagePost" className='col-12 col-lg-6 mx-auto'>
         <article id="postCard">
             <header id='titleSection'>
                 <div id="postAuthor">
@@ -58,13 +109,38 @@ function PostDisplayer({post}) {
                     </NavLink>
                 </div>
                 <p id="postTag">{tag}</p>
-                <NavLink to={postUrl} className="noLink">
+                {!editPostVisible &&
+                    <NavLink to={postUrl} className="noLink">
                     <h1 id="postTitle">{title}</h1>
-                </NavLink>
+                </NavLink>}
             </header>
-            <div id="postBody">
-                <p id="postContent">{text}</p>
-            </div>
+            {editPostVisible &&
+                        <div id='' className='col-lg-12 mx-auto py-3 d-flex justify-content-center'>
+                            <form id="" className='col-lg-12 createPostForm flex-column align-items-start'>
+                                <div id="picContainer">
+                                    <label htmlFor='picUpload' class='d-none'>Votre photo</label>
+                                    <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png" />
+                                    <img id="postPic" src={image} alt="Votre photo" />
+                                </div>
+                                <div id='postContainer' className='col-lg-12 d-flex flex-column align-items-start'>
+                                    <label htmlFor='editedTitle' className='d-none'>Titre du post</label>
+                                    <input type="text" id="editedTitle" className="col-lg-12" defaultValue={title} />
+                                    <label htmlFor='editedContent' className='d-none'>Contenu du post</label>
+                                    <textarea type="text" id="editedContent" rows='5' className="col-lg-12" defaultValue={text} />
+                                </div>
+                                <button id="editPost"className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" onClick={() => {editPost({id}, document.getElementById('editedTitle').value, document.getElementById('editedContent').value, {userId}, document.getElementById('picUpload').files[0], document.getElementById('postPic')); seteditPostVisible(current => !current); setReload({...post}) }}>Modifiez le post !</button>
+                            </form>
+                        </div>
+            }
+            {!editPostVisible &&
+            <div>
+                <div id="picContainer">
+                        <img id="postPic" src={image} alt={author.firstName} />
+                </div> 
+                <div id="postBody">
+                    <p id="postContent">{text}</p>
+                </div>
+            </div>}
             <div id="postFooter">
                 <div id="likes">
                     <img alt='likeButton' src={(isLiked)
@@ -80,7 +156,30 @@ function PostDisplayer({post}) {
                                     'Content-Type': 'application/json',
                                     'Authorization': `${getCookie('token')}`
                                 }
-                            )}
+                            );
+                            {
+                                let count = likes.length;
+                                if (isLiked){
+                                    if (count <= 2){
+                                        document.getElementById('likeCount').innerText = `${count-1} like`;
+                                    }
+                                    else {
+                                        document.getElementById('likeCount').innerText = `${count-1} likes`;
+                                    }
+                                    document.getElementById('likeButton').src = like;
+                                }
+                                else{
+                                    document.getElementById('likeCount').innerText = `${count+1} like`;
+    
+                                    if (count === 0){
+                                        document.getElementById('likeCount').innerText = `${count+1} like`;
+                                    }
+                                    else {
+                                        document.getElementById('likeCount').innerText = `${count+1} likes`;
+                                    }
+                                    document.getElementById('likeButton').src = liked;
+                                }
+                            }}
                     } />
                     {
                         verifyLikes 
@@ -95,7 +194,7 @@ function PostDisplayer({post}) {
                         : <p id="commentCount">{comments.length} commentaires</p>
                     }
                 </div>
-                {(userTokenRole === 'admin' || isAuthor) && getUrlPath() === "/post" &&
+                {(userTokenRole === 'admin' || isAuthor) && (getUrlPath() === "/post" ||getUrlPath() === "/test") &&
                     <div id="modifierContainer" className="d-inline"> 
                         <p className='modifier' onClick={
                             () => {
@@ -107,23 +206,7 @@ function PostDisplayer({post}) {
                                 }
                             )}
                         }>Supprimer</p>
-                        <p className='modifier' onClick={
-                            () => {
-                                editingPost(
-                                    id, 
-                                    document.getElementById('titleSection'), 
-                                    document.getElementById('postBody'), 
-                                    document.getElementById('postTitle'), 
-                                    document.getElementById('postContent'), 
-                                    title, 
-                                    text,
-                                    {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `${getCookie('token')}`
-                                    }
-                                )}
-                            }>Editer</p>
+                        <p className='modifier' onClick={() => {seteditPostVisible(current => !current)}}>Editer</p>
                     </div>
                 }
             </div>
@@ -131,7 +214,7 @@ function PostDisplayer({post}) {
         <section id="commentSection" className='col-12 col-lg-12 mx-auto'>
             <form id="comment">
                 <label htmlFor={label} className='d-none'>Votre commentaire</label>
-                <textArea type ='text' rows='2' name="commentText" id={label} placeholder='Commentez' className='commentTextBloc' />
+                <textarea type ='text' rows='2' name="commentText" id={label} placeholder='Commentez' className='commentTextBloc' />
                 <button id="sendComment" type="button" onClick={
                     () => {
                         newComment(
@@ -143,7 +226,8 @@ function PostDisplayer({post}) {
                             },
                             userTokenId,
                             id
-                        )}
+                        )
+                    }
                     }>Send</button>
             </form>
             {
@@ -155,7 +239,6 @@ function PostDisplayer({post}) {
     </section>                
     )
     
-    
-} 
 
-export default PostDisplayer
+}
+export default Test

@@ -16,20 +16,25 @@ exports.newPost = (req, res, next) => {
         });
         return;
     }
+    console.log('juste avant limage');
+    const postPic = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    console.log(postPic);
 
     const post =  {
        title: req.body.title,
        text: req.body.text,
        userId: req.body.author,
-       tag: req.body.tag
-    };
+       tag: req.body.tag,
+       image: postPic
+      };
 
     console.log(post);
+
     
 
     Post.create(post)
     .then(data => {
-        res.status(201).send({message: "Nouveau post créé", data});
+      res.status(201).send({message: "Nouveau post créé", data});
     })
     .catch(
         (error) => {
@@ -110,15 +115,23 @@ exports.deletePost = (req, res, next) => {
 //modifier un post
 exports.updatePost = (req, res, next) => {
   const id = req.params.id;
+    const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
+
+    Post.update(postPic, {where: {id:id}});
+  
+
 
   console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
   console.log(req.headers);
   console.log(req.headers.authorization);
+  console.log(req.body);
 
   Post.update(req.body, {
       where: {id: id}
   })
   .then(num => {
+      Post.update(postPic, {where: {id:id}});
+    
       if (num == 1) {
           res.send({
               message: "Post mis à jour"

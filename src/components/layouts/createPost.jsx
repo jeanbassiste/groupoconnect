@@ -4,6 +4,7 @@ import '../../styles/style.css';
 import getCookie from '../functions/getCookie';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import upload from "../../assets/upload.jpg";
 
 class CreatePost extends React.Component {
     render() {
@@ -28,9 +29,15 @@ class CreatePost extends React.Component {
                     <div id='postContainer' className='col-lg-12 d-flex flex-column align-items-start'>
                         <label htmlFor='postTitle' className='d-none'>Titre du post</label>
                         <input type="text" id="postTitle" className="col-lg-12" placeholder='Titre du post' />
-                        <label htmlFor='postBody' className='d-none'>Contenu du post</label>
-                        <textArea type="text" id="postBody" rows='5' className="col-lg-12" placeholder='Rédigez votre post ici'/>
+                        <div id="picContainer">
+                        <label htmlFor='picUpload' class='d-none'>Votre photo</label>
+                        <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
+                        <img id="postPic" src={upload} alt="Votre photo" />
                     </div>
+                        <label htmlFor='postBody' className='d-none'>Contenu du post</label>
+                        <textarea type="text" id="postBody" rows='5' className="col-lg-12" placeholder='Rédigez votre post ici'/>
+                    </div>
+
 
                     <button id="newPost"className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Postez !</button>
                 </form>
@@ -60,6 +67,48 @@ class CreatePost extends React.Component {
         let title = document.getElementById('postTitle');
         let text = document.getElementById('postBody');
         let tag = document.getElementById('postTag');
+
+        let picUpload = document.getElementById('picUpload');
+        let picContainer = document.getElementById('picContainer');
+        let pic = document.getElementById('postPic');
+
+        picUpload.addEventListener('change', updatePic);
+
+        function updatePic() {
+
+            let uploadedPic = picUpload.files[0];
+            if(uploadedPic === 0) {
+                let error = document.createElement('p');
+                error.textContent = 'Aucun fichier sélectionné';
+                picContainer.appendChild(error);
+            } else {
+                    if(validFileType(uploadedPic)) {
+                    pic.src = window.URL.createObjectURL(uploadedPic);
+                    return uploadedPic;
+
+                } else {
+                    console.log(validFileType(uploadedPic));
+                    let error = document.createElement('p');
+                    error.textContent = 'Le format du fichier sélectionné est incorrect ou sa taille dépasse la limite maximale (20ko)';
+                    picContainer.appendChild(error);                   
+                    }   
+                }
+        }
+
+        let fileTypes = [
+            'image/jpeg',
+            'image/pjpeg',
+            'image/png'
+        ]
+
+        function validFileType(file) {
+            for(var i = 0; i < fileTypes.length; i++) {
+                if(file.type === fileTypes[i]) {
+                return true;
+                }
+            }
+            return false;
+        }
         
 
 
@@ -77,11 +126,19 @@ class CreatePost extends React.Component {
             let postText = text.value;
             let postTag = tag.value;
 
-            axios.post('http://localhost:8080/api/posts/newPost', {             
-                title: postTitle,
-                text: postText,
-                author: userId,
-                tag: postTag}, 
+            let image = updatePic();
+
+            const formData = new FormData();
+            formData.append('title', postTitle);
+            formData.append('text', postText);
+            formData.append('author', userId);
+            formData.append('tag', postTag);
+            formData.append('image', image);
+
+            console.log(formData);
+
+            axios.post('http://localhost:8080/api/posts/newPost', 
+                formData, 
                 {
                     headers
                 })

@@ -25,7 +25,7 @@ class DisplayAllPosts extends Component {
         let headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `${token}`
+            'Authorization': `Bearer ${token}`
         };
 
         axios.get(`http://localhost:8080/api/posts/`, {headers})

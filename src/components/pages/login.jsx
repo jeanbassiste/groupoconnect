@@ -30,6 +30,10 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
+
+        if (document.cookie.split(';').some((cookie) => cookie.trim().startsWith('token='))){
+            window.location.href = `/home`       
+        }
         
         let togglePassword = document.getElementById('seePassword');
         let passwordData = document.getElementById('password');

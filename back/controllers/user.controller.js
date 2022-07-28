@@ -41,11 +41,8 @@ exports.signup = (req, res, next) => {
         })
         .catch(
             (error) => {
-                console.log(Object.getOwnPropertyNames(error.errors));
                 var message = [];
-                //console.log(error.errors.email.properties.message);
                 Object.getOwnPropertyNames(error.errors).forEach(function (element) {
-                    console.log(element);
                     var err = error.errors.email.properties.message;
                     message += err;
                 });
@@ -66,7 +63,6 @@ exports.signup = (req, res, next) => {
 
 //connexion d'un utilisateur existant
 exports.login = (req, res, next) => {
-    console.log(req.body.emailAddress);
     User.findOne({where: {emailAddress: req.body.emailAddress} })
     .then((user) => {
         
@@ -78,19 +74,16 @@ exports.login = (req, res, next) => {
                 }
             )
         }
-        console.log(req.body.password);
-        console.log(user.password);
+
         bcrypt.compare(req.body.password, user.password)
         .then(valid => {
             if(!valid) {
-                console.log('mot de passe incorrect');
                 return res.status(400).send(
                     {
                         message: "Mot de passe incorrect"
                     }
                 )            
             }
-            console.log(user.id);
             res.status(200).send({
                 userId: user.id,
                 token: jwt.sign(
@@ -108,23 +101,6 @@ exports.login = (req, res, next) => {
         }))
     })
     
-};
-
-//retrouver tous les utilisateurs
-exports.findAll = (req, res) => {
-    const emailAddress = req.query.emailAddress;
-    var condition = emailAddress ? { emailAddress: { [Op.like]: `%${emailAddress}`}} : null;
-
-    User.findAll({where:condition})
-    .then(data => {
-        res.send(data);
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Une erreur s'est produite"
-        });
-    });
 };
 
 //retrouver un utilisateur
@@ -152,13 +128,13 @@ exports.findOne = (req, res) => {
 //updater un utilisateur
 exports.update = (req, res) => {
     const id = req.params.id;
-    console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
-    console.log(req.headers);
-    console.log(req.headers.authorization);
 
         const profilePic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
 
+        console.log('PWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
         User.update(profilePic, {where: {id:id}});
+        console.log(req);
+        console.log(req.body);
 
 
     User.update(req.body, {
@@ -193,17 +169,17 @@ exports.delete = (req, res) => {
     .then(num => {
         if (num == 1) {
             res.send({
-                message: "Utilisateur mis à jour"
+                message: "Utilisateur supprimé"
             });
         } else {
             res.send({
-                message: 'Impossible de mettre à jour cet utilisateur'
+                message: 'Impossible de supprimer cet utilisateur'
             });
         }
     })
     .catch(err => {
         res.status(500).send({
-            message: "Une erreur s'est produite dans la mise à jour de l'utilisateur " + id
+            message: "Une erreur s'est produite dans la suppression de l'utilisateur " + id
         });
     });
 };
