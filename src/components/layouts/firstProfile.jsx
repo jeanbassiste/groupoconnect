@@ -6,7 +6,7 @@ import areFormCompleted from '../functions/areFormCompleted';
 import axios from 'axios';
 import getCookie from '../functions/getCookie';
 import jwt_decode from 'jwt-decode';
-
+import setCookie from '../functions/setCookies';
 
 class FirstProfile extends React.Component {
     render() {
@@ -16,8 +16,8 @@ class FirstProfile extends React.Component {
 
                 <form className="vous">
                     <div id="picContainer">
-                        <label htmlFor='picUpload' class='d-none'>Votre photo</label>
-                        <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
+                        <label htmlFor='profilePicUpload' className='d-none'>Votre photo</label>
+                        <input id="profilePicUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
                         <img id="profilePic" src={upload} alt="Votre photo" />
                     </div>
                     <div className="nomPrenom">
@@ -73,7 +73,7 @@ class FirstProfile extends React.Component {
             areFormCompleted(this);
         });
 
-        let picUpload = document.getElementById('picUpload');
+        let picUpload = document.getElementById('profilePicUpload');
         let picContainer = document.getElementById('picContainer');
         let pic = document.getElementById('profilePic');
 
@@ -121,12 +121,6 @@ class FirstProfile extends React.Component {
 
         function sendProfile() {
 
-            let headers = {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `${token}`
-
-            };
             let image = updatePic();
 
             let url = `http://localhost:8080/api/users/${userId}`
@@ -139,13 +133,13 @@ class FirstProfile extends React.Component {
             formData.append('firstName', fname.value);
             formData.append('lastName', sname.value);
 
-            axios.put(url, formData, { headers })
+            axios.put(url, formData, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } } )
 
                 .then(res => {
                     let response = res.data;
 
                     if (response) {
-                        console.log('ça marche');
+                        setCookie('token', response.token, 1);
                         window.location.href = `/home`;
                     }
                     else {

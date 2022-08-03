@@ -4,7 +4,7 @@ import axios from'axios';
 import FirstProfile from '../layouts/firstProfile';
 import Profile from '../layouts/anyProfile';
 import currentUser from '../functions/getCurrentUser';
-import reqHeaders from '../functions/getReqHeaders';
+import getCookie from '../functions/getCookie';
 
 class ProfilePage extends React.Component {
     constructor(props){
@@ -15,11 +15,11 @@ class ProfilePage extends React.Component {
     }
 
     componentDidMount(){
+        let token = getCookie('token');
 
-        axios.get(`http://localhost:8080/api/users/${currentUser.id}`, {reqHeaders})
+        axios.get(`http://localhost:8080/api/users/${currentUser.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(res => {
             this.setState({role: res.data.role});
-            console.loge(this.state);
         })
     }
 

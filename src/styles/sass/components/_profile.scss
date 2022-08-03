@@ -42,7 +42,12 @@ label {
         width:134px;    
         top: 220px;
         border: 0px;
-
+    }
+    #profilePicUpload {
+        position: absolute;
+        width:134px;    
+        top: 110px;
+        border: 0px;
     }
 }
 
@@ -50,3 +55,6 @@ input[type='file'] {
     color: transparent;
   }
 
+#email, #password, #verifyPassword {
+    background-image: none;
+  }

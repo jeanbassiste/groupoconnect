@@ -20,7 +20,7 @@ class Login extends React.Component {
                     <input type="email" className="form-control" id="email" autoComplete="off" name="email" placeholder="jane.doe@groupomania.com" />
                     <p id="emailError">Utilisez une adresse @groupomania.com valide.</p>
                     <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="password" autoComplete="off" name="password" placeholder="Mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i></div>
-                    <p id="passwordError">Le mot de passe doit contenir : au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+                    <p id="passwordError">Le mot de passe doit contenir : au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p><br />
                     <button id="logInButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Connectez-vous</button>
                 </form>
                 <p>Première connexion ? <NavLink to="/signup">Créez votre compte !</NavLink></p>
@@ -56,24 +56,18 @@ class Login extends React.Component {
             let passwordValidation = isValid(passwordData, passwordError);
 
             if (emailValidation === true && passwordValidation === true) {
-                console.log('Prepare to send the data with Axios');
-
-                let headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'                    
-                }
 
                 axios.post('http://localhost:8080/api/users/login', {
                     emailAddress : emailData.value,
                     password : passwordData.value },
-                    headers )
+                    { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } } 
+                )
                 .then(res => {
                     let response = res.data;
 
                     if (response) {
                         const token = response.token;
                         let decoded = jwt_decode(token);
-                        let userId = decoded.id;
                         let userRole = decoded.role;
                         if(userRole != 'deleted'){
                             setCookie('token', token, 1);
@@ -81,7 +75,6 @@ class Login extends React.Component {
                         }
                         else {
                             document.getElementById('deleted').style.display = 'initial';
-
                         }
                       
                     }

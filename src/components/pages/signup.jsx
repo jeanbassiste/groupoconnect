@@ -69,24 +69,19 @@ class Signup extends React.Component {
             let verifyValidation = isValid(verifyData, verifyError, passwordData);
 
             if (emailValidation === true && passwordValidation === true && verifyValidation === true) {
-                
-                let headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                };
 
                 axios.post('http://localhost:8080/api/users/signup', {
                     emailAddress: emailData.value,
                     password: passwordData.value,
                     role: 'newUser'
                     },
-                    headers )
-
-                    .then(res => {
-                        let token = res.data.token;
-                        setCookie('token', token, 1);
-                        window.location.href = '/profile'
-                    })
+                    { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'} } 
+                )
+                .then(res => {
+                    let token = res.data.token;
+                    setCookie('token', token, 1);
+                    window.location.href = '/profile'
+                })
             }
         }
 

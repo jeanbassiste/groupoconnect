@@ -23,19 +23,12 @@ class Profile extends React.Component {
         const urlParams = new URLSearchParams(url);
         const userId = urlParams.get('id');
 
-        let headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-
-        };
-
-        axios.get(`http://localhost:8080/api/users/${userId}`, {headers})
+        axios.get(`http://localhost:8080/api/users/${userId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(res => {
           const user = res.data;
           this.setState({ user: user });
-          this.setState({posts: user.posts});
-          this.setState({hasLoaded: true});
+          this.setState({ posts: user.posts });
+          this.setState({ hasLoaded: true });
         })  
     }
 

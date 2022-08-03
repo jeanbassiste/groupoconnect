@@ -49,10 +49,12 @@ function Test({ post }){
             isLiked = true;
         }
     })
-
-    if(userTokenId === userId){
+    console.log(userTokenId);
+    console.log(userId);
+    if(parseInt(userTokenId) === parseInt(userId)){
         isAuthor = true;
     }
+    console.log(isAuthor);
 
     let verifyLikes = isUnique(likes);
     let verifyComments = isUnique(comments);
@@ -151,11 +153,7 @@ function Test({ post }){
                             likePost(
                                 post, 
                                 jwt_decode(getCookie('token')).id, 
-                                {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `${getCookie('token')}`
-                                }
+                                { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
                             );
                             {
                                 let count = likes.length;
@@ -199,11 +197,7 @@ function Test({ post }){
                         <p className='modifier' onClick={
                             () => {
                                 deletingPost(id,
-                                {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `${getCookie('token')}`
-                                }
+                                { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
                             )}
                         }>Supprimer</p>
                         <p className='modifier' onClick={() => {seteditPostVisible(current => !current)}}>Editer</p>

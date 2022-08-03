@@ -13,13 +13,13 @@ module.exports = app => {
     router.post('/login', users.login);
 
     //récupération d'un utilisateur avec son id
-    router.get('/:id', users.findOne);
+    router.get('/:id', auth, users.findOne);
 
     //mise à jour d'un utilisateur
     router.put('/:id', auth, multer, users.update);
 
     //suppression de l'utilisateur (pas une vraie suppression)
-    router.put('/delete/:id', users.delete);
+    router.put('/delete/:id', auth, users.delete);
 
     app.use('/api/users', router);
 }

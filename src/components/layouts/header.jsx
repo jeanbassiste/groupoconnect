@@ -33,16 +33,26 @@ class Header extends React.Component {
 
         let urlPath = getUrlPath();
 
-        if (urlPath === "/home" || urlPath === "/post" || urlPath === "/profile" || urlPath === "/") {
+        if (urlPath === "/home" || urlPath === "/post" || urlPath === "/profile") {
+
             let token = getCookie('token');
             let decoded = jwt_decode(token);
-            let userId = decoded.id;
-            document.getElementById('userPage').setAttribute('href', `/profile?id=${userId}`)  
-            axios.get(`http://localhost:8080/api/users/${userId}`)
-            .then(res => {
-              const user = res.data;
-              document.getElementById('smallProfilePic').src = user.image;
-            }) 
+            if(decoded.role === 'newUser'){
+                document.getElementById('userPage').style.display = 'none';
+                document.getElementById('home').style.display = 'none';
+            }
+            else {
+                console.log(decoded);
+                let userId = decoded.id;
+                document.getElementById('userPage').setAttribute('href', `/profile?id=${userId}`)  
+                axios.get(`http://localhost:8080/api/users/${userId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+                .then(res => {
+                  const user = res.data;
+                  document.getElementById('smallProfilePic').src = user.image;
+                })
+
+            }
+
         }
         else {
             document.getElementById('userPage').style.display = 'none';

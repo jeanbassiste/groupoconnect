@@ -48,17 +48,13 @@ function DisplayComments({comment, userId}) {
 
 
                 {
-                    (userId === comment.user.id || userTokenRole === 'admin') &&
+                    (parseInt(userId) === parseInt(comment.user.id) || userTokenRole === 'admin') &&
                         <div className="editing">
                             <p className="modifier hide" onClick={
                                 () => 
                                 deletingComment(
                                     comment.id,
-                                    {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `${getCookie('token')}`
-                                    }
+                                    { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
                                 )}>Supprimer</p>
                             <p className="modifier hide" onClick={
                                 () => seteditCommentVisible(current => !current)}>Editer</p>

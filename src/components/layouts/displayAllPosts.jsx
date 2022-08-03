@@ -22,13 +22,7 @@ class DisplayAllPosts extends Component {
     componentDidMount(){
         let token = getCookie('token');   
 
-        let headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        };
-
-        axios.get(`http://localhost:8080/api/posts/`, {headers})
+        axios.get(`http://localhost:8080/api/posts/`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then((response) => {
             this.setState({posts: response.data});
             this.setState({hasLoaded: true});

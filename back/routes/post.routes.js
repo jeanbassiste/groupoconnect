@@ -5,13 +5,13 @@ module.exports = app => {
 
     var router = require('express').Router();
 
-    router.post('/newPost', multer, posts.newPost);
-    router.get('/', posts.displayAllPosts);
-    router.get('/:id', posts.displayOnePost);
+    router.post('/newPost', auth, multer, posts.newPost);
+    router.get('/', auth, posts.displayAllPosts);
+    router.get('/:id', auth, posts.displayOnePost);
     router.delete('/:id', posts.deletePost);
     router.put('/:id', multer, posts.updatePost);
-    router.put('/like/:id', posts.likePost);
-    router.delete('/like/:id', posts.unlikePost);
+    router.put('/like/:id', auth, posts.likePost);
+    router.delete('/like/:id', auth, posts.unlikePost);
 
     app.use('/api/posts', router);
 }

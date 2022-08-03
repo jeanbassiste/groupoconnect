@@ -128,24 +128,17 @@ exports.findOne = (req, res) => {
 //updater un utilisateur
 exports.update = (req, res) => {
     const id = req.params.id;
-
-        const profilePic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
-
-        console.log('PWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-        User.update(profilePic, {where: {id:id}});
-        console.log(req);
-        console.log(req.body);
-
-
-    User.update(req.body, {
-        where: {id: id}
-    })
-    .then(num => {
-        User.update(profilePic, {where: {id:id}});
-        if (num == 1) {
+        const profilePic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` };
+        User.update(profilePic, { where: {id:id} });
+        User.update(req.body, { where: {id: id} })
+    .then(data => {
+        if (data) {
             res.send({
-                message: "Utilisateur mis à jour"
-            });
+                token: jwt.sign(
+                    { id: req.params.id, role: req.body.role },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h'}
+                )            });
         } else {
             res.send({
                 message: 'Impossible de mettre à jour cet utilisateur'

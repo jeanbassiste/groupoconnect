@@ -30,7 +30,7 @@ class CreatePost extends React.Component {
                         <label htmlFor='postTitle' className='d-none'>Titre du post</label>
                         <input type="text" id="postTitle" className="col-lg-12" placeholder='Titre du post' />
                         <div id="picContainer">
-                        <label htmlFor='picUpload' class='d-none'>Votre photo</label>
+                        <label htmlFor='picUpload' className='d-none'>Votre photo</label>
                         <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
                         <img id="postPic" src={upload} alt="Votre photo" />
                     </div>
@@ -110,15 +110,6 @@ class CreatePost extends React.Component {
             return false;
         }
         
-
-
-        let headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-
-        };
-        
         function newPost(ev) {
             ev.preventDefault();
         
@@ -139,9 +130,8 @@ class CreatePost extends React.Component {
 
             axios.post('http://localhost:8080/api/posts/newPost', 
                 formData, 
-                {
-                    headers
-                })
+                { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
+            )
             .then(res => {
                 let newPostId = res.data.data.id;
                 window.location.href = `/post?id=${newPostId}`
