@@ -22,13 +22,17 @@
 
     }
 }
+#picContainer {
+    border: 2px solid red;
+    background-color: #ffd7d7;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
 
 #postPic{
-    width: 100%;
+    max-width: 100%;
+    height: auto;
     max-height: 420px;
     margin: auto;
-    border: 2px solid red;
     object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 20px;
 }

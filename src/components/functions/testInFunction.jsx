@@ -17,10 +17,36 @@ import '../../styles/style.css';
 import axios from 'axios';
 
 function Test({ post, setPost, update, setUpdate }){
+    //éléments basiques utiles
     let token = getCookie('token');
     let userTokenId = jwt_decode(token).id;
     let userTokenRole = jwt_decode(token).role;
     let postId = post.id;
+    let author = post.user;
+
+    //Affichage du post
+    const {
+        id,
+        tag,
+        text,
+        title,
+        userId,
+        image
+    } = post;
+
+    const authorUrl = `/profile?id=${author.id}`;
+    const postUrl = `/post?id=${id}`;
+
+    //Modification et suppression du post 
+    const [editPostVisible, setEditPostVisible] = useState(false);
+
+    function handleDeletePost() {
+        axios.delete(`http://localhost:8080/api/posts/${post.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        .then(
+            window.location.href = '/home'
+        )
+    }
+
 
     //Gestion des likes
     const [isLiked, setIsLiked] = useState(false);
@@ -75,7 +101,49 @@ function Test({ post, setPost, update, setUpdate }){
 
     return(
         <div id='pagePost' className='col-12 col-lg-6 mx-auto'>
-            <article id='postCard'>
+            <article id='postCard' className='col-12 mx-auto'>
+                <header id='titleSection'>
+                    <div id="postAuthor">
+                        <img src={author.image} id="authorPic" alt="Photo de profile de l'auteur du post"/>
+                        <NavLink to={authorUrl} className="noLink">
+                            <p id="author">{author.firstName} {author.lastName}</p>
+                        </NavLink>
+                    </div>
+                    <p id="postTag">{tag}</p>
+                    {!editPostVisible &&
+                        <NavLink to={postUrl} className="noLink">
+                            <h1 id="postTitle">{title}</h1>
+                        </NavLink>
+                    }
+                </header>
+                {editPostVisible &&
+                    <div id='' className='col-lg-12 mx-auto py-3 d-flex justify-content-center'>
+                        <form id="" className='col-lg-12 createPostForm flex-column align-items-start'>
+                            <div id="picContainer">
+                                <label htmlFor='picUpload' class='d-none'>Votre photo</label>
+                                <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png" />
+                                <img id="postPic" src={image} alt="Votre photo" />
+                            </div>
+                            <div id='postContainer' className='col-lg-12 d-flex flex-column align-items-start'>
+                                <label htmlFor='editedTitle' className='d-none'>Titre du post</label>
+                                <input type="text" id="editedTitle" className="col-lg-12" defaultValue={title} />
+                                <label htmlFor='editedContent' className='d-none'>Contenu du post</label>
+                                <textarea type="text" id="editedContent" rows='5' className="col-lg-12" defaultValue={text} />
+                            </div>
+                            <button id="editPost"className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" onClick={() => {editPost({id}, document.getElementById('editedTitle').value, document.getElementById('editedContent').value, {userId}, document.getElementById('picUpload').files[0], document.getElementById('postPic')); setEditPostVisible(current => !current); setUpdate(update + 1) }}>Modifiez le post !</button>
+                        </form>
+                    </div>
+                }
+                {!editPostVisible &&
+                    <div>
+                        <div id="picContainer">
+                            <img id="postPic" src={image} alt={author.firstName} />
+                        </div> 
+                        <div id="postBody">
+                            <p id="postContent">{text}</p>
+                        </div>
+                    </div>
+                }
                 <div id='postFooter'>
                     <div id='likes'>
                         <img id='likeButton' alt='bouton like' src={isLiked ? liked : like} onClick={() => handleLike()} />
@@ -84,11 +152,18 @@ function Test({ post, setPost, update, setUpdate }){
                     <div id='commentCountContainer'>
                         <p id='commentCount'>{comments.length} {comments.length >= 2 ? 'commentaires' : 'commentaire'}</p>
                     </div>
+                    {(userTokenId === author.id || userTokenRole === 'admin') && (getUrlPath() === "/post" ||getUrlPath() === "/test") &&
+                        <div className='d-flex flex-column flex-md-row editing'>
+                            <p className='modifier' onClick={() => handleDeletePost()}>Supprimer</p>
+                            <p className='modifier' onClick={() => setEditPostVisible(current => !current)}>Modifier</p>
+                        </div>
+
+                    }
                 </div>
             </article>
             <section id='commentSection' className='col-12 mx-auto'>
                 <div id='comment'>
-                    <textarea id='commentInput' rows='3' placeholder='Votre commentaire' className='commentTextBloc' onChange={(e) => setNewComment(e.target.value) }/>
+                    <textarea id='commentInput' rows='' placeholder='Votre commentaire' className='commentTextBloc' onChange={(e) => setNewComment(e.target.value) }/>
                     <div id='commentButtonContainer' className='d-flex justify-content-end'>
                         <button id='sendComment' onClick={() => handleNewComment()}>Commentez</button>
                     </div>
@@ -96,7 +171,7 @@ function Test({ post, setPost, update, setUpdate }){
                 {
                     comments.length === 0 
                     ? <p>Soyez le premier à commenter</p>
-                    : comments.map((comment) => <DisplayComments comment={comment} userId={userTokenId} isAdmin={userTokenRole} update={update} setUpdate={setUpdate} />)
+                    : comments.map((comment) => <DisplayComments key={comment.id} comment={comment} userId={userTokenId} isAdmin={userTokenRole} update={update} setUpdate={setUpdate} />)
                 } 
             </section>
         </div>
