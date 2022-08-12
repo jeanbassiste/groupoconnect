@@ -14,12 +14,110 @@ import DisplayComments from '../functions/displayComments';
 import getUrlPath from '../functions/getURLPath';
 import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
+import axios from 'axios';
 
-function Test({ post }){
+function Test({ post, setPost, update, setUpdate }){
+    let token = getCookie('token');
+    let userTokenId = jwt_decode(token).id;
+    let userTokenRole = jwt_decode(token).role;
+    let postId = post.id;
+
+    //Gestion des likes
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeId, setLikeId] = useState();
+
+    const likes = post.likes;
+
+    useEffect(() => {
+        likes.every(like => {
+            if (like.userId === userTokenId){
+                setIsLiked(true)
+                setLikeId(like.id);
+                return false
+            }
+            else {
+                setIsLiked(false)
+                return true
+            }
+        },
+        [setPost])
+    })
+
+    function handleLike() {
+        {isLiked
+        ? axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        : axios.put(`http://localhost:8080/api/posts/like/${postId}`, 
+        { userId: userTokenId },
+        { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })}
+        setUpdate( update + 1 );
+
+    }
+
+    //Création d'un commentaire
+    const [newComment, setNewComment] = useState('');
+
+    function handleNewComment() {
+        axios.post('http://localhost:8080/api/comments/newComment', {
+            text: newComment,
+            author: userTokenId,
+            post: postId
+            },
+            { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
+        )
+        .then(
+            setUpdate(update + 1)
+        )
+        
+    }
+
+    //Affichage des commentaires
+    const comments = post.comments;
+
+    return(
+        <div id='pagePost' className='col-12 col-lg-6 mx-auto'>
+            <article id='postCard'>
+                <div id='postFooter'>
+                    <div id='likes'>
+                        <img id='likeButton' alt='bouton like' src={isLiked ? liked : like} onClick={() => handleLike()} />
+                        <p id='likeCount'>{likes.length} {likes.length >= 2 ? 'likes' : 'like'}</p>
+                    </div>
+                    <div id='commentCountContainer'>
+                        <p id='commentCount'>{comments.length} {comments.length >= 2 ? 'commentaires' : 'commentaire'}</p>
+                    </div>
+                </div>
+            </article>
+            <section id='commentSection' className='col-12 mx-auto'>
+                <div id='comment'>
+                    <textarea id='commentInput' rows='3' placeholder='Votre commentaire' className='commentTextBloc' onChange={(e) => setNewComment(e.target.value) }/>
+                    <div id='commentButtonContainer' className='d-flex justify-content-end'>
+                        <button id='sendComment' onClick={() => handleNewComment()}>Commentez</button>
+                    </div>
+                </div>
+                {
+                    comments.length === 0 
+                    ? <p>Soyez le premier à commenter</p>
+                    : comments.map((comment) => <DisplayComments comment={comment} userId={userTokenId} isAdmin={userTokenRole} update={update} setUpdate={setUpdate} />)
+                } 
+            </section>
+        </div>
+    )
+
+
+
+
+
+
+    /*
     const [editPostVisible, seteditPostVisible] = useState(false);
+    const [postEdited, setpostEdited] = useState(false);
+    const [editCommentVisible, seteditCommentVisible] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+    const [count, setCount] = useState(0)
     const [reload, setReload] = useState({
         load:{}
     })
+
+    console.log('on utilise bien la fonction test');
 
     const {
         id,
@@ -34,30 +132,45 @@ function Test({ post }){
     const likes = post.likes;
     const author = post.user;
     let isAuthor = false;
-    let isLiked = false;
     let postUrl = `/post?id=${id}`;
     let authorUrl = `/profile?id=${author.id}`;
+    let toggleLike = false;
 
     let token = getCookie('token');
     let userTokenId = jwt_decode(token).id;
     let userTokenRole = jwt_decode(token).role;
 
+    console.log('count = ' + count);
+    useEffect(() => {setCount(likes.length)});
+    console.log('count = ' + count);
+
     likes.forEach(el => {
         if(el.userId === userTokenId){
-            isLiked = true;
+            toggleLike = true
         }
     })
 
-    if(userTokenId === userId){
+    /*useEffect(() => {
+        if (toggleLike) {
+            setIsLiked(current => !current);
+            console.log(isLiked);
+
+        }
+    }, [toggleLike])
+
+    console.log(userTokenId);
+    console.log(userId);
+    if(parseInt(userTokenId) === parseInt(userId)){
         isAuthor = true;
     }
+    console.log(isAuthor);
 
     let verifyLikes = isUnique(likes);
     let verifyComments = isUnique(comments);
     let label = `commentTextBox${id}`
 
     return(
-        <section id="pagePost" className='col-12 col-lg-6 mx-auto'>
+        <section key={id} id="pagePost" className='col-12 col-lg-6 mx-auto'>
         <article id="postCard">
             <header id='titleSection'>
                 <div id="postAuthor">
@@ -77,7 +190,7 @@ function Test({ post }){
                             <form id="" className='col-lg-12 createPostForm flex-column align-items-start'>
                                 <div id="picContainer">
                                     <label htmlFor='picUpload' class='d-none'>Votre photo</label>
-                                    <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
+                                    <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png" />
                                     <img id="postPic" src={image} alt="Votre photo" />
                                 </div>
                                 <div id='postContainer' className='col-lg-12 d-flex flex-column align-items-start'>
@@ -93,7 +206,7 @@ function Test({ post }){
             {!editPostVisible &&
             <div>
                 <div id="picContainer">
-                        <img id="profilePic" src={image} alt={author.firstName} />
+                        <img id="postPic" src={image} alt={author.firstName} />
                 </div> 
                 <div id="postBody">
                     <p id="postContent">{text}</p>
@@ -108,15 +221,10 @@ function Test({ post }){
                         () => {
                             likePost(
                                 post, 
-                                jwt_decode(getCookie('token')).id, 
-                                {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `${getCookie('token')}`
-                                }
-                            );
+                                jwt_decode(getCookie('token')).id,
+                                isLiked);
                             {
-                                let count = likes.length;
+                                console.log('count = ' + count );
                                 if (isLiked){
                                     if (count <= 2){
                                         document.getElementById('likeCount').innerText = `${count-1} like`;
@@ -124,6 +232,8 @@ function Test({ post }){
                                     else {
                                         document.getElementById('likeCount').innerText = `${count-1} likes`;
                                     }
+                                    setCount(count - 1);
+                                    console.log('count = ' + count );
                                     document.getElementById('likeButton').src = like;
                                 }
                                 else{
@@ -135,14 +245,17 @@ function Test({ post }){
                                     else {
                                         document.getElementById('likeCount').innerText = `${count+1} likes`;
                                     }
+                                    setCount(count + 1);
+                                    console.log('count = ' + count );
                                     document.getElementById('likeButton').src = liked;
                                 }
+                                setIsLiked(current => !current)
                             }}
                     } />
                     {
                         verifyLikes 
-                        ? <p id="likeCount">{likes.length} like</p>
-                        : <p id="likeCount">{likes.length} likes</p>
+                        ? <p id="likeCount">{count} like</p>
+                        : <p id="likeCount">{count} likes</p>
                     }
                 </div>
                 <div id="commentCountContainer">
@@ -157,11 +270,7 @@ function Test({ post }){
                         <p className='modifier' onClick={
                             () => {
                                 deletingPost(id,
-                                {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `${getCookie('token')}`
-                                }
+                                { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
                             )}
                         }>Supprimer</p>
                         <p className='modifier' onClick={() => {seteditPostVisible(current => !current)}}>Editer</p>
@@ -198,20 +307,5 @@ function Test({ post }){
     )
     
 
-}
+        */}
 export default Test
-
-/*
-    const [isVisible, setIsVisible] = useState(false);
-
-    return (
-        <div>
-            <button onClick={() => {setIsVisible(current => !current)}} >cliquez ici</button>
-            {isVisible &&
-                <EditPost title={'dsqds'} text={'sdqds'} postId={2} userId={3} />
-            }
-
-        </div>
-    )
-    
-*/

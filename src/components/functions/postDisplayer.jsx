@@ -152,9 +152,7 @@ function Test({ post }){
                         () => {
                             likePost(
                                 post, 
-                                jwt_decode(getCookie('token')).id, 
-                                { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
-                            );
+                                jwt_decode(getCookie('token')).id);
                             {
                                 let count = likes.length;
                                 if (isLiked){

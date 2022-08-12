@@ -2,30 +2,44 @@
     background-color: white;
 
     .modifier {
-        padding-left: 10px;
         padding-right: 10px;
         cursor: pointer;
         text-decoration: underline;
     }
 
-    #comment {        
+    #comment {
         display: flex;
+        flex-direction: column;        
         padding-bottom: 20px;
+
+        #commentButtonContainer {
+            border: solid 1px grey;
+            border-radius: 0px 0px 8px 8px;
+            #sendComment {
+                margin: 10px;
+                margin-right: 25px;
+                padding: 3px;
+                border-radius: 5px;
+                width: initial;
+                height: initial;
+    
+            }
+        }
     }
     
     .comment {
-        border-bottom: 1px solid black;
+        padding-bottom: 15px;
     }
 
     .commentTextBloc {
-        border-radius: 8px;
+        padding: 10px;
+        border-radius: 8px 8px 0px 0px;
         border: 1px solid grey;
-        margin-right:10px;
     }
 
     #comment, .comment {
         display: flex;
-        padding-top: 20px;
+        padding-top: 7px;
 
         #commentText{
             border-radius: 8px;
@@ -43,6 +57,7 @@
 
         #commentContent {
             margin-left: 20px;
+            width: 100%;
 
             #authorC {
                 text-align: left;

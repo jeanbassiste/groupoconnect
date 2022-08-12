@@ -14,11 +14,8 @@ function ProfileDisplayer({user, userId, pageId, admin}){
         image
     } = user;
 
-    let headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `${getCookie('token')}`
-        }
+    let token = getCookie('token');
+
 
     return(
         <div className="main col-lg-6 mx-auto">
@@ -32,7 +29,7 @@ function ProfileDisplayer({user, userId, pageId, admin}){
                         <p>ATTENTION vous êtes sur le point de supprimer un utilisateur.</p><br />
                         <p>Êtes-vous sûr de vouloir continuer ?</p>
                         <div className="d-flex justify-content-around">
-                            <p className='confirm' onClick={() => DeleteProfile(headers, pageId)}>Oui</p>
+                            <p className='confirm' onClick={() => DeleteProfile({ headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }, pageId)}>Oui</p>
                             <p className='confirm' onClick={() => window.location.reload()}>Non</p>
                         </div>
                     </div>

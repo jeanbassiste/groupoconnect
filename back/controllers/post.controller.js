@@ -150,6 +150,7 @@ exports.updatePost = (req, res, next) => {
 }
 
 exports.likePost = (req, res, next) => {
+  console.log('LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIKE');
   console.log("début du liking");
   const id = req.params.id;
   const userId = req.body.userId;
@@ -178,6 +179,7 @@ exports.likePost = (req, res, next) => {
 }
 
 exports.unlikePost = (req, res, next) => {
+  console.log('DISLIIIIIIIIIIKE');
   const id = req.params.id;
   console.log("deleting like numero " + id);
 

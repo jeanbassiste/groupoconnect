@@ -42,10 +42,11 @@ function editPost(postId, editedTitle, editedContent, userId, image, pic) {
     if(image)
 {    formData.append('image', updatePic(image));
 }
+    let token = getCookie('token');
        
     let url = `http://localhost:8080/api/posts/${postId.id}`
 
-    axios.put(url, formData, { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `${getCookie('token')}` })
+    axios.put(url, formData, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
     .then(
         window.location.reload()
     )

@@ -1,49 +1,45 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import getCookie from '../functions/getCookie';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/style.css';
 import Test from '../functions/testInFunction';
 
+function PostPage() {
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const [post, setPost] = useState({});
+    const [update, setUpdate] = useState(0);
+    
+    let token = getCookie('token');
 
-class PostPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {post: {},
-        hasLoaded: false}
-    }
+    const url = window.location.search;
+    const urlParams = new URLSearchParams(url);
+    const postId = urlParams.get('id');
 
-    componentDidMount(){
-        let token = getCookie('token');   
 
-        let headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        };
-
-        const url = window.location.search;
-        const urlParams = new URLSearchParams(url);
-        const postId = urlParams.get('id');
-
-        axios.get(`http://localhost:8080/api/posts/${postId}`, {headers})
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/posts/${postId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(res => {
-            this.setState({post: res.data});
-            this.setState({hasLoaded: true});
-        })
-    }
+            setPost(res.data);
+            setHasLoaded(true);
+        })},
+        [update]
+    )
 
-    render(){
-        if(this.state.hasLoaded){
-            return <Test post={this.state.post} />
-        }
-        else {
-            return(
-                <p>Loading...</p>
-            )
-        }
-    }
+    return(
+        <div>
+            {
+                hasLoaded 
+                ? <Test post={post} setPost={setPost} update={update} setUpdate={setUpdate} /> 
+                : <p>Loading...</p>
+            }        
+        </div>
+    )
 
 }
 
 export default PostPage
+
+/*    
+
+            */

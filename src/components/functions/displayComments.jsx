@@ -5,64 +5,71 @@ import editingComment from "./editComment";
 import getCookie from "./getCookie";
 import { NavLink } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
+import axios from "axios";
 
-function DisplayComments({comment, userId}) {
-    const [editCommentVisible, seteditCommentVisible] = useState(false);
 
-    let authorUrl = `/profile?id=${comment.user.id}`;
+function DisplayComments({comment, userId, isAdmin, update, setUpdate}) {
     let token = getCookie('token');
-    let userTokenRole = jwt_decode(token).role;
-    let label = `commentEditBox${comment.id}`
+    let authorUrl = `/profile?id=${comment.user.id}`;
+
+    const [editCommentVisible, setEditCommentVisible] = useState(false);
+    const [editedComment, setEditedComment] = useState('');
+
+    function handleEditComment() {
+        axios.put(`http://localhost:8080/api/comments/${comment.id}`, {  
+            text: editedComment
+        },
+        { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        .then(
+            setEditCommentVisible(current => !current)
+        )
+        setUpdate(update + 1)
+    }
+
+    function handleDelete(){
+        axios.delete(`http://localhost:8080/api/comments/${comment.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        .then(
+            setUpdate(update + 1)
+        )
+    }
 
 
-    return(
+    return(       
         <div>
-            <article key={comment.id} id={comment.id} className='comment'>
+            <article id={comment.id} className='comment'>
                 <div id='commentAuthor'>
-                    <img id='authorPic' src={comment.user.image} alt={comment.user.firstName} /> 
+                    <img id='authorPic' src={comment.user.image} alt={comment.user.firstName} />
                 </div>
-
-                
-                <div id="commentContent" className={comment.id}>
+                <div id='commentContent'>
                     <NavLink to={authorUrl} className='noLink'>
                         <p id='authorC'>{comment.user.firstName} {comment.user.lastName}</p>
                     </NavLink>
-                    {!editCommentVisible &&
-                    <p id='commentContentText' className='hide'>{comment.text}</p>
-                    }
-                                    {editCommentVisible &&
-                    <form id="comment">
-                    <label htmlFor={label} className='d-none'>Votre commentaire</label>
-                    <textarea type ='text' rows='2' name="commentText" id={label} defaultValue={comment.text} className='commentTextBloc' />
-                    <button id="sendComment" type="button" onClick={
-                        () => {
-                            editingComment(
-                                comment.id, 
-                                document.getElementById(label)
-                            );
-                            seteditCommentVisible(current => !current);
-                }
-                }>Send</button>
-        </form>}
-                    </div>
 
-
-                {
-                    (parseInt(userId) === parseInt(comment.user.id) || userTokenRole === 'admin') &&
-                        <div className="editing">
-                            <p className="modifier hide" onClick={
-                                () => 
-                                deletingComment(
-                                    comment.id,
-                                    { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
-                                )}>Supprimer</p>
-                            <p className="modifier hide" onClick={
-                                () => seteditCommentVisible(current => !current)}>Editer</p>
+                    <div className='col-12 px-0'>
+                        {!editCommentVisible &&
+                            <p id='commentContentText' className='hide'>{comment.text}</p>
+                        }
+                        {editCommentVisible &&
+                        <div id='comment' className='col-12 px-0'>
+                            <textarea id='commentInput' rows='2' defaultValue={comment.text} className='commentTextBloc' onChange={(e) => setEditedComment(e.target.value)} />
+                            <div id='commentButtonContainer' className='d-flex justify-content-end'>
+                                <button id='sendComment' onClick={() => handleEditComment()}>Commentez</button>
+                            </div>
                         </div>
-                }
+                        }
+                        {(parseInt(userId) === parseInt(comment.user.id) || isAdmin === 'admin') &&
+                            <div className='editing d-flex flex-direction-row justify-content-start pt-2'>
+                                <p className='modifier hide pl-0' onClick={() => handleDelete()}>Supprimer</p>
+                                <p className='modifier hide' onClick={() => setEditCommentVisible(current => !current)}>Modifier</p>
+                            </div>
+                        }
+                    </div>
+                </div>
             </article>
         </div>
     )
+
+
 }
 
 export default DisplayComments

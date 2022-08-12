@@ -35,19 +35,13 @@ function editingPost(post, header, body, title, content, titleText, contentText,
 
         let token = getCookie('token');
 
-        let headersdata = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        };
-
         let body =         { 
             id: userId, 
             title : editedTitle,          
             text: editedContent
         }
 
-        axios.put(`http://localhost:8080/api/posts/${post}`, {body}, {headers: headersdata})
+        axios.put(`http://localhost:8080/api/posts/${post}`, {body}, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(res => {
         })
     })

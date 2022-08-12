@@ -16,17 +16,11 @@ class PostPage extends React.Component {
     componentDidMount(){
         let token = getCookie('token');   
 
-        let headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        };
-
         const url = window.location.search;
         const urlParams = new URLSearchParams(url);
         const postId = urlParams.get('id');
 
-        axios.get(`http://localhost:8080/api/posts/${postId}`, {headers})
+        axios.get(`http://localhost:8080/api/posts/${postId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(res => {
             this.setState({post: res.data});
             this.setState({hasLoaded: true});
