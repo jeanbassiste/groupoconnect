@@ -33,12 +33,72 @@ function Test({ post, setPost, update, setUpdate }){
         userId,
         image
     } = post;
-
     const authorUrl = `/profile?id=${author.id}`;
     const postUrl = `/post?id=${id}`;
 
     //Modification et suppression du post 
     const [editPostVisible, setEditPostVisible] = useState(false);
+    const [newImage, setNewImage] = useState(image);
+    const [imageHadChange, setImageHadChange] = useState(false);
+    const [newTitle, setNewTitle] = useState(title);
+    const [newText, setNewText] = useState(text);
+
+    function handleImageChange() {
+        let fileTypes = [
+            'image/jpeg',
+            'image/pjpeg',
+            'image/png',
+            'image/gif'
+        ]
+
+        function validFileType(file) {
+            for(var i = 0; i < fileTypes.length; i++) {
+                if(file.type === fileTypes[i]) {
+                return true;
+                }
+            }
+            return false;
+        }
+        let picUpload = document.getElementById('picUpload');
+        let picContainer = document.getElementById('errorContainer');
+
+        let uploadedPic = picUpload.files[0];
+        
+        if(uploadedPic === 0) {
+            let error = document.createElement('p');
+            error.textContent = 'Aucun fichier sélectionné';
+            picContainer.appendChild(error);
+        } else {
+            if(validFileType(uploadedPic)) {
+                setNewImage(window.URL.createObjectURL(uploadedPic))
+                setImageHadChange(true);
+                return uploadedPic;
+            } else {
+                let error = document.createElement('p');
+                error.textContent = 'Le format du fichier sélectionné est incorrect ou sa taille dépasse la limite maximale (20ko)';
+                picContainer.appendChild(error);                   
+                }   
+        }
+    }
+
+    function handleEditPost() {
+
+        const formData = new FormData();
+        formData.append('title', newTitle);
+        formData.append('text', newText);
+        formData.append('author', userId);
+        if(imageHadChange) {
+            formData.append('image', handleImageChange());
+        }
+
+        axios.put(`http://localhost:8080/api/posts/${post.id}`, formData, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        .then(
+            setUpdate(update + 1)
+        )
+        .then(
+            setEditPostVisible (current => !current)
+        )
+    }
 
     function handleDeletePost() {
         axios.delete(`http://localhost:8080/api/posts/${post.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
@@ -117,21 +177,20 @@ function Test({ post, setPost, update, setUpdate }){
                     }
                 </header>
                 {editPostVisible &&
-                    <div id='' className='col-lg-12 mx-auto py-3 d-flex justify-content-center'>
-                        <form id="" className='col-lg-12 createPostForm flex-column align-items-start'>
+                    <div className='col-lg-12 mx-auto py-3 px-0 d-flex justify-content-center'>
+                        <div id='errorContainer' className='col-lg-12 px-0 createPostForm flex-column align-items-start'>
                             <div id="picContainer">
-                                <label htmlFor='picUpload' class='d-none'>Votre photo</label>
-                                <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png" />
-                                <img id="postPic" src={image} alt="Votre photo" />
+                                <label htmlFor='picUpload' className='d-none'>Votre photo</label>
+                                <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png" onChange={() => handleImageChange() }/>
+                                <img id="postPic" src={newImage} alt="Votre photo" />
                             </div>
-                            <div id='postContainer' className='col-lg-12 d-flex flex-column align-items-start'>
+                            <div id='postContainer' className='col-lg-12 px-0 d-flex flex-column align-items-start'>
                                 <label htmlFor='editedTitle' className='d-none'>Titre du post</label>
-                                <input type="text" id="editedTitle" className="col-lg-12" defaultValue={title} />
-                                <label htmlFor='editedContent' className='d-none'>Contenu du post</label>
-                                <textarea type="text" id="editedContent" rows='5' className="col-lg-12" defaultValue={text} />
+                                <input type="text" id="editedTitle" className="col-lg-12" defaultValue={title} onChange={(e) => setNewTitle(e.target.value)} />
+                                <textarea type="text" id="editedContent" rows='5' className="col-lg-12" defaultValue={text} onChange={(e) => setNewText(e.target.value)} />
                             </div>
-                            <button id="editPost"className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" onClick={() => {editPost({id}, document.getElementById('editedTitle').value, document.getElementById('editedContent').value, {userId}, document.getElementById('picUpload').files[0], document.getElementById('postPic')); setEditPostVisible(current => !current); setUpdate(update + 1) }}>Modifiez le post !</button>
-                        </form>
+                            <button id="editPost"className="btn btn-success col-12 col-md-6 my-3 mx-auto" type="button" onClick={() => handleEditPost()}>Modifiez le post !</button>
+                        </div>
                     </div>
                 }
                 {!editPostVisible &&

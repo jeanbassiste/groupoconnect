@@ -36,3 +36,26 @@
     margin: auto;
     object-fit: cover;
 }
+
+#editedTitle {
+    padding: 10px;
+    border-radius: 8px 8px 0px 0px;
+    border: 1px solid gray;
+}
+
+#editedContent {
+    padding: 10px;
+    border: solid 1px gray;
+    border-radius: 0px 0px 8px 8px;
+}
+
+#editPost {
+    margin: 10px;
+    margin-right: 25px;
+    padding: 10px;
+    border-radius: 5px;
+    width: initial;
+    height: initial;
+    font-size: larger;
+    font-weight: bold;
+}

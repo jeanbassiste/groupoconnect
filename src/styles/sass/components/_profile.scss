@@ -40,7 +40,7 @@ label {
     #picUpload {
         position: absolute;
         width:134px;    
-        top: 220px;
+        top: 45%;
         border: 0px;
     }
     #profilePicUpload {
@@ -57,4 +57,9 @@ input[type='file'] {
 
 #email, #password, #verifyPassword {
     background-image: none;
+  }
+
+  #logOut, #deleteUser {
+    cursor: pointer;
+    text-decoration: underline;
   }

@@ -8,7 +8,7 @@ import jwt_decode from 'jwt-decode';
 import axios from "axios";
 
 
-function DisplayComments({key, comment, userId, isAdmin, update, setUpdate}) {
+function DisplayComments({comment, userId, isAdmin, update, setUpdate}) {
     let token = getCookie('token');
     let authorUrl = `/profile?id=${comment.user.id}`;
 

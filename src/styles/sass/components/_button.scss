@@ -14,8 +14,14 @@ button {
 }
 
 #openForm {
-    font-size: 50px;
-    font-weight: 900;
+    margin: 10px;
+    margin-right: 25px;
+    padding: 10px;
+    border-radius: 5px;
+    width: initial;
+    height: initial;
+    font-size: larger;
+    font-weight: bold;
 }
 
 
@@ -27,4 +33,14 @@ button {
         background-color: red;
         border: 1px solid red;
     }
+}
+
+#newPost {
+    margin: auto;
+    padding: 10px;
+    border-radius: 5px;
+    width: 110px;
+    height: initial;
+    font-size: larger;
+    font-weight: bold;
 }

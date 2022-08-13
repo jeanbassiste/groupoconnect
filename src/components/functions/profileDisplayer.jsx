@@ -39,7 +39,7 @@ function ProfileDisplayer({user, userId, pageId, admin}){
         <div className="upper">
             <h1 id='name'>{firstName} {lastName}</h1>
             <h2 id='infos'>{fonction} à {site}</h2>
-            <div id="picContainer">
+            <div className='d-flex justify-content-center my-4'>
                 <img id="profilePic" src={image} alt={firstName} />
             </div>
         </div>

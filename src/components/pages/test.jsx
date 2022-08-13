@@ -7,7 +7,7 @@ import Test from '../functions/testInFunction';
 
 function PostPage() {
     const [hasLoaded, setHasLoaded] = useState(false);
-    const [post, setPost] = useState({});
+    const [posts, setPosts] = useState({});
     const [update, setUpdate] = useState(0);
     
     let token = getCookie('token');
@@ -18,9 +18,9 @@ function PostPage() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/posts/${postId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        axios.get(`http://localhost:8080/api/posts/`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(res => {
-            setPost(res.data);
+            setPosts(res.data);
             setHasLoaded(true);
         })},
         [update]
@@ -30,7 +30,7 @@ function PostPage() {
         <div>
             {
                 hasLoaded 
-                ? <Test post={post} setPost={setPost} update={update} setUpdate={setUpdate} /> 
+                ? posts.map((post) => <Test key={post.id} post={post} setPost={setPosts} update={update} setUpdate={setUpdate} />) 
                 : <p>Loading...</p>
             }        
         </div>
