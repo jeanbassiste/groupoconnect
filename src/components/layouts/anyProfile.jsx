@@ -1,13 +1,63 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../styles/style.css';
 import axios from 'axios';
 import getCookie from '../functions/getCookie';
 import jwt_decode from 'jwt-decode';
 import ProfileDisplayer from '../functions/profileDisplayer';
 import PostDisplayer from '../functions/postDisplayer';
+import { useState } from 'react';
+import Test from '../functions/testInFunction';
 
-class Profile extends React.Component {
+function Profile() {
+    const [user, setUser] = useState({});
+    const [posts, setPosts] = useState({});
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const [update, setUpdate] = useState(false);
+
+    const token = getCookie('token');
+    const tokenUserId = jwt_decode(getCookie("token")).id;
+    const tokenUserRole = jwt_decode(getCookie("token")).role;
+    const url = window.location.search;
+    const urlParams = new URLSearchParams(url);
+    const userId = urlParams.get('id');
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/users/${userId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        .then(res => {
+            const data = res.data;
+            setUser(data);
+            setPosts(data.posts);
+            setHasLoaded(true);
+        })
+        },
+        [update]
+    )
+
+    return(
+        <div>
+            {
+                hasLoaded
+                ? <div>
+                    <ProfileDisplayer user={user} userId={tokenUserId} pageId={userId}  admin={tokenUserRole} />
+                        { posts.length !=0 
+                            ? posts.map(post => {
+                            return <Test key={post.id} post={post} setPost={setPosts} update={update} setUpdate={setUpdate} />
+                        })
+                            : <p>Cet utilisateur n'a encore aucun post à afficher</p>}
+                    </div>
+                : <p>Loading...</p>
+            } 
+        </div>    
+    )
+
+
+
+
+
+}
+
+/*class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -51,6 +101,6 @@ class Profile extends React.Component {
         }
        
     }
-}
+}*/
 
 export default Profile;

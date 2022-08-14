@@ -27,11 +27,11 @@ class CreatePost extends React.Component {
                         </select>                       
                     </div>
                     <div id='postContainer' className='col-lg-12 d-flex flex-column align-items-start'>
-                        <div id="picContainer">
-                        <label htmlFor='picUpload' className='d-none'>Votre photo</label>
-                        <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
-                        <img id="postPic" src={upload} alt="Votre photo" />
-                    </div>
+                        <div id="picContainer" className='col-12'>
+                            <label htmlFor='picUpload' className='d-none'>Votre photo</label>
+                            <input id="picUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
+                            <img id="postPic" src={upload} alt="Votre photo" />
+                        </div>
                         <label htmlFor='postTitle' className='d-none'>Titre du post</label>
                         <input type="text" id="postTitle" className="col-lg-12" placeholder='Titre du post' />
                         <label htmlFor='postBody' className='d-none'>Contenu du post</label>
