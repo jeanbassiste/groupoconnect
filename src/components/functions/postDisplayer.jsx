@@ -190,7 +190,9 @@ function Test({ post, setPost, update, setUpdate }){
                                 <input type="text" id="editedTitle" className="col-lg-12" defaultValue={title} onChange={(e) => setNewTitle(e.target.value)} />
                                 <textarea type="text" id="editedContent" rows='5' className="col-lg-12" defaultValue={text} onChange={(e) => setNewText(e.target.value)} />
                             </div>
-                            <button id="editPost"className="btn btn-success col-12 col-md-6 my-3 mx-auto" type="button" onClick={() => handleEditPost()}>Modifiez le post !</button>
+                            <div className='d-flex justify-content-center'>
+                                <button id="editPost"className="col-12 col-md-6 my-3 mx-auto" type="button" onClick={() => handleEditPost()}>Modifiez le post !</button>
+                            </div>
                         </div>
                     </div>
                 }

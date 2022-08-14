@@ -39,7 +39,7 @@ class CreatePost extends React.Component {
                     </div>
 
 
-                    <button id="newPost"className="btn btn-success col-12 col-md-6 my-3" type="button">Postez !</button>
+                    <button id="newPost"className="col-12 col-md-6 my-3" type="button">Postez !</button>
                 </form>
                 <button id="openForm" className="">
                     Nouveau post
