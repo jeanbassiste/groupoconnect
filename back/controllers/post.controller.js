@@ -114,24 +114,24 @@ exports.deletePost = (req, res, next) => {
 
 //modifier un post
 exports.updatePost = (req, res, next) => {
-  const id = req.params.id;
-    const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` }
-
-    Post.update(postPic, {where: {id:id}});
-  
-
-
-  console.log('ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
-  console.log(req.headers);
-  console.log(req.headers.authorization);
+  console.log('on rentre dans le update');
   console.log(req.body);
+  const id = req.params.id;
+
+
+  if(req.file) {
+    const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` } 
+    Post.update(postPic, {where: {id:id}});
+  }
+
+
+  
 
   Post.update(req.body, {
       where: {id: id}
   })
   .then(num => {
-      Post.update(postPic, {where: {id:id}});
-    
+
       if (num == 1) {
           res.send({
               message: "Post mis à jour"
