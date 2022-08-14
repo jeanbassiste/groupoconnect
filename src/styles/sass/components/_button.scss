@@ -14,22 +14,28 @@ button {
     }
 }
 
-#createPost {
-    display: none;
+#editPost, #sendComment, #openForm, #newPost {
+    width: initial;
 }
 
-#openForm {
+#editPost, #sendComment, #openForm {
     margin: 10px;
     margin-right: 25px;
-    width: initial;
+}
+
+#editPost, #openForm, #newPost {
     font-weight: bold;
 }
 
-#newPost {
-    margin: auto;
-    padding: 10px;
-    width: 110px;
-    height: initial;
-    font-size: larger;
-    font-weight: bold;
+#sendComment {
+    padding: 3px;
+    border-radius: 5px;
+    &:hover {
+        background-color: #ffd7d7;
+        color:black;
+    }
+}
+
+#createPost {
+    display: none;
 }
