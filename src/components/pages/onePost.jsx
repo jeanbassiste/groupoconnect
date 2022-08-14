@@ -29,7 +29,7 @@ function PostPage() {
             setHasLoaded(true);
         })        
     },
-    [])
+    [update])
     console.log(post);
 
     return (
