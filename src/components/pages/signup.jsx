@@ -16,19 +16,22 @@ class Signup extends React.Component {
                 <p>Créez votre compte et rencontrez vos collaborateurs !</p>
     
                 <form id="signUpForm" className="signupForm" noValidate>
+                    <label htmlFor='email' className='d-none'>email</label>
                     <input type="email" className="form-control" id="email" autoComplete="off" name="email" placeholder="jane.doe@groupomania.com" />
                     <p id="emailError">Utilisez une adresse @groupomania.com valide et unique.</p>
                     <div className='d-flex flex-row position-relative'>
+                        <label htmlFor='password' className='d-none'>password</label>
                         <input type="password" className="form-control" id="password" autoComplete="off" name="password" placeholder="Mot de passe" /> 
                         <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i>
                     </div>
                     <p id="passwordError">Le mot de passe doit contenir : au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
                     <div className='d-flex flex-row position-relative'>
+                        <label htmlFor='verifyPassword' className='d-none'>verifyPassword</label>
                         <input type="password" className="form-control" id="verifyPassword" autoComplete="off" name="password" placeholder="Répétez votre mot de passe" /> 
                         <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seeVerifyPassword"></i>
                     </div>
                     <p id="verifyError">Les deux mots de passe ne sont pas identiques.</p>
-                    <button id="SignUpButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Inscrivez-vous</button>
+                    <button id="SignUpButton" className="col-12 col-md-6 my-3" type="button" data-bs-toggle="" data-bs-target="">Inscrivez-vous</button>
                 </form>
                 
                 <p>Déjà membre ? <NavLink to="/login">Connectez-vous !</NavLink></p>

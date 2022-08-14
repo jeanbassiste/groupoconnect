@@ -205,7 +205,9 @@ function Test({ post, setPost, update, setUpdate }){
                 }
                 <div id='postFooter'>
                     <div id='likes'>
-                        <img id='likeButton' alt='bouton like' src={isLiked ? liked : like} onClick={() => handleLike()} />
+                        {
+                            userTokenId != author.id && <img id='likeButton' alt='bouton like' src={isLiked ? liked : like} onClick={() => handleLike()} />
+                        }
                         <p id='likeCount'>{likes.length} {likes.length >= 2 ? 'likes' : 'like'}</p>
                     </div>
                     <div id='commentCountContainer'>

@@ -15,7 +15,7 @@ class FirstProfile extends React.Component {
                 <h1>Votre Profil</h1>
 
                 <form className="vous">
-                    <div id="picContainer">
+                    <div class="position-relative d-flex justify-content-center">
                         <label htmlFor='profilePicUpload' className='d-none'>Votre photo</label>
                         <input id="profilePicUpload" name="image" type="file" title="" accept=".jpg, .jpeg, .png"/>
                         <img id="profilePic" src={upload} alt="Votre photo" />

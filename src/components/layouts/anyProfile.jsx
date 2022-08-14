@@ -7,7 +7,6 @@ import jwt_decode from 'jwt-decode';
 import ProfileDisplayer from '../functions/profileDisplayer';
 import PostDisplayer from '../functions/postDisplayer';
 import { useState } from 'react';
-import Test from '../functions/testInFunction';
 
 function Profile() {
     const [user, setUser] = useState({});
@@ -42,7 +41,7 @@ function Profile() {
                     <ProfileDisplayer user={user} userId={tokenUserId} pageId={userId}  admin={tokenUserRole} />
                         { posts.length !=0 
                             ? posts.map(post => {
-                            return <Test key={post.id} post={post} setPost={setPosts} update={update} setUpdate={setUpdate} />
+                            return <PostDisplayer key={post.id} post={post} setPost={setPosts} update={update} setUpdate={setUpdate} />
                         })
                             : <p>Cet utilisateur n'a encore aucun post à afficher</p>}
                     </div>

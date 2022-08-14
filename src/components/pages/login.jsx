@@ -17,11 +17,13 @@ class Login extends React.Component {
                 <h2>Le réseau social des employés de Groupomania</h2>
                 <p>Connectez-vous en utilisant votre adresse @groupomania.com</p>
                 <form id="loginForm" className="loginForm" noValidate>
+                    <label htmlFor='email' className='d-none'>email</label>
                     <input type="email" className="form-control" id="email" autoComplete="off" name="email" placeholder="jane.doe@groupomania.com" />
                     <p id="emailError">Utilisez une adresse @groupomania.com valide.</p>
+                    <label htmlFor='password' className='d-none'>password</label>
                     <div className='d-flex flex-row position-relative'><input type="password" className="form-control" id="password" autoComplete="off" name="password" placeholder="Mot de passe" /> <i className="bi bi-eye position-absolute end-0 top-0 me-2 mt-1" id="seePassword"></i></div>
                     <p id="passwordError">Le mot de passe doit contenir : au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p><br />
-                    <button id="logInButton" className="btn btn-success col-12 col-md-6 rounded-pill my-3" type="button" data-bs-toggle="" data-bs-target="">Connectez-vous</button>
+                    <button id="logInButton" className="col-12 col-md-6 my-3" type="button" data-bs-toggle="" data-bs-target="">Connectez-vous</button>
                 </form>
                 <p>Première connexion ? <NavLink to="/signup">Créez votre compte !</NavLink></p>
                 <p id="deleted">Connexion impossible : l'utilisateur n'existe plus</p>

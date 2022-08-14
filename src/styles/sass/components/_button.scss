@@ -1,12 +1,17 @@
 button {
-    background-color: #fd2b01;
-    color: white;
-    width: 75px;
-    height: 75px;
-    border-radius: 75px;
-    border: none;
     margin: auto;
-
+    padding: 10px;
+    border-radius: 50px;
+    width: 110px;
+    height: initial;
+    font-size: larger;
+    background: #ffd7d7;
+    color: #000;
+    border: 1px solid red;
+    &:hover {
+        background-color: red;
+        color: white;
+    }
 }
 
 #createPost {
@@ -16,23 +21,8 @@ button {
 #openForm {
     margin: 10px;
     margin-right: 25px;
-    padding: 10px;
-    border-radius: 5px;
     width: initial;
-    height: initial;
-    font-size: larger;
     font-weight: bold;
-}
-
-
-.btn-success {
-    background-color: #ffd7d7;
-    color: black;
-    border: 1px solid red;
-    &:hover {
-        background-color: red;
-        border: 1px solid red;
-    }
 }
 
 #newPost {

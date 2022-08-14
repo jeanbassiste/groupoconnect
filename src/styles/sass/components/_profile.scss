@@ -31,24 +31,28 @@ label {
 
 }
 
+#picUpload {
+  position: absolute;
+  width:134px;    
+  top: 45%;
+  border: 0px;
+}
+
+#profilePicUpload {
+  position: absolute;
+  width:134px;    
+  top: 45%;
+  margin: auto;
+  border: 0px;
+}
+
 #picContainer {
     margin-top: 5px;
     display: flex;
     justify-content: center;
     position: relative;
 
-    #picUpload {
-        position: absolute;
-        width:134px;    
-        top: 45%;
-        border: 0px;
-    }
-    #profilePicUpload {
-        position: absolute;
-        width:134px;    
-        top: 110px;
-        border: 0px;
-    }
+
 }
 
 input[type='file'] {
