@@ -3,7 +3,7 @@ import DeleteProfile from './deleteProfile';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import getCookie from './getCookie';
-
+import { useState } from 'react';
 
 function ProfileDisplayer({user, userId, pageId, admin}){
     const {

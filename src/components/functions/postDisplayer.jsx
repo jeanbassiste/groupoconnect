@@ -15,23 +15,16 @@ import getUrlPath from '../functions/getURLPath';
 import { NavLink } from "react-router-dom";
 import '../../styles/style.css';
 import axios from 'axios';
+import fav from'../../assets/star-svgrepo-com.svg';
+import unfav from'../../assets/star-rate-svgrepo-com.svg';
 
 function Test({ post, setPost, update, setUpdate }){
-
-
     //éléments basiques utiles
     let token = getCookie('token');
     let userTokenId = jwt_decode(token).id;
     let userTokenRole = jwt_decode(token).role;
     let postId = post.id;
     let author = post.user;
-
-    console.log(parseInt(userTokenId));
-    console.log(parseInt(author.id))
-    if(parseInt(userTokenId) === parseInt(author.id)){
-        console.log(true)
-    }
-    else(console.log(false))
 
     //Affichage du post
     const {
@@ -42,6 +35,9 @@ function Test({ post, setPost, update, setUpdate }){
         userId,
         image
     } = post;
+
+    console.log(post);
+    console.log(author);
     const authorUrl = `/profile?id=${author.id}`;
     const postUrl = `/post?id=${id}`;
 
@@ -131,12 +127,18 @@ function Test({ post, setPost, update, setUpdate }){
         else{
             likes.every(like => {
                 if (parseInt(like.userId) === parseInt(userTokenId)){
+
                     setIsLiked(true)
                     setLikeId(like.id);
+
                     return false
                 }
                 else {
+
                     setIsLiked(false)
+
+
+
                     return true
                 }
             })
@@ -176,6 +178,52 @@ function Test({ post, setPost, update, setUpdate }){
 
     //Affichage des commentaires
     const comments = post.comments;
+
+    //Gestion des favoris *NEW*
+    const [isFav, setIsFav] = useState(false);
+    const [favId, setFavId] = useState();
+
+    const favs = post.favs;
+
+    useEffect(() => {
+        if(favs.length === 0) {
+
+            setIsFav(false);
+            return false
+        }
+        else{
+            favs.every(fav => {
+                if (parseInt(fav.userId) === parseInt(userTokenId)){
+                    setIsFav(true)
+                    setFavId(fav.id);
+    
+                    return false
+                }
+                else {
+
+                    setIsFav(false);
+
+                    return true
+                }
+            })
+        }
+    })
+
+    function handleFav(){
+        {isFav
+            ? axios.delete(`http://localhost:8080/api/posts/fav/${favId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+            : axios.put(`http://localhost:8080/api/posts/fav/${postId}`, 
+            { userId: userTokenId },
+            { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })}
+            setUpdate( update + 1 );   
+    }
+
+
+
+
+
+
+
 
     return(
         <div id='pagePost' className='col-12 col-lg-6 mx-auto'>
@@ -239,6 +287,9 @@ function Test({ post, setPost, update, setUpdate }){
                             <p className='modifier' onClick={() => setEditPostVisible(current => !current)}>Modifier</p>
                         </div>
 
+                    }
+                    {
+                        parseInt(userTokenId) != parseInt(author.id) && <img id='favButton' alt='bouton de favoris' src={isFav ? unfav : fav} onClick={() => handleFav()} />
                     }
                 </div>
             </article>

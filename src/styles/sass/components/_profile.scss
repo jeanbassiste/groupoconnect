@@ -67,3 +67,24 @@ input[type='file'] {
     cursor: pointer;
     text-decoration: underline;
   }
+
+  #togglePosts, #toggleFavs {
+    background-color: white;
+    padding: 5px;
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover{
+      background-color: red;
+      color: white;
+    }
+
+    p{
+      margin: 0px;
+    }
+  }
+
+  .selected {
+    border-bottom: solid 3px red;
+  }

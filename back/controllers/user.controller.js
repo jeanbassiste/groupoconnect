@@ -108,7 +108,7 @@ exports.login = (req, res, next) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    User.findByPk(id, {include: [{model:Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}], order: ['updatedAt', 'DESC']}, {model: Fav, include: [{model: Post, order: ['updatedAt', 'DESC']}]}]})
+    User.findByPk(id, {include: [{model:Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}, {model:Fav}], order: ['updatedAt', 'DESC']}, {model: Fav, include: [{model: Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}, {model:Fav}], order: ['updatedAt', 'DESC']}]}]})
     .then(data => {
         if (data) {
             res.send(data);
