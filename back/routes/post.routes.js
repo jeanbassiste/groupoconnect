@@ -12,6 +12,8 @@ module.exports = app => {
     router.put('/:id', multer, posts.updatePost);
     router.put('/like/:id', auth, posts.likePost);
     router.delete('/like/:id', auth, posts.unlikePost);
+    router.put('/fav/:id', auth, posts.favPost);
+    router.delete('/fav/:id', auth, posts.unfavPost);
 
     app.use('/api/posts', router);
 }

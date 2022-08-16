@@ -4,6 +4,7 @@ const db = require("../models");
 const User = db.users;
 const Post = db.posts;
 const Like = db.likes;
+const Fav = db.favs;
 const Comment = db.comments;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -107,7 +108,7 @@ exports.login = (req, res, next) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    User.findByPk(id, {include: [{model:Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}], order: ['updatedAt', 'DESC']}]})
+    User.findByPk(id, {include: [{model:Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}], order: ['updatedAt', 'DESC']}, {model: Fav, include: [{model: Post, order: ['updatedAt', 'DESC']}]}]})
     .then(data => {
         if (data) {
             res.send(data);

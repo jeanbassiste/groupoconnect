@@ -33,6 +33,8 @@ function Profile() {
         [update]
     )
 
+    console.log(user);
+
     return(
         <div>
             {

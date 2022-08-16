@@ -23,6 +23,8 @@ db.users = require("./user.model.js")(sequelize, Sequelize);
 db.posts = require("./post.model.js")(sequelize, Sequelize);
 db.comments = require('./comment.model.js')(sequelize, Sequelize);
 db.likes = require('./like.model.js')(sequelize, Sequelize);
+db.favs = require('./fav.model.js')(sequelize, Sequelize);
+
 
 db.posts.belongsTo(db.users);
 db.users.hasMany(db.posts);
@@ -37,6 +39,9 @@ db.posts.hasMany(db.likes);
 db.likes.belongsTo(db.users);
 db.users.hasMany(db.likes);
 
-
+db.favs.belongsTo(db.posts);
+db.posts.hasMany(db.favs);
+db.favs.belongsTo(db.users);
+db.users.hasMany(db.favs);
 
 module.exports = db;

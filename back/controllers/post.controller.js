@@ -5,6 +5,7 @@ const Op = db.Sequelize.Op;
 const Post = db.posts;
 const User = db.users;
 const Like = db.likes;
+const Fav = db.favs;
 const Comment = db.comments;
 
 //Création d'un nouveau post
@@ -53,7 +54,7 @@ exports.displayAllPosts = (req, res, next) => {
   console.log('START');
     Post.findAll({order: [
       ['updatedAt', 'DESC']
-  ], include: [{model:User}, {model:Comment, include: [User]}, {model:Like}]})
+  ], include: [{model:User}, {model:Comment, include: [User]}, {model:Like}, {model: Fav}]})
     .then(data => {
       res.send(data);
     })
@@ -69,7 +70,7 @@ exports.displayAllPosts = (req, res, next) => {
 //Affichage d'un post
 exports.displayOnePost = (req, res, next) => {
     const id = req.params.id;
-    Post.findByPk(id, {include: [{model:User}, {model:Comment, include: [User]}, {model:Like}]})
+    Post.findByPk(id, {include: [{model:User}, {model:Comment, include: [User]}, {model:Like}, {model: Fav}]})
       .then(data => {
         if (data) {
           res.send(data);
@@ -194,6 +195,57 @@ exports.unlikePost = (req, res, next) => {
       } else {
           res.send({
               message: "impossible de supprimer le like"
+          });
+      }
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: "il y a eu un pb"
+      });
+  });  
+}
+
+exports.favPost = (req, res, next) => {
+  console.log('start fav');
+  const id = req.params.id;
+  const userId = req.body.userId;
+
+  let fav = {
+    userId: req.body.userId,
+    postId: id
+  }
+
+  Fav.create(fav)
+  .then(num => {
+    console.log('on est entré dans le then');
+    console.log(num);
+    res.status(201).send({
+      message: "Post mis à jour"
+    });
+})
+.catch(err => {
+  console.log('nopinop, mais avec un 500');
+    res.status(500).send({
+        message: "Une erreur s'est produite dans la mise à jour du post " + id
+    });
+});  
+
+}
+
+exports.unfavPost = (req, res, next) => {
+  const id = req.params.id;
+
+  Fav.destroy({
+      where: {id: id}
+  })
+  .then(num => {
+      if(num == 1) {
+          res.send({
+              message: "Le fav a été supprimé"
+          });
+      } else {
+          res.send({
+              message: "impossible de supprimer le fav"
           });
       }
   })

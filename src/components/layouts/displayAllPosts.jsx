@@ -26,6 +26,8 @@ function PostPage() {
         [update]
     )
 
+    console.log(posts);
+
     return(
         <div>
             {
