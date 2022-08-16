@@ -17,12 +17,21 @@ import '../../styles/style.css';
 import axios from 'axios';
 
 function Test({ post, setPost, update, setUpdate }){
+
+
     //éléments basiques utiles
     let token = getCookie('token');
     let userTokenId = jwt_decode(token).id;
     let userTokenRole = jwt_decode(token).role;
     let postId = post.id;
     let author = post.user;
+
+    console.log(parseInt(userTokenId));
+    console.log(parseInt(author.id))
+    if(parseInt(userTokenId) === parseInt(author.id)){
+        console.log(true)
+    }
+    else(console.log(false))
 
     //Affichage du post
     const {
@@ -115,26 +124,41 @@ function Test({ post, setPost, update, setUpdate }){
     const likes = post.likes;
 
     useEffect(() => {
-        likes.every(like => {
-            if (like.userId === userTokenId){
-                setIsLiked(true)
-                setLikeId(like.id);
-                return false
-            }
-            else {
-                setIsLiked(false)
-                return true
-            }
-        },
-        [setPost])
+        if(likes.length === 0) {
+            setIsLiked(false);
+            return false
+        }
+        else{
+            likes.every(like => {
+                if (parseInt(like.userId) === parseInt(userTokenId)){
+                    setIsLiked(true)
+                    setLikeId(like.id);
+                    return false
+                }
+                else {
+                    setIsLiked(false)
+                    return true
+                }
+            })
+        }
+
     })
 
     function handleLike() {
-        {isLiked
-        ? axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
-        : axios.put(`http://localhost:8080/api/posts/like/${postId}`, 
-        { userId: userTokenId },
-        { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })}
+        {
+            (likes.length === 0 || isLiked === false)
+            ? axios.put(`http://localhost:8080/api/posts/like/${postId}`, 
+            { userId: userTokenId },
+            { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+            : axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        }
+
+        /*{ (isLiked && like.length != 0) 
+            ? axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+            : axios.put(`http://localhost:8080/api/posts/like/${postId}`, 
+            { userId: userTokenId },
+            { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+        }*/
         setUpdate( update + 1 );
 
     }
@@ -216,7 +240,7 @@ function Test({ post, setPost, update, setUpdate }){
                     <div id='commentCountContainer'>
                         <p id='commentCount'>{comments.length} {comments.length >= 2 ? 'commentaires' : 'commentaire'}</p>
                     </div>
-                    {(userTokenId === author.id || userTokenRole === 'admin') && (getUrlPath() === "/post" ||getUrlPath() === "/test") &&
+                    {(parseInt(userTokenId) === parseInt(author.id) || userTokenRole === 'admin') && (getUrlPath() === "/post" ||getUrlPath() === "/test") &&
                         <div className='d-flex flex-column flex-md-row editing'>
                             <p className='modifier' onClick={() => handleDeletePost()}>Supprimer</p>
                             <p className='modifier' onClick={() => setEditPostVisible(current => !current)}>Modifier</p>
