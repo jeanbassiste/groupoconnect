@@ -152,13 +152,6 @@ function Test({ post, setPost, update, setUpdate }){
             { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
             : axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         }
-
-        /*{ (isLiked && like.length != 0) 
-            ? axios.delete(`http://localhost:8080/api/posts/like/${likeId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
-            : axios.put(`http://localhost:8080/api/posts/like/${postId}`, 
-            { userId: userTokenId },
-            { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
-        }*/
         setUpdate( update + 1 );
 
     }
