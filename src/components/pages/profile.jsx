@@ -15,17 +15,6 @@ class ProfilePage extends React.Component {
         }
     }
 
-    componentDidMount(){
-        redirection();
-
-        let token = getCookie('token');
-
-        axios.get(`http://localhost:8080/api/users/${currentUser.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
-        .then(res => {
-            this.setState({role: res.data.role});
-        })
-    }
-
     render(){
         if(this.state.role === 'newUser'){
             return(
@@ -38,6 +27,18 @@ class ProfilePage extends React.Component {
             )
         }
 
+    }
+
+    componentDidMount(){
+        redirection();
+
+        if(redirection() === true){
+            let token = getCookie('token');
+            axios.get(`http://localhost:8080/api/users/${currentUser.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
+            .then(res => {
+                this.setState({role: res.data.role});
+            })
+        }
     }
 }
 
