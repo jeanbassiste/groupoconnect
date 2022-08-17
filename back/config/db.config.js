@@ -1,13 +1,13 @@
 require("dotenv").config({ path: "./back/config/.env" })
 console.log('blep');
-console.log(process.env.TOKEN);
+console.log(process.env.HOST);
 
 module.exports = {
-    HOST: 'localhost',
-    USER: 'root',
-    PASSWORD: 'L3M02pass',
-    DB: 'projet7',
-    dialect: 'mysql',
+    HOST: process.env.HOST,
+    USER: process.env.USER,
+    PASSWORD: process.env.PASSWORD,
+    DB: process.env.DB,
+    dialect: process.env.DIALECT,
     pool: {
         max: 5,
         min: 0,
