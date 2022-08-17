@@ -88,8 +88,8 @@ exports.deletePost = (req, res, next) => {
   const id = req.params.id;
   Post.findByPk(id)
   .then(data => {
-    const filename = data.dataValues.image.split('/images')[1];
-    fs.unlink(`images/${filename}`, ()=> {
+    const filename = data.dataValues.image.split('/images/')[1];
+    fs.unlink(`./back/images/${filename}`, ()=> {
       Post.destroy({
         where: {id: id}
     })
@@ -123,13 +123,16 @@ exports.updatePost = (req, res, next) => {
   console.log('on rentre dans le update');
   console.log(req.body);
   const id = req.params.id;
+  Post.findByPk(id)
+  .then(data => {
+    if(req.file) {
+      const filename = data.dataValues.image.split('/images/')[1];
+      fs.unlink(`./back/images/${filename}`, ()=> {
+        const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` } 
 
-
-  if(req.file) {
-    const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` } 
-    Post.update(postPic, {where: {id:id}});
-  }
-
+        Post.update(postPic, {where: {id:id}});
+    })
+    }
   Post.update(req.body, {
       where: {id: id}
   })
@@ -149,7 +152,9 @@ exports.updatePost = (req, res, next) => {
       res.status(500).send({
           message: "Une erreur s'est produite dans la mise à jour du post " + id
       });
-  });      
+  });  
+
+  })    
 }
 
 exports.likePost = (req, res, next) => {
