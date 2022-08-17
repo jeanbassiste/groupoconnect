@@ -1,6 +1,4 @@
 require("dotenv").config({ path: "./back/config/.env" })
-console.log('blep');
-console.log(process.env.HOST);
 
 module.exports = {
     HOST: process.env.HOST,
