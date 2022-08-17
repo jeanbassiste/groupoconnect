@@ -98,7 +98,8 @@ class CreatePost extends React.Component {
         let fileTypes = [
             'image/jpeg',
             'image/pjpeg',
-            'image/png'
+            'image/png',
+            'image/gif'
         ]
 
         function validFileType(file) {

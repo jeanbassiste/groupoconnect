@@ -6,7 +6,8 @@ console.log('on entre dans multer 2')
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
-  'image/png': 'png'
+  'image/png': 'png',
+  'image/gif': 'gif'
 };
 
 
