@@ -7,6 +7,7 @@ const User = db.users;
 const Like = db.likes;
 const Fav = db.favs;
 const Comment = db.comments;
+const fs = require('fs');
 
 //Création d'un nouveau post
 exports.newPost = (req, res, next) => {
@@ -42,11 +43,6 @@ exports.newPost = (req, res, next) => {
             console.log(error);
         }
     )
-
-
-    /*post.save()
-    .then(() => res.status(201).json({ message: 'Post créé !'}))
-    .catch( error => res.status(400).json({error}));*/
 }
 
 //Affichage des posts
@@ -90,27 +86,36 @@ exports.displayOnePost = (req, res, next) => {
 //supprimer un post
 exports.deletePost = (req, res, next) => {
   const id = req.params.id;
+  Post.findByPk(id)
+  .then(data => {
+    const filename = data.dataValues.image.split('/images')[1];
+    fs.unlink(`images/${filename}`, ()=> {
+      Post.destroy({
+        where: {id: id}
+    })
+    .then(num => {
+        if(num == 1) {
+            res.send({
+                message: "Le post a été supprimé"
+            });
+        } else {
+            res.send({
+                message: "impossible de supprimer le post"
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "il y a eu un pb"
+        });
+    })
+    }
+    )
+
+  })
   console.log("deleting post numero " + id);
 
-  Post.destroy({
-      where: {id: id}
-  })
-  .then(num => {
-      if(num == 1) {
-          res.send({
-              message: "Le post a été supprimé"
-          });
-      } else {
-          res.send({
-              message: "impossible de supprimer le post"
-          });
-      }
-  })
-  .catch(err => {
-      res.status(500).send({
-          message: "il y a eu un pb"
-      });
-  });    
+
 }
 
 //modifier un post
@@ -124,9 +129,6 @@ exports.updatePost = (req, res, next) => {
     const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` } 
     Post.update(postPic, {where: {id:id}});
   }
-
-
-  
 
   Post.update(req.body, {
       where: {id: id}
