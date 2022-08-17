@@ -7,10 +7,13 @@ import PostDisplayer from '../functions/postDisplayer';
 import { useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import { useState } from 'react';
+import redirection from '../functions/redirection';
 
 
 
 function PostPage() {
+    redirection();
+
     const [post, setPost] = useState({});
     const [hasLoaded, setHasLoaded] = useState(false);
     const [update, setUpdate] = useState(false);

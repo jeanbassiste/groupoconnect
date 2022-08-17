@@ -5,6 +5,7 @@ import FirstProfile from '../layouts/firstProfile';
 import Profile from '../layouts/anyProfile';
 import currentUser from '../functions/getCurrentUser';
 import getCookie from '../functions/getCookie';
+import redirection from '../functions/redirection';
 
 class ProfilePage extends React.Component {
     constructor(props){
@@ -15,6 +16,8 @@ class ProfilePage extends React.Component {
     }
 
     componentDidMount(){
+        redirection();
+
         let token = getCookie('token');
 
         axios.get(`http://localhost:8080/api/users/${currentUser.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
