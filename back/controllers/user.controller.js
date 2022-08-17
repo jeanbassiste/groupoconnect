@@ -8,6 +8,8 @@ const Fav = db.favs;
 const Comment = db.comments;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require("dotenv").config({ path: "./back/config/.env" })
+
 
 //création nouvel utilisateur
 exports.signup = (req, res, next) => {
@@ -34,7 +36,7 @@ exports.signup = (req, res, next) => {
                 userId: data.id,
                 token: jwt.sign(
                     { id: data.id, role: data.role },
-                    'RANDOM_TOKEN_SECRET',
+                    process.env.token,
                     { expiresIn: '24h'}
                 )
             });
@@ -89,7 +91,7 @@ exports.login = (req, res, next) => {
                 userId: user.id,
                 token: jwt.sign(
                     { id: user.id, role: user.role },
-                    'RANDOM_TOKEN_SECRET',
+                    process.env.token,
                     { expiresIn: '24h'}
                 )
             });
@@ -137,7 +139,7 @@ exports.update = (req, res) => {
             res.send({
                 token: jwt.sign(
                     { id: req.params.id, role: req.body.role },
-                    'RANDOM_TOKEN_SECRET',
+                    process.env.token,
                     { expiresIn: '24h'}
                 )            });
         } else {

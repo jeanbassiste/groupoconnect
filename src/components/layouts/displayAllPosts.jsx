@@ -11,6 +11,7 @@ function PostPage() {
     const [update, setUpdate] = useState(0);
     
     let token = getCookie('token');
+    console.log(token);
 
     const url = window.location.search;
     const urlParams = new URLSearchParams(url);
