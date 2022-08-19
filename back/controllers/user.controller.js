@@ -42,25 +42,19 @@ exports.signup = (req, res, next) => {
             });
             res.send(data);
         })
-        .catch(
-            (error) => {
-                var message = [];
-                Object.getOwnPropertyNames(error.errors).forEach(function (element) {
-                    var err = error.errors.email.properties.message;
-                    message += err;
-                });
-                res.status(400).json({
-                    message: message
-                });
-            }
-        );
+        .catch(err => {
+            res.status(400).send({
+              message:
+                err.message || "Erreur."
+            });
+          });
     })
     .catch(err => {
         res.status(500).send({
-            message:
-            err.message || "Il y a eu une erreur"
+          message:
+            err.message || "Erreur."
         });
-    });
+      });
     
 };
 
@@ -95,13 +89,18 @@ exports.login = (req, res, next) => {
                 )
             });
         })
-        .catch( error => res.status(500).send({
-            message: user
-        }))
-        .catch( error => res.status(500).send({
-            error
-        }))
-    })
+        .catch(err => {
+            res.status(500).send({
+              message:
+                err.message || "Erreur."
+            });
+          })})
+    .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Erreur."
+    });
+})
     
 };
 
@@ -121,9 +120,10 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
         res.status(500).send({
-            message: "Error retrieving User with id = " + id
+          message:
+            err.message || "Erreur."
         });
-    });
+      });
 
 };
 
@@ -151,9 +151,10 @@ exports.update = (req, res) => {
     })
     .catch(err => {
         res.status(500).send({
-            message: "Une erreur s'est produite dans la mise à jour de l'utilisateur " + id
+          message:
+            err.message || "Erreur."
         });
-    });
+      });
 };
 
 //supprimer un utilisateur
@@ -176,7 +177,8 @@ exports.delete = (req, res) => {
     })
     .catch(err => {
         res.status(500).send({
-            message: "Une erreur s'est produite dans la suppression de l'utilisateur " + id
+          message:
+            err.message || "Erreur."
         });
-    });
+      });
 };

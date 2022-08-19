@@ -22,11 +22,12 @@ exports.newComment = (req, res, next) => {
     .then(data => {
         res.status(201).send({message: "Nouveau post créé", data});
     })
-    .catch(
-        (error) => {
-            console.log(error);
-        }
-    )
+    .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Erreur."
+        });
+      });
 }
 
 //Affichage des posts
@@ -44,7 +45,7 @@ exports.displayAllComments = (req, res, next) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Erreur."
       });
     });
 }
@@ -67,10 +68,11 @@ exports.deleteComment = (req, res, next) => {
       }
   })
   .catch(err => {
-      res.status(500).send({
-          message: "il y a eu un pb"
-      });
-  });  
+    res.status(500).send({
+      message:
+        err.message || "Erreur."
+    });
+  }); 
 }
 
 exports.updateComment = (req, res, next) => {
@@ -92,7 +94,8 @@ exports.updateComment = (req, res, next) => {
     })
     .catch(err => {
         res.status(500).send({
-            message: "Une erreur s'est produite dans la mise à jour du commentaire " + id
+          message:
+            err.message || "Erreur."
         });
-    });    
+      }); 
 }

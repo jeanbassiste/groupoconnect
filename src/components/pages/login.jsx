@@ -68,7 +68,6 @@ class Login extends React.Component {
                     { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } } 
                 )
                 .then(res => {
-                    console.log(res);
                     let response = res.data;
                     //On récupère le token, l'id et le rôle de la personne
                     const token = response.token;

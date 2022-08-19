@@ -35,11 +35,12 @@ exports.newPost = (req, res, next) => {
     .then(data => {
       res.status(201).send({message: "Nouveau post créé", data});
     })
-    .catch(
-        (error) => {
-            console.log(error);
-        }
-    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Erreur."
+      });
+    });
 }
 
 //Affichage des posts
@@ -54,7 +55,7 @@ exports.displayAllPosts = (req, res, next) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Erreur."
       });
     });
 }
@@ -75,7 +76,8 @@ exports.displayOnePost = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Tutorial with id=" + id
+          message:
+            err.message || "Erreur."
         });
       });
 }
@@ -103,9 +105,10 @@ exports.deletePost = (req, res, next) => {
         }
     })
     .catch(err => {
-        res.status(500).send({
-            message: "il y a eu un pb"
-        });
+      res.status(500).send({
+        message:
+          err.message || "Erreur."
+      });
     })
     }
     )
@@ -144,9 +147,10 @@ exports.updatePost = (req, res, next) => {
       }
   })
   .catch(err => {
-      res.status(500).send({
-          message: "Une erreur s'est produite dans la mise à jour du post " + id
-      });
+    res.status(500).send({
+      message:
+        err.message || "Erreur."
+    });
   });  
 
   })    
@@ -168,10 +172,11 @@ exports.likePost = (req, res, next) => {
     });
 })
 .catch(err => {
-    res.status(500).send({
-        message: "Une erreur s'est produite dans la mise à jour du post " + id
-    });
-});  
+  res.status(500).send({
+    message:
+      err.message || "Erreur."
+  });
+});
 
 }
 
@@ -193,10 +198,11 @@ exports.unlikePost = (req, res, next) => {
       }
   })
   .catch(err => {
-      res.status(500).send({
-          message: "il y a eu un pb"
-      });
-  });  
+    res.status(500).send({
+      message:
+        err.message || "Erreur."
+    });
+  });
 }
 
 exports.favPost = (req, res, next) => {
@@ -214,10 +220,11 @@ exports.favPost = (req, res, next) => {
     });
 })
 .catch(err => {
-    res.status(500).send({
-        message: "Une erreur s'est produite dans la mise à jour du post " + id
-    });
-});  
+  res.status(500).send({
+    message:
+      err.message || "Erreur."
+  });
+});
 
 }
 
@@ -239,8 +246,9 @@ exports.unfavPost = (req, res, next) => {
       }
   })
   .catch(err => {
-      res.status(500).send({
-          message: "il y a eu un pb"
-      });
-  });  
+    res.status(500).send({
+      message:
+        err.message || "Erreur."
+    });
+  });
 }
