@@ -81,21 +81,23 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
     }
 
     function handleEditPost() {
-
         const formData = new FormData();
         formData.append('title', newTitle);
         formData.append('text', newText);
         formData.append('author', userId);
+        
         if(imageHadChange) {
             formData.append('image', handleImageChange());
         }
 
         axios.put(`http://localhost:8080/api/posts/${post.id}`, formData, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
-        .then(
+        .then(() => {
             setUpdate(update + 1)
+            setEditPostVisible (current => !current)
+            setImageHadChange(false)
+        }
         )
         .then(
-            setEditPostVisible (current => !current)
         )
     }
 
