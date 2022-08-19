@@ -1,3 +1,5 @@
+//Page de création de compte, utilisée dans le router
+
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
@@ -41,46 +43,50 @@ class Signup extends React.Component {
 
     componentDidMount(){
 
+        //S'il y a un token en cookie, la personnne est donc connectée : elle ne doit pas pouvoir revenir ici => redirigée vers la home (le feed)
         if (document.cookie.split(';').some((cookie) => cookie.trim().startsWith('token='))){
             window.location.href = `/home`       
         }
-        
+
+        //Affichage du mot de passe lorsqu'on clique sur le petit oeil     
         let togglePassword = document.getElementById('seePassword');
         let passwordData = document.getElementById('password');
         let toggleVerify = document.getElementById('seeVerifyPassword');
-        let verifyData = document.getElementById('verifyPassword');
-        
+        let verifyData = document.getElementById('verifyPassword');    
         togglePassword.addEventListener('click', () => {displayPassword(togglePassword, passwordData)});
         toggleVerify.addEventListener('click', () => {displayPassword(toggleVerify, verifyData)});
 
+        //Validation des données entrées par l'utilisateur (conformes aux regEx enregistrée ?)
         let emailData = document.getElementById('email');
         let emailError = document.getElementById('emailError');
         let passwordError = document.getElementById('passwordError');
         let verifyError = document.getElementById('verifyError');
-
         emailData.addEventListener('change', () => isValid(emailData, emailError));
         passwordData.addEventListener('change', () => isValid(passwordData, passwordError));
         verifyData.addEventListener('change', () => isValid(verifyData, verifyError, passwordData));
         
+        //Création du compte
         let signUp = document.getElementById('SignUpButton');
-
         function signingUp(ev) {
             ev.preventDefault();
-            
+
+            //On vérifie de nouveau que les données sont conformes
             let emailValidation = isValid(emailData, emailError);
             let passwordValidation = isValid(passwordData, passwordError);
             let verifyValidation = isValid(verifyData, verifyError, passwordData);
 
             if (emailValidation === true && passwordValidation === true && verifyValidation === true) {
-
+                //Création du compte
                 axios.post('http://localhost:8080/api/users/signup', {
                     emailAddress: emailData.value,
                     password: passwordData.value,
+                    //on indique que le compte est nouveau et nécessite de passer par la création du profile grâce au rôle newUser
                     role: 'newUser'
                     },
                     { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'} } 
                 )
                 .then(res => {
+                    //On récupère le token renvoyé et on l'enregistre en cookie ; et on renvoie vers la page profile pour création du profile
                     let token = res.data.token;
                     setCookie('token', token, 1);
                     window.location.href = '/profile'

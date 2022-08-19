@@ -14,16 +14,16 @@ button {
     }
 }
 
-#editPost, #sendComment, #openForm, #newPost {
+#editPost, #sendComment, #openForm, #newPost, #createProfile {
     width: initial;
 }
 
-#editPost, #sendComment, #openForm {
+#editPost, #sendComment, #openForm, #createProfile {
     margin: 10px;
     margin-right: 25px;
 }
 
-#editPost, #openForm, #newPost {
+#editPost, #openForm, #newPost, #createProfile {
     font-weight: bold;
 }
 

@@ -1,3 +1,5 @@
+//Module de création de post, utilisé dans la page Home
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import '../../styles/style.css';
@@ -37,8 +39,6 @@ class CreatePost extends React.Component {
                         <label htmlFor='postBody' className='d-none'>Contenu du post</label>
                         <textarea type="text" id="postBody" rows='5' className="col-lg-12" placeholder='Rédigez votre post ici'/>
                     </div>
-
-
                     <button id="newPost"className="col-12 col-md-6 my-3" type="button">Postez !</button>
                 </form>
                 <button id="openForm" className="">
@@ -50,20 +50,23 @@ class CreatePost extends React.Component {
 
     componentDidMount() {
 
+        //Gestion de l'affichage du formulaire de création de post
         const openPostForm = document.getElementById('openForm');
-
         function openForm(){
             const createPost = document.getElementById('createPost');
             createPost.style.display = "flex";
             openPostForm.style.display ='none';
         }
-
         openPostForm.addEventListener('click', openForm);
 
+        //On récupère les données utiles : id de l'utilisateur en décodant le token contenu en cookie
         let token = getCookie('token');
         let decoded = jwt_decode(token);
         let userId = decoded.id;
+
+        //Création du post :
         
+        //On identifie les champs qui contiendront les infos rentrées par l'utilisateur
         let title = document.getElementById('postTitle');
         let text = document.getElementById('postBody');
         let tag = document.getElementById('postTag');
@@ -71,37 +74,44 @@ class CreatePost extends React.Component {
         let picUpload = document.getElementById('picUpload');
         let picContainer = document.getElementById('picContainer');
         let pic = document.getElementById('postPic');
+        let formContainer = document.getElementById('createPost');
 
+        //Fonction pour permettre l'affichage en direct de l'image chargée (aurait pu être simplifier en réalisant une fonction, mais marche tout de même)
         picUpload.addEventListener('change', updatePic);
 
+        //Chargement d'une image
         function updatePic() {
-
+            //On récupère le fichier et on vérifie qu'il y a bien un fichier sélectionné
             let uploadedPic = picUpload.files[0];
             if(uploadedPic === 0) {
+                //Si non on affiche une erreur
                 let error = document.createElement('p');
+                error.style.color = 'red';
                 error.textContent = 'Aucun fichier sélectionné';
-                picContainer.appendChild(error);
+                formContainer.appendChild(error);
             } else {
+                //Si oui, on vérifie qu'il s'agit d'un fichier du type voulu, et si oui on l'upload
                     if(validFileType(uploadedPic)) {
                     pic.src = window.URL.createObjectURL(uploadedPic);
                     return uploadedPic;
 
                 } else {
-                    console.log(validFileType(uploadedPic));
+                    //Si non, message d'erreur
                     let error = document.createElement('p');
+                    error.style.color = 'red';
                     error.textContent = 'Le format du fichier sélectionné est incorrect ou sa taille dépasse la limite maximale (20ko)';
-                    picContainer.appendChild(error);                   
+                    formContainer.appendChild(error);                   
                     }   
                 }
         }
 
+        //Vérification du type d'image (jpeg, png ou gif)
         let fileTypes = [
             'image/jpeg',
             'image/pjpeg',
             'image/png',
             'image/gif'
         ]
-
         function validFileType(file) {
             for(var i = 0; i < fileTypes.length; i++) {
                 if(file.type === fileTypes[i]) {
@@ -110,16 +120,20 @@ class CreatePost extends React.Component {
             }
             return false;
         }
-        
+
+        //Création d'un nouveau post
         function newPost(ev) {
             ev.preventDefault();
-        
+            
+            //On récupère les données entrées par l'utilisateur dans les champs
             let postTitle = title.value;
             let postText = text.value;
             let postTag = tag.value;
 
+            //On récupère l'image uploadée
             let image = updatePic();
 
+            //On renseigne tout ça dans un formData qu'on enverra en body de notre requête
             const formData = new FormData();
             formData.append('title', postTitle);
             formData.append('text', postText);
@@ -127,19 +141,18 @@ class CreatePost extends React.Component {
             formData.append('tag', postTag);
             formData.append('image', image);
 
-            console.log(formData);
-
+            //Requête de création de post
             axios.post('http://localhost:8080/api/posts/newPost', 
                 formData, 
                 { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } }
             )
             .then(res => {
                 let newPostId = res.data.data.id;
+                //Dès le post créé, on renvoie sur sa page
                 window.location.href = `/post?id=${newPostId}`
 
             })
         }
-        
             let post = document.getElementById('newPost');
             post.addEventListener('click', newPost);
         }

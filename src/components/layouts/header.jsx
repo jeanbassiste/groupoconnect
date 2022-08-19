@@ -1,3 +1,5 @@
+//Module header qui s'affiche sur toutes les pages, pas toujours identique. Utilisé sur toutes les pages dans le router
+
 import React from 'react';
 import '../../styles/style.css';
 import logo from '../../assets/icon-left-font-monochrome-white.svg';
@@ -31,10 +33,11 @@ class Header extends React.Component {
 
     componentDidMount(){
 
+        //On récupère l'url pour connaitre la page qui s'affiche et adapter l'affichage du header
         let urlPath = getUrlPath();
 
         if (urlPath === "/home" || urlPath === "/post" || urlPath === "/profile") {
-
+            //Si on est sur la page home, post ou profile, on affiche les boutons de retour à l'accueil et d'ouverture du profile SAUF sur la page de création de profile (if)
             let token = getCookie('token');
             let decoded = jwt_decode(token);
             if(decoded.role === 'newUser'){
@@ -54,6 +57,7 @@ class Header extends React.Component {
 
         }
         else {
+            //Si on est sur toute autre page, on n'affiche pas ces boutons
             document.getElementById('userPage').style.display = 'none';
             document.getElementById('home').style.display = 'none';
             }
