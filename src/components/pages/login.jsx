@@ -28,7 +28,7 @@ class Login extends React.Component {
                     <button id="logInButton" className="col-12 col-md-6 my-3" type="button" data-bs-toggle="" data-bs-target="">Connectez-vous</button>
                 </form>
                 <p>Première connexion ? <NavLink to="/signup">Créez votre compte !</NavLink></p>
-                <p id="deleted">Connexion impossible : l'utilisateur n'existe plus</p>
+                <p id="deleted">Connexion impossible : utilisateur introuvable</p>
             </div>            
         );
     }
@@ -68,22 +68,21 @@ class Login extends React.Component {
                     { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } } 
                 )
                 .then(res => {
+                    console.log(res);
                     let response = res.data;
-                    if (response) {
-                        //On récupère le token, l'id et le rôle de la personne
-                        const token = response.token;
-                        let decoded = jwt_decode(token);
-                        let userRole = decoded.role;
-                        //On vérifie que l'utilisateur n'a pas été supprimé
-                        if(userRole != 'deleted'){
-                            //Si non, on enregistre le token en cookie et on redirige vers la home
-                            setCookie('token', token, 1);
-                            window.location.href = `/home`
-                        }
-                        else {
-                            //Si oui, pas de connexion et on affiche un message d'erreur
-                            document.getElementById('deleted').style.display = 'initial';
-                        }
+                    //On récupère le token, l'id et le rôle de la personne
+                    const token = response.token;
+                    let decoded = jwt_decode(token);
+                    let userRole = decoded.role;
+                    //On vérifie que l'utilisateur n'a pas été supprimé
+                    if(userRole != 'deleted'){
+                        //Si non, on enregistre le token en cookie et on redirige vers la home
+                        setCookie('token', token, 1);
+                        window.location.href = `/home`
+                    }
+                    else {
+                        //Si oui, pas de connexion et on affiche un message d'erreur
+                        document.getElementById('deleted').style.display = 'initial';
                     }
                 })
             }
