@@ -1,5 +1,5 @@
+//Configuration de la bdd
 const dbConfig = require("../config/db.config");
-
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
@@ -13,35 +13,32 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         idle: dbConfig.pool.idle
     }
 });
-
 const db = {};
-
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+//Récupération des models
 db.users = require("./user.model.js")(sequelize, Sequelize);
 db.posts = require("./post.model.js")(sequelize, Sequelize);
 db.comments = require('./comment.model.js')(sequelize, Sequelize);
 db.likes = require('./like.model.js')(sequelize, Sequelize);
 db.favs = require('./fav.model.js')(sequelize, Sequelize);
 
-
+//Associations
 db.posts.belongsTo(db.users);
 db.users.hasMany(db.posts);
-
 db.comments.belongsTo(db.users);
 db.comments.belongsTo(db.posts);
 db.users.hasMany(db.comments);
 db.posts.hasMany(db.comments);
-
 db.likes.belongsTo(db.posts);
 db.posts.hasMany(db.likes);
 db.likes.belongsTo(db.users);
 db.users.hasMany(db.likes);
-
 db.favs.belongsTo(db.posts);
 db.posts.hasMany(db.favs);
 db.favs.belongsTo(db.users);
 db.users.hasMany(db.favs);
+
 
 module.exports = db;

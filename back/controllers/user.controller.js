@@ -69,7 +69,6 @@ exports.login = (req, res, next) => {
     User.findOne({where: {emailAddress: req.body.emailAddress} })
     .then((user) => {
         
-        console.log(user);
         if(!user) {
             return res.status(404).send(
                 {
@@ -109,11 +108,11 @@ exports.login = (req, res, next) => {
 //retrouver un utilisateur
 exports.findOne = (req, res) => {
     const id = req.params.id;
-
+    //On pense bien à inclure toutes les données nécessaires : posts de l'utilisateurs avec user, comments favoris et likes et favoris de l'utilisateur
     User.findByPk(id, {include: [{model:Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}, {model:Fav}], order: ['updatedAt', 'DESC']}, {model: Fav, include: [{model: Post, include:[{model:User}, {model: Comment, include: [User]}, {model:Like}, {model:Fav}], order: ['updatedAt', 'DESC']}]}]})
     .then(data => {
         if (data) {
-            res.send(data);
+            res.status(200).send(data);
         } else {
             res.status(404).send({
                 message: `Cannot find User with id=${id}.`
@@ -136,14 +135,16 @@ exports.update = (req, res) => {
         User.update(req.body, { where: {id: id} })
     .then(data => {
         if (data) {
-            res.send({
+            res.status(200).send({
+                //On renvoie bien le token qui n'a plus le même rôle
                 token: jwt.sign(
                     { id: req.params.id, role: req.body.role },
                     process.env.token,
                     { expiresIn: '24h'}
-                )            });
+                )            
+            });
         } else {
-            res.send({
+            res.status(500).send({
                 message: 'Impossible de mettre à jour cet utilisateur'
             });
         }
@@ -158,17 +159,17 @@ exports.update = (req, res) => {
 //supprimer un utilisateur
 exports.delete = (req, res) => {
     const id = req.params.id;
-
+    //Pas une réelle suppression : on change son role par 'deleted' (d'où fonction update et pas delete)
     User.update(req.body, {
         where: {id: id}
     })
     .then(num => {
         if (num == 1) {
-            res.send({
+            res.status(200).send({
                 message: "Utilisateur supprimé"
             });
         } else {
-            res.send({
+            res.status(500).send({
                 message: 'Impossible de supprimer cet utilisateur'
             });
         }

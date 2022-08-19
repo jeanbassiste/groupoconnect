@@ -11,17 +11,17 @@ const fs = require('fs');
 
 //Création d'un nouveau post
 exports.newPost = (req, res, next) => {
-    console.log('LE HEADER AUTH EST : ' + req.headers.authorization);
     if(!req.body.title || !req.body.text) {
+      //on vérifie que la requête soit complète
         res.status(400).send({
             message: "Le post ne contient pas de texte ou de titre"
         });
         return;
     }
-    console.log('juste avant limage');
+    //On prépare l'upload de l'image
     const postPic = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-    console.log(postPic);
 
+    //On récupère les infos du post à envoyer
     const post =  {
        title: req.body.title,
        text: req.body.text,
@@ -30,10 +30,7 @@ exports.newPost = (req, res, next) => {
        image: postPic
       };
 
-    console.log(post);
-
-    
-
+    //Création du post en back
     Post.create(post)
     .then(data => {
       res.status(201).send({message: "Nouveau post créé", data});
@@ -47,15 +44,14 @@ exports.newPost = (req, res, next) => {
 
 //Affichage des posts
 exports.displayAllPosts = (req, res, next) => {
-  console.log('START');
+  //On récupère tous les posts et on pense bien à inclure toutes les infos nécessaires : utilisateur, likes, favoris et commentaires (eux mêmes incluant les utilisateurs)
     Post.findAll({order: [
       ['updatedAt', 'DESC']
   ], include: [{model:User}, {model:Comment, include: [User]}, {model:Like}, {model: Fav}]})
     .then(data => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch(err => {
-      console.log('CATTTTAAAAAAAASTROPHEEEE')
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving tutorials."
@@ -65,11 +61,12 @@ exports.displayAllPosts = (req, res, next) => {
 
 //Affichage d'un post
 exports.displayOnePost = (req, res, next) => {
+    //On récupère le post correspondant à l'id de la requête et on pense bien à inclure toutes les infos nécessaires : utilisateur, likes, favoris et commentaires (eux mêmes incluant les utilisateurs)
     const id = req.params.id;
     Post.findByPk(id, {include: [{model:User}, {model:Comment, include: [User]}, {model:Like}, {model: Fav}]})
       .then(data => {
         if (data) {
-          res.send(data);
+          res.status(200).send(data);
         } else {
           res.status(404).send({
             message: `Cannot find Tutorial with id=${id}.`
@@ -88,6 +85,7 @@ exports.deletePost = (req, res, next) => {
   const id = req.params.id;
   Post.findByPk(id)
   .then(data => {
+    //On pense bien à supprimer l'image du back en supprimant le post
     const filename = data.dataValues.image.split('/images/')[1];
     fs.unlink(`./back/images/${filename}`, ()=> {
       Post.destroy({
@@ -95,11 +93,11 @@ exports.deletePost = (req, res, next) => {
     })
     .then(num => {
         if(num == 1) {
-            res.send({
+            res.status(204).send({
                 message: "Le post a été supprimé"
             });
         } else {
-            res.send({
+            res.status(500).send({
                 message: "impossible de supprimer le post"
             });
         }
@@ -113,37 +111,34 @@ exports.deletePost = (req, res, next) => {
     )
 
   })
-  console.log("deleting post numero " + id);
-
-
 }
 
 //modifier un post
 exports.updatePost = (req, res, next) => {
-  console.log('on rentre dans le update');
-  console.log(req.body);
   const id = req.params.id;
   Post.findByPk(id)
   .then(data => {
     if(req.file) {
       const filename = data.dataValues.image.split('/images/')[1];
+      //On supprime l'ancienne image avant d'uploader la nouvelle
       fs.unlink(`./back/images/${filename}`, ()=> {
         const postPic = { image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` } 
-
+        //On update l'image
         Post.update(postPic, {where: {id:id}});
     })
     }
+    //On update le contenu du post
   Post.update(req.body, {
       where: {id: id}
   })
   .then(num => {
 
       if (num == 1) {
-          res.send({
+          res.status(200).send({
               message: "Post mis à jour"
           });
       } else {
-          res.send({
+          res.status(500).send({
               message: 'Impossible de mettre à jour ce post'
           });
       }
@@ -158,11 +153,8 @@ exports.updatePost = (req, res, next) => {
 }
 
 exports.likePost = (req, res, next) => {
-  console.log('LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIIIIIIIIIKE');
-  console.log("début du liking");
   const id = req.params.id;
   const userId = req.body.userId;
-  console.log('id post = ' + id + ' et id user = ' + userId);
   
   let like = {
     userId: req.body.userId,
@@ -171,14 +163,11 @@ exports.likePost = (req, res, next) => {
 
   Like.create(like)
   .then(num => {
-    console.log('on est entré dans le then');
-    console.log(num);
-    res.status(201).send({
+    res.status(200).send({
       message: "Post mis à jour"
     });
 })
 .catch(err => {
-  console.log('nope, mais avec un 500');
     res.status(500).send({
         message: "Une erreur s'est produite dans la mise à jour du post " + id
     });
@@ -187,20 +176,18 @@ exports.likePost = (req, res, next) => {
 }
 
 exports.unlikePost = (req, res, next) => {
-  console.log('DISLIIIIIIIIIIKE');
   const id = req.params.id;
-  console.log("deleting like numero " + id);
 
   Like.destroy({
       where: {id: id}
   })
   .then(num => {
       if(num == 1) {
-          res.send({
+          res.status(204).send({
               message: "Le like a été supprimé"
           });
       } else {
-          res.send({
+          res.status(500).send({
               message: "impossible de supprimer le like"
           });
       }
@@ -213,9 +200,7 @@ exports.unlikePost = (req, res, next) => {
 }
 
 exports.favPost = (req, res, next) => {
-  console.log('start fav');
   const id = req.params.id;
-  const userId = req.body.userId;
 
   let fav = {
     userId: req.body.userId,
@@ -224,14 +209,11 @@ exports.favPost = (req, res, next) => {
 
   Fav.create(fav)
   .then(num => {
-    console.log('on est entré dans le then');
-    console.log(num);
-    res.status(201).send({
+    res.status(200).send({
       message: "Post mis à jour"
     });
 })
 .catch(err => {
-  console.log('nopinop, mais avec un 500');
     res.status(500).send({
         message: "Une erreur s'est produite dans la mise à jour du post " + id
     });
@@ -247,11 +229,11 @@ exports.unfavPost = (req, res, next) => {
   })
   .then(num => {
       if(num == 1) {
-          res.send({
+          res.status(204).send({
               message: "Le fav a été supprimé"
           });
       } else {
-          res.send({
+          res.status(500).send({
               message: "impossible de supprimer le fav"
           });
       }

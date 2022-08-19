@@ -1,7 +1,6 @@
 module.exports = app => {
     const users = require("../controllers/user.controller");
     const multer = require('../middlewares/multer');
-
     const auth = require('../middlewares/auth');
 
     var router = require('express').Router();
