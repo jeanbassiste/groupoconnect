@@ -3,6 +3,7 @@ Projet commencé le 17/10/2021, soit avant la mise à jour.
 Vous trouverez dans le dossier de participation à la soutenance sur OpenClassroom :
 1/ Les infos de connexion du compte admin
 2/ Les infos du .env.local
+3/ Le dump de la base de données SQL
 
 Initialisation du projet :
 1/ mettre à jour le fichier .env dans back/config avec les infos du .env.local dispo sur OC et vos propres informations de connexion
