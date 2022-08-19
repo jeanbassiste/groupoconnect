@@ -6,7 +6,7 @@ Vous trouverez dans le dossier de participation à la soutenance sur OpenClassro
 3/ Une copie de la bdd, également disponible ici
 
 Initialisation du projet :
-1/ mettre à jour le fichier db.config.js dans back/config avec les infos du .env.local dispo sur OC et vos propres informations de connexion
+1/ mettre à jour le fichier .env dans back/config avec les infos du .env.local dispo sur OC et vos propres informations de connexion
 2/ créer la bdd projet7 et importer le fichier projet7.sql
 3/ lancer le front : depuis la racine, -npm install -npm start
 4/ lancer le back : depuis la racine également, -nodemon server
