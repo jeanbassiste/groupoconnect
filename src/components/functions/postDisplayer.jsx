@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import editPost from '../functions/editPost';
-
 import getCookie from './getCookie';
 import jwt_decode from 'jwt-decode';
-import isUnique from './isUnique';
 import like from '../../assets/like-svgrepo-com.svg';
 import liked from'../../assets/likeFull-svgrepo-com.svg';
-import likePost from './likePost';
-import deletingPost from '../functions/deletePost';
-import newComment from '../functions/newComment';
 import DisplayComments from '../functions/displayComments';
 import getUrlPath from '../functions/getURLPath';
 import { NavLink } from "react-router-dom";
@@ -36,8 +30,6 @@ function Test({ post, setPost, update, setUpdate }){
         image
     } = post;
 
-    console.log(post);
-    console.log(author);
     const authorUrl = `/profile?id=${author.id}`;
     const postUrl = `/post?id=${id}`;
 
@@ -160,7 +152,6 @@ function Test({ post, setPost, update, setUpdate }){
 
     //Création d'un commentaire
     const [newComment, setNewComment] = useState('');
-    let label=post.id;
 
     function handleNewComment() {
         axios.post('http://localhost:8080/api/comments/newComment', {
@@ -217,13 +208,6 @@ function Test({ post, setPost, update, setUpdate }){
             { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })}
             setUpdate( update + 1 );   
     }
-
-
-
-
-
-
-
 
     return(
         <div id='pagePost' className='col-12 col-lg-6 mx-auto'>

@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
-
-import deletingComment from "./deleteComment";
-import editingComment from "./editComment";
+import React, { useState } from 'react';
 import getCookie from "./getCookie";
 import { NavLink } from "react-router-dom";
-import jwt_decode from 'jwt-decode';
 import axios from "axios";
 
 
