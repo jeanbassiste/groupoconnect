@@ -5,7 +5,6 @@ import React from 'react';
 import '../../styles/style.css';
 import PostDisplayer from '../functions/postDisplayer';
 import { useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
 import { useState } from 'react';
 import redirection from '../functions/redirection';
 
@@ -18,9 +17,7 @@ function PostPage() {
     const [hasLoaded, setHasLoaded] = useState(false);
     const [update, setUpdate] = useState(false);
 
-    const token = getCookie('token');
-    const tokenUserId = jwt_decode(getCookie("token")).id;
-    const tokenUserRole = jwt_decode(getCookie("token")).role;
+    const token = getCookie('token');;
     const url = window.location.search;
     const urlParams = new URLSearchParams(url);
     const postId = urlParams.get('id');

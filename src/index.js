@@ -9,7 +9,6 @@ import ProfilePage from './components/pages/profile';
 import Feed from './components/pages/feed';
 import PostPage from './components/pages/onePost';
 import NotFind from './components/pages/404';
-import Test from './components/pages/test';
 
 ReactDOM.render(
 
@@ -23,7 +22,6 @@ ReactDOM.render(
       <Route path='/home' element={<Feed />} />
       <Route path='/profile' element={<ProfilePage />} />
       <Route path='*' element={<NotFind />} />
-      <Route path='/test' element={<Test />} />
 
     </Routes>
   </Router>,

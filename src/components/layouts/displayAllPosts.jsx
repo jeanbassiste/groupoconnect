@@ -11,12 +11,6 @@ function PostPage() {
     const [update, setUpdate] = useState(0);
     
     let token = getCookie('token');
-    console.log(token);
-
-    const url = window.location.search;
-    const urlParams = new URLSearchParams(url);
-    const postId = urlParams.get('id');
-
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/posts/`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
@@ -40,7 +34,3 @@ function PostPage() {
 }
 
 export default PostPage
-
-/*    
-
-            */
