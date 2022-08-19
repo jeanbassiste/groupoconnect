@@ -1,3 +1,5 @@
+//Permet d'afficher le mot de passe. Utilisé par les pages login et signup
+
 function displayPassword(togglePassword, passwordData) {
         
     let hideOrDisplay = togglePassword.getAttribute('class');

@@ -1,3 +1,4 @@
+//Supprime l'utilisateur dont on voit le profile en lui passant un nouveau rôle : deleted. Utilisé sur une page profile quand l'utilisateur connecté est l'admin (sauf le profile admin qui n'est pas supprimable)
 import axios from 'axios';
 import getCookie from './getCookie';
 

@@ -1,3 +1,5 @@
+//Permet d'afficher un profile. Utilisé sur la page profile
+
 import deconnexion from '../functions/deconnexion';
 import DeleteProfile from './deleteProfile';
 import Popup from 'reactjs-popup';
@@ -5,6 +7,7 @@ import 'reactjs-popup/dist/index.css';
 import getCookie from './getCookie';
 
 function ProfileDisplayer({user, userId, pageId, admin}){
+    //On récupère les infos de l'utilisateur dont on affiche le profile, passée par le composant parent en prop
     const {
         firstName,
         lastName,
@@ -13,16 +16,19 @@ function ProfileDisplayer({user, userId, pageId, admin}){
         image
     } = user;
 
+
     let token = getCookie('token');
 
 
     return(
         <div className="main col-lg-6 mx-auto">
             <div id="auto">
-            {(parseInt(userId) === parseInt(pageId)) && 
+            {//Si le progile est celui de l'utilisateur connecté, on lui donne la possibilité de se déconnecter
+                (parseInt(userId) === parseInt(pageId)) && 
                 <p id="logOut" onClick={()=> deconnexion('token')}>Se déconnecter</p>
             }
-            {admin === 'admin' && parseInt(userId) != parseInt(pageId) &&
+            {//Si l'utilisateur connecté est admin, on lui donne la possibilité de supprimer l'utilisateur du profile ; SAUF si c'est son propre profile (ne pas supprimer l'admin)
+            admin === 'admin' && parseInt(userId) != parseInt(pageId) &&
                 <Popup trigger={<p id='deleteUser'>Supprimer l'utilisateur</p>} position="center">
                     <div id='confirmation'>
                         <p>ATTENTION vous êtes sur le point de supprimer un utilisateur.</p><br />

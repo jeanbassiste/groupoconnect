@@ -1,3 +1,4 @@
+//Permet d'afficher les commentaires d'un post
 import React, { useState } from 'react';
 import getCookie from "./getCookie";
 import { NavLink } from "react-router-dom";
@@ -5,12 +6,16 @@ import axios from "axios";
 
 
 function DisplayComments({comment, userId, isAdmin, update, setUpdate}) {
+    //On récupère l'id de l'utilisateur en cookie et on set l'url de redirection pour consulter le profile de l'auteur du commentaire
     let token = getCookie('token');
     let authorUrl = `/profile?id=${comment.user.id}`;
 
+    //Gestion de la modification d'un commentaire
+    //On parametre le state : la possibilité de modifier/supprimer le commentaire s'affiche t'elle ? (vérification dans le return si l'id de l'auteur du com est le même que celui du token)
     const [editCommentVisible, setEditCommentVisible] = useState(false);
     const [editedComment, setEditedComment] = useState('');
 
+    //requête post pour modifier le commentaire avec un nouveau text
     function handleEditComment() {
         axios.put(`http://localhost:8080/api/comments/${comment.id}`, {  
             text: editedComment
@@ -22,6 +27,7 @@ function DisplayComments({comment, userId, isAdmin, update, setUpdate}) {
         setUpdate(update + 1)
     }
 
+    //Gestion de la suppression du commentaire (en utilisant le même state pour gérer la visibilité de l'option)
     function handleDelete(){
         axios.delete(`http://localhost:8080/api/comments/${comment.id}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })
         .then(

@@ -1,3 +1,5 @@
+//Fonction qui permet d'afficher un post. Utilisé par le feed, la page profile (posts créés ou posts favoris), et la page post unique
+
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import getCookie from './getCookie';
@@ -226,7 +228,8 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
                         </NavLink>
                     }
                 </header>
-                {editPostVisible &&
+                {//Si l'utilisateur a choisi de modifier le post, affichage du nouveau formulaire de modification
+                editPostVisible &&
                     <div className='col-lg-12 mx-auto py-3 px-0 d-flex justify-content-center'>
                         <div id='errorContainer' className='col-lg-12 px-0 createPostForm flex-column align-items-start'>
                             <div id="picContainer">
@@ -245,7 +248,8 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
                         </div>
                     </div>
                 }
-                {!editPostVisible &&
+                {//Si l'utilisateur n'a pas choisi de modifier le post, affichage du post
+                !editPostVisible &&
                     <div>
                         <div id="picContainer">
                             <img id="postPic" src={image} alt={author.firstName} />
@@ -257,7 +261,7 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
                 }
                 <div id='postFooter'>
                     <div id='likes'>
-                        {
+                        {//Si l'utilisateur connecté n'est pas l'auteur, possibilité de liker le post
                             userTokenId != author.id && <img id='likeButton' alt='bouton like' src={isLiked ? liked : like} onClick={() => handleLike()} />
                         }
                         <p id='likeCount'>{likes.length} {likes.length >= 2 ? 'likes' : 'like'}</p>
@@ -265,14 +269,15 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
                     <div id='commentCountContainer'>
                         <p id='commentCount'>{comments.length} {comments.length >= 2 ? 'commentaires' : 'commentaire'}</p>
                     </div>
-                    {(parseInt(userTokenId) === parseInt(author.id) || userTokenRole === 'admin') && (getUrlPath() === "/post" ||getUrlPath() === "/test") &&
+                    {//Si l'utilisateur connecté est l'auteur, possibilité de modifier ou supprimer le post
+                    (parseInt(userTokenId) === parseInt(author.id) || userTokenRole === 'admin') && (getUrlPath() === "/post" ||getUrlPath() === "/test") &&
                         <div className='d-flex flex-column flex-md-row editing'>
                             <p className='modifier' onClick={() => handleDeletePost()}>Supprimer</p>
                             <p className='modifier' onClick={() => setEditPostVisible(current => !current)}>Modifier</p>
                         </div>
 
                     }
-                    {
+                    {//Si l'utilisateur connecté n'est pas l'auteur, possibilité de mettre le post en favoris
                         parseInt(userTokenId) != parseInt(author.id) && <img id='favButton' alt='bouton de favoris' src={isFav ? unfav : fav} onClick={() => handleFav()} />
                     }
                 </div>
@@ -285,7 +290,7 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
                         <button id='sendComment' onClick={() => handleNewComment()}>Commentez</button>
                     </div>
                 </div>
-                {
+                {//S'il y a des commentaires, on les affiche, sinon, message
                     comments.length === 0 
                     ? <p>Soyez le premier à commenter</p>
                     : comments.map((comment) => <DisplayComments key={comment.id} comment={comment} userId={userTokenId} isAdmin={userTokenRole} update={update} setUpdate={setUpdate} />)

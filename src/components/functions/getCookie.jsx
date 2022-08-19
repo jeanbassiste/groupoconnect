@@ -1,3 +1,5 @@
+//Permet de récupérer le cookie token. Utilisé sur presque toutes les pages
+
 function getCookie(nom){
     var name = nom + "=";
     var ca = document.cookie.split(';');

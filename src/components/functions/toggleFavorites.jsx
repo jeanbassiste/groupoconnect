@@ -1,3 +1,4 @@
+//Permet de choisir entre l'affichage des posts créés et celui des posts favoris. Disponible sur la page profile de l'utilisateur connecté.
 import React, { useState, useEffect } from 'react';
 
 function ToggleFavorites({toggleFav, setToggleFavorites, update, setUpdate}) {
