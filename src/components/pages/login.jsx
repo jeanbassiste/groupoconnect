@@ -1,3 +1,5 @@
+//Page de connexion, utilisée dans le router
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import setCookie from '../functions/setCookies';
@@ -33,32 +35,33 @@ class Login extends React.Component {
 
     componentDidMount() {
 
+        //S'il y a un token en cookie, la personnne est donc connectée : elle ne doit pas pouvoir revenir ici => redirigée vers la home (le feed)
         if (document.cookie.split(';').some((cookie) => cookie.trim().startsWith('token='))){
             window.location.href = `/home`       
         }
-        
+
+        //Affichage du mot de passe lorsqu'on clique sur le petit oeil
         let togglePassword = document.getElementById('seePassword');
-        let passwordData = document.getElementById('password');
-        
+        let passwordData = document.getElementById('password');  
         togglePassword.addEventListener('click', () => {displayPassword(togglePassword, passwordData)});
     
+        //Validation des données entrées par l'utilisateur (conformes aux regEx enregistrée ?)
         let emailData = document.getElementById('email');
         let emailError = document.getElementById('emailError');
         let passwordError = document.getElementById('passwordError');
-
         emailData.addEventListener('change', () => isValid(emailData, emailError));
         passwordData.addEventListener('change', () => isValid(passwordData, passwordError));
 
+        //Connexion proprement dite
         let logIn = document.getElementById('logInButton');
-
         function logingIn(ev) {
             ev.preventDefault();
 
+            //On vérifie de nouveau que les données sont conformes
             let emailValidation = isValid(emailData, emailError);
             let passwordValidation = isValid(passwordData, passwordError);
-
             if (emailValidation === true && passwordValidation === true) {
-
+                //Connexion 
                 axios.post('http://localhost:8080/api/users/login', {
                     emailAddress : emailData.value,
                     password : passwordData.value },
@@ -66,27 +69,23 @@ class Login extends React.Component {
                 )
                 .then(res => {
                     let response = res.data;
-
                     if (response) {
+                        //On récupère le token, l'id et le rôle de la personne
                         const token = response.token;
                         let decoded = jwt_decode(token);
                         let userRole = decoded.role;
+                        //On vérifie que l'utilisateur n'a pas été supprimé
                         if(userRole != 'deleted'){
+                            //Si non, on enregistre le token en cookie et on redirige vers la home
                             setCookie('token', token, 1);
                             window.location.href = `/home`
                         }
                         else {
+                            //Si oui, pas de connexion et on affiche un message d'erreur
                             document.getElementById('deleted').style.display = 'initial';
                         }
-                      
-                    }
-                    else {
-                        console.error('Code Erreur', response.status);
                     }
                 })
-            }
-            else {
-                console.log("Le mot de passe ou l'adresse email ne respecte pas les normes attendues")
             }
         }
 

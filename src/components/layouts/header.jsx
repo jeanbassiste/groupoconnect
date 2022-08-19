@@ -42,7 +42,6 @@ class Header extends React.Component {
                 document.getElementById('home').style.display = 'none';
             }
             else {
-                console.log(decoded);
                 let userId = decoded.id;
                 document.getElementById('userPage').setAttribute('href', `/profile?id=${userId}`)  
                 axios.get(`http://localhost:8080/api/users/${userId}`, { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + token } })

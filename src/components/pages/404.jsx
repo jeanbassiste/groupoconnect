@@ -1,3 +1,5 @@
+//page 404 à afficher si url incorrect ; utilisée dans le router
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
