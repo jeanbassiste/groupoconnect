@@ -97,8 +97,6 @@ function PostDisplayer({ post, setPost, update, setUpdate }){
             setImageHadChange(false)
         }
         )
-        .then(
-        )
     }
 
     function handleDeletePost() {
