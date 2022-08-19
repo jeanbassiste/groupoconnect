@@ -12,7 +12,7 @@ import axios from 'axios';
 import fav from'../../assets/star-svgrepo-com.svg';
 import unfav from'../../assets/star-rate-svgrepo-com.svg';
 
-function Test({ post, setPost, update, setUpdate }){
+function PostDisplayer({ post, setPost, update, setUpdate }){
     //éléments basiques utiles
     let token = getCookie('token');
     let userTokenId = jwt_decode(token).id;
@@ -294,4 +294,4 @@ function Test({ post, setPost, update, setUpdate }){
         </div>
     )
 }
-export default Test
+export default PostDisplayer
